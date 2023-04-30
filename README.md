@@ -39,4 +39,4 @@
 
 ## 项目功能
 
-功能分析文档：[FuncSpec](./doc/FuncSpec.md)
+功能分析文档：[FuncSpec](docs/FuncSpec.md)
