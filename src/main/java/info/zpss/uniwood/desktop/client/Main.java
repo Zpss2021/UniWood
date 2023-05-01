@@ -3,29 +3,20 @@ package info.zpss.uniwood.desktop.client;
 import info.zpss.uniwood.desktop.client.tools.*;
 
 public class Main {
-    private static boolean DEBUG;
+    private static boolean debugMode;
     private static String[] arguments;
     public static final String PLATFORM;
     public static final String VERSION;
 
     static {
-        DEBUG = true;   // TODO: 打包jar前改为false
+        debugMode = true;   // TODO: 打包jar前改为false
         arguments = null;
         PLATFORM = "DESKTOP";
         VERSION = "1.0.0";
     }
 
-    public static void main(String[] args) {
-        arguments = new String[args.length];
-        System.arraycopy(args, 0, arguments, 0, args.length);
-        if (paramInArgs("-D") || paramInArgs("--DEBUG"))
-            DEBUG = true;
-        setLog();
-        System.out.println("Hello, UniWood!");
-    }
-
     public static boolean isDebug() {
-        return Main.DEBUG;
+        return Main.debugMode;
     }
 
     public static boolean paramInArgs(String para) {
@@ -43,14 +34,23 @@ public class Main {
         return null;
     }
 
+    public static void main(String[] args) {
+        arguments = new String[args.length];
+        System.arraycopy(args, 0, arguments, 0, args.length);
+        if (paramInArgs("-D") || paramInArgs("--DEBUG"))
+            debugMode = true;
+        setLog();
+        Log.add("Hello, UniWood!", Log.Type.INFO, Thread.currentThread());
+    }
+
     private static void setLog() {
-        String logDir = DEBUG ? "src/main/logs" : "logs";
+        String logDir = debugMode ? "src/main/logs" : "logs";
         String fromArgs = stringInArgs("-l");
         Log.setLogFileDir((((fromArgs == null) ?
                 (fromArgs = stringInArgs("--len")) : fromArgs) == null) ?
                 logDir : fromArgs);
         Log.add(String.format("UniWood-%s-%s", PLATFORM, VERSION), Log.Type.INFO, Thread.currentThread());
-        if (DEBUG)
+        if (debugMode)
             Log.add("DEBUG MODE ON!!", Log.Type.DEBUG, Thread.currentThread());
     }
 }
