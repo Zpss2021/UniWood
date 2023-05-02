@@ -4,110 +4,214 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.Vector;
 
 // 贴子面板，用来显示特定分区内的贴子列表
-public class PostPanel extends JScrollPane {
-    private final JPanel innerPane;
+public class PostPanel extends JPanel {
+    private Vector<PostItem> postList;
+    public final JPanel postListPane;
+    public final JScrollPane postListScrollPane;
 
     public PostPanel() {
         super();
-        this.innerPane = new JPanel();
-        this.innerPane.setLayout(new BoxLayout(innerPane, BoxLayout.Y_AXIS));
-        this.setViewportView(innerPane);
-        this.getVerticalScrollBar().setUnitIncrement(16);
+        this.postList = new Vector<>();
+        this.postListPane = new JPanel();
+
+        this.postListPane.setLayout(new BoxLayout(postListPane, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createTitledBorder("广场"));
+
+        this.postListScrollPane = new JScrollPane(postListPane);
+        postListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        postListScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+        this.setLayout(new BorderLayout());
+        this.add(postListScrollPane);
     }
 
-    public void setBorderTitle(String title) {
+    public void setListData(Vector<PostItem> postList) {
+        this.postList.clear();
+        this.postList = postList;
+        this.clear();
+        for (PostItem item : postList)
+            this.postListPane.add(new PostItemRender(item));
+    }
+
+    public void add(PostItem item) {
+        this.postList.add(item);
+        this.postListPane.add(new PostItemRender(item));
+    }
+
+    public void add(List<PostItem> items) {
+        this.postList.addAll(items);
+        for (PostItem item : items)
+            this.postListPane.add(new PostItemRender(item));
+    }
+
+    public void update(PostItem item) {
+        for (int i = 0; i < this.postList.size(); i++) {
+            if (this.postList.get(i).id == item.id) {
+                this.postList.set(i, item);
+                for (Component c : this.postListPane.getComponents())
+                    if (c instanceof PostItemRender) {
+                        PostItemRender p = (PostItemRender) c;
+                        if (p.getItem().id == item.id) {
+                            p.update(item);
+                            this.postListPane.repaint();
+                            break;
+                        }
+                    }
+                break;
+            }
+        }
+    }
+
+    public void setZoneTitle(String title) {
         this.setBorder(BorderFactory.createTitledBorder(title));
     }
 
-    public void addPost(PostItemPanel itemPanel) {
-        innerPane.add(itemPanel);
-    }
-
-    public void addPost(String title, String content) {
-        this.addPost(new PostItemPanel("src/main/resources/default_avatar.jpg", title, content));
-    }
-
-    public void addPost(String avatar, String title, String content) {
-        this.addPost(new PostItemPanel(avatar, title, content));
-    }
-
     public void clear() {
-        innerPane.removeAll();
+        postListPane.removeAll();
     }
 
-    public static class PostItemPanel extends JPanel {
-        public PostItemPanel(String avatar, String title, String content) {
-            JPanel panel = new JPanel(new BorderLayout());
-            JPanel infoPane = new JPanel(new BorderLayout());
-            JPanel avatarPane = new JPanel();
-            JPanel favorPane = new JPanel();
+    public static class PostItem {
+        public final int id;
+        public final String avatar;
+        public final String title;
+        public final String content;
 
-            JLabel avatarLbl = new JLabel();
-            JTextArea titleText = new JTextArea(title);
-            JTextArea contentText = new JTextArea(content);
-            JButton favorBtn = new JButton("收藏");
+        // TODO：更改构造函数，使其可以从贴子+发贴用户的实体类中构造
+        public PostItem(int id, String avatar, String title, String content) {
+            this.id = id;
+            this.avatar = avatar;
+            this.title = title;
+            this.content = content;
+        }
+    }
 
+    private static class PostItemRender extends JPanel {
+        private PostItem item;
+        public final JPanel postItemPanel;
+        public final JPanel headerPanel;
+        public final JPanel avatarPane;
+        public final JPanel favorPane;
+        public final JLabel avatarLbl;
+        public final JTextArea titleText;
+        public final JTextArea contentText;
+        public final JButton favorBtn;
+
+        public PostItemRender(PostItem item) {
+            super();
+            this.item = item;
+            postItemPanel = new JPanel(new BorderLayout());
+            headerPanel = new JPanel(new BorderLayout());
+            avatarPane = new JPanel();
+            favorPane = new JPanel();
+
+            avatarLbl = new JLabel();
+            titleText = new JTextArea();
+            contentText = new JTextArea();
+            favorBtn = new JButton("收藏");
+
+            initTitleText();
+            initFavorBtn();
+            initContentText();
+
+            updateAvatar(item);
+            updateTitleText(item);
+            updateContentText(item);
+
+            initPanel();
+
+            this.add(postItemPanel, BorderLayout.CENTER);
+            this.setBackground(Color.WHITE);
+        }
+
+        public PostItem getItem() {
+            return item;
+        }
+
+        public void update(PostItem item) {
+            this.item = item;
+            updateAvatar(item);
+            updateTitleText(item);
+            updateContentText(item);
+        }
+
+        public void updateAvatar(PostItem item) {
             int infoLen = 35;
-            Icon avatarIcon = new ImageIcon(new ImageIcon(avatar).getImage().getScaledInstance(infoLen,
+            Icon avatarIcon = new ImageIcon(new ImageIcon(item.avatar).getImage().getScaledInstance(infoLen,
                     infoLen, Image.SCALE_FAST));
             avatarLbl.setIcon(avatarIcon);
             avatarLbl.setBounds(0, 0, infoLen, infoLen);
             avatarPane.setOpaque(false);
             avatarPane.setPreferredSize(new Dimension(infoLen, infoLen));
             avatarPane.add(avatarLbl);
+        }
 
+        public void updateTitleText(PostItem item) {
+            titleText.setText(item.title);
+        }
+
+        public void updateContentText(PostItem item) {
+            contentText.setText(item.content);
+        }
+
+        private void initTitleText() {
             titleText.setCursor(new Cursor(Cursor.HAND_CURSOR));
             titleText.setEditable(false);
             titleText.setOpaque(false);
             titleText.setBorder(null);
             titleText.setLineWrap(true);
+
             titleText.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     System.out.println("点击了" + titleText.getText() + "标题");
                 }
             });
+        }
 
+        private void initFavorBtn() {
+            favorBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            favorBtn.setOpaque(false);
+            favorBtn.setPreferredSize(new Dimension(72, 35));
+            favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg").getImage()
+                    .getScaledInstance(12, 12, Image.SCALE_FAST)));
+
+            favorBtn.addActionListener(e -> System.out.println("收藏了" + titleText.getText()));
+        }
+
+        private void initContentText() {
             contentText.setCursor(new Cursor(Cursor.HAND_CURSOR));
             contentText.setEditable(false);
             contentText.setOpaque(false);
             contentText.setBorder(null);
             contentText.setLineWrap(true);
+
             contentText.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     System.out.println("点击了" + titleText.getText() + "内容");
                 }
             });
+        }
 
-            favorBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            favorBtn.setOpaque(false);
-            favorBtn.setPreferredSize(new Dimension(60, 25));
-            favorBtn.addActionListener(e -> System.out.println("收藏了" + titleText.getText()));
+        private void initPanel() {
             favorPane.setOpaque(false);
             favorPane.add(favorBtn);
-            favorPane.setPreferredSize(new Dimension(60, infoLen));
+            favorPane.setPreferredSize(new Dimension(72, 35));
 
-            infoPane.add(avatarPane, BorderLayout.WEST);
-            infoPane.add(titleText, BorderLayout.CENTER);
-            infoPane.add(favorPane, BorderLayout.EAST);
-            infoPane.setOpaque(false);
-            infoPane.setPreferredSize(new Dimension(560, 50));
-            panel.setOpaque(false);
-            panel.add(infoPane, BorderLayout.NORTH);
-            panel.add(contentText, BorderLayout.CENTER);
-            panel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
+            headerPanel.add(avatarPane, BorderLayout.WEST);
+            headerPanel.add(titleText, BorderLayout.CENTER);
+            headerPanel.add(favorPane, BorderLayout.EAST);
+            headerPanel.setOpaque(false);
+            headerPanel.setPreferredSize(new Dimension(640, 50));
 
-            this.add(panel);
-            this.setBackground(Color.WHITE);
+            postItemPanel.setOpaque(false);
+            postItemPanel.add(headerPanel, BorderLayout.NORTH);
+            postItemPanel.add(contentText, BorderLayout.CENTER);
+            postItemPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
         }
     }
-
-    // 测试用入口函数
-    public static void main(String[] args) {
-    }
-
 }

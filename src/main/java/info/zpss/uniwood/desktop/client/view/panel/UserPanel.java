@@ -1,50 +1,47 @@
 package info.zpss.uniwood.desktop.client.view.panel;
 
 import javax.swing.*;
+import java.awt.*;
 
-// 用户面板，用来显示登录用户的信息
+// 登录面板，用来显示登录界面
 public class UserPanel extends JPanel {
     public final JLabel avatarLbl;
-    public final JLabel usernameLbl;
-    public final JButton userCenterBtn;
-    public final JButton logoutBtn;
+    public final JButton loginBtn;
+    public final JButton registerBtn;
 
     public UserPanel() {
         super();
         avatarLbl = new JLabel();
-        usernameLbl = new JLabel();
-        userCenterBtn = new JButton("用户中心");
-        logoutBtn = new JButton("注销");
+        loginBtn = new JButton("登录");
+        registerBtn = new JButton("注册");
 
-        avatarLbl.setSize(48, 48);
-        usernameLbl.setSize(75, 25);
-        logoutBtn.setSize(75, 25);
+        int avatarLen = 56;
+        Icon avatarIcon = new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(avatarLen, avatarLen, Image.SCALE_FAST));
+        avatarLbl.setIcon(avatarIcon);
+        loginBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        registerBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        avatarLbl.setSize(avatarLen, avatarLen);
+        loginBtn.setSize(85, 30);
+        registerBtn.setSize(85, 30);
 
         this.setLayout(null);
 
-        avatarLbl.setLocation(15, 20);
-        usernameLbl.setLocation(75, 20);
-        logoutBtn.setLocation(75, 45);
+        avatarLbl.setLocation(15, 25);
+        loginBtn.setLocation(75, 25);
+        registerBtn.setLocation(75, 55);
 
         // TODO：字体
         // TODO：为按钮添加图标
         // TODO：为按钮添加事件
 
         this.add(avatarLbl);
-        this.add(usernameLbl);
-        this.add(logoutBtn);
+        this.add(loginBtn);
+        this.add(registerBtn);
 
         this.setSize(150, 115);
-        this.setBorder(BorderFactory.createTitledBorder("用户"));
-    }
-
-    public void setAvatar(String filename) {
-        Icon avatarIcon = new ImageIcon(new ImageIcon(filename)
-                .getImage().getScaledInstance(48, 48, 1));
-        avatarLbl.setIcon(avatarIcon);
-    }
-
-    // 测试用入口函数
-    public static void main(String[] args) {
+        this.setBorder(BorderFactory.createTitledBorder("登录"));
     }
 }

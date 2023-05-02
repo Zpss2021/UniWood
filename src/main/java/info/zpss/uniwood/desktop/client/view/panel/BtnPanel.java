@@ -18,6 +18,15 @@ public class BtnPanel extends JPanel {
         this.prevPageBtn = new JButton("上一页");
         this.nextPageBtn = new JButton("下一页");
 
+        newPostBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        refreshBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        prevPageBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        nextPageBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+
         // TODO：字体
         // TODO：为按钮添加图标
         // TODO：为按钮添加事件
@@ -31,9 +40,5 @@ public class BtnPanel extends JPanel {
 
         this.setSize(300, 100);
         this.setBorder(BorderFactory.createTitledBorder("操作"));
-    }
-
-    // 测试用入口函数
-    public static void main(String[] args) {
     }
 }

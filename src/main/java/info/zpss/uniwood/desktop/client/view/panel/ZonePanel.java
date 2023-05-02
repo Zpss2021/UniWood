@@ -28,11 +28,6 @@ public class ZonePanel extends JPanel {
         this.zoneList.setListData(items);
     }
 
-    // 测试用入口函数
-    public static void main(String[] args) {
-    }
-
-
     public static class ZoneItem {
         public final String icon;
         public final String name;
@@ -40,6 +35,11 @@ public class ZonePanel extends JPanel {
         public ZoneItem(String icon, String name) {
             this.icon = icon;
             this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
         }
     }
 
