@@ -118,6 +118,9 @@ public class MainWindow extends JFrame {
         w.postPane.setListData(getExamplePostItems());
 
         w.showWindow();
+
+        PostWindow postWindow = new PostWindow(w);
+        postWindow.showWindow();
     }
 
     private static Vector<ZonePanel.ZoneItem> getExampleZoneItems() {
