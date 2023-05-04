@@ -120,6 +120,8 @@ public class MainWindow extends JFrame {
         w.showWindow();
 
         PostWindow postWindow = new PostWindow(w);
+        postWindow.floorPane.setFloorNumberTitle("共10层");
+        postWindow.floorPane.setListData(getExampleFloorItems());
         postWindow.showWindow();
     }
 
@@ -157,5 +159,36 @@ public class MainWindow extends JFrame {
         postItems.add(new PostPanel.PostItem(1009, "src/main/resources/default_avatar.jpg", "Instance 河南大学\n#12345 12小时前 12-34 12:34", "帖子9的内容"));
         postItems.add(new PostPanel.PostItem(1010, "src/main/resources/default_avatar.jpg", "Jack 河南大学\n#12345 12小时前 12-34 12:34", "帖子10的内容"));
         return postItems;
+    }
+
+    private static Vector<FloorPanel.FloorItem> getExampleFloorItems() {
+        Vector<FloorPanel.FloorItem> floorItems = new Vector<>();
+        floorItems.add(new FloorPanel.FloorItem(1, "src/main/resources/default_avatar.jpg",
+                "Alice", "河南大学", "12小时前 12-34 12:34", "1楼的内容1楼的内容1楼的内容" +
+                "1楼的内容1楼的内容1楼的内容"));
+        floorItems.add(new FloorPanel.FloorItem(2, "src/main/resources/default_avatar.jpg",
+                "Bob", "河南大学", "12小时前 12-34 12:34", "2楼的内容2楼的内容2楼的内容"));
+        floorItems.add(new FloorPanel.FloorItem(3, "src/main/resources/default_avatar.jpg",
+                "Carol", "河南大学", "12小时前 12-34 12:34", "3楼的内容3楼的内容" +
+                "3楼的内容3楼的内容3楼的内容3楼的内容3楼的内容3楼的内容"));
+        floorItems.add(new FloorPanel.FloorItem(4, "src/main/resources/default_avatar.jpg",
+                "Denny", "河南大学", "12小时前 12-34 12:34", "4楼的内容4楼的内容" +
+                "4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容" +
+                "4楼的内容4楼的内容"));
+        floorItems.add(new FloorPanel.FloorItem(5, "src/main/resources/default_avatar.jpg",
+                "Elsa", "河南大学", "12小时前 12-34 12:34", "5楼的内容5楼的内容\n" +
+                "5楼的内容5楼的内容\n5楼的内容5楼的内容\n5楼的内容5楼的内容\n5楼的内容5楼的内容\n5楼的内容5楼的内容\n5楼的内容"));
+        floorItems.add(new FloorPanel.FloorItem(6, "src/main/resources/default_avatar.jpg",
+                "Flank", "河南大学", "12小时前 12-34 12:34", "6楼的内容"));
+        floorItems.add(new FloorPanel.FloorItem(7, "src/main/resources/default_avatar.jpg",
+                "Groin", "河南大学", "12小时前 12-34 12:34", "7楼的内容"));
+        floorItems.add(new FloorPanel.FloorItem(8, "src/main/resources/default_avatar.jpg",
+                "Henny", "河南大学", "12小时前 12-34 12:34", "8楼的内容"));
+        floorItems.add(new FloorPanel.FloorItem(9, "src/main/resources/default_avatar.jpg",
+                "Instance", "河南大学", "12小时前 12-34 12:34", "9楼的内容"));
+        floorItems.add(new FloorPanel.FloorItem(10, "src/main/resources/default_avatar.jpg",
+                "Jack", "河南大学", "12小时前 12-34 12:34", "10楼的内容"));
+
+        return floorItems;
     }
 }

@@ -1,46 +1,83 @@
 package info.zpss.uniwood.desktop.client.view;
 
+import info.zpss.uniwood.desktop.client.view.panel.FloorPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
 // 楼层窗口，用来显示特定贴子内的楼层列表
 public class PostWindow extends JFrame {
-    private Vector<FloorItem> floorList;
-    public final JPanel outerPane;
-    public final JPanel floorListPane;
-    public final JScrollPane floorListScrollPane;
+    public final JPanel outerPane, asidePane, footerPane;
+    public final JButton shareBtn, favorBtn, replyBtn, refreshBtn, prevBtn, nextBtn;
+    public final FloorPanel floorPane;
 
     public PostWindow(MainWindow parent) {
         super();
 
-        this.outerPane = new JPanel();
-        this.floorList = new Vector<>();    // TODO：从贴子对象获取楼层列表
-        this.floorListPane = new JPanel();
-        this.floorListScrollPane = new JScrollPane(floorListPane);
+        this.outerPane = new JPanel(new BorderLayout());
+        this.asidePane = new JPanel();
+        this.footerPane = new JPanel();
+        this.floorPane = new FloorPanel();
+
+        this.shareBtn = new JButton("分享");
+        this.favorBtn = new JButton("收藏");
+        this.replyBtn = new JButton("回复");
+        this.refreshBtn = new JButton("刷新");
+        this.prevBtn = new JButton("上一页");
+        this.nextBtn = new JButton("下一页");
+
+        shareBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        replyBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        refreshBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        prevBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        nextBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+
+        // TODO：字体
+        // TODO：为按钮添加图标
+        // TODO：为按钮添加事件
 
         this.initWindow();
 
-        this.setTitle("贴子标题");  // TODO：从贴子对象获取标题
+        this.setTitle("贴子标题_贴子分区_UniWood");  // TODO：从贴子对象获取标题
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(outerPane);
         this.setLocationRelativeTo(parent);
-        this.setPreferredSize(new Dimension(640, 480));
-        this.setMinimumSize(new Dimension(640, 480));
+        this.setPreferredSize(new Dimension(840, 640));
+        this.setMinimumSize(new Dimension(720, 560));
         this.setAlwaysOnTop(true);
         this.setResizable(true);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     public void initWindow() {
-        outerPane.setLayout(new BorderLayout());
-        floorListPane.setLayout(new BoxLayout(floorListPane, BoxLayout.Y_AXIS));
+        asidePane.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
+        asidePane.setPreferredSize(new Dimension(72, 640));
+        asidePane.add(shareBtn);
+        asidePane.add(favorBtn);
+        asidePane.add(replyBtn);
 
-        floorListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        floorListScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        footerPane.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
+        footerPane.setPreferredSize(new Dimension(840, 40));
+        footerPane.add(prevBtn);
+        footerPane.add(refreshBtn);
+        footerPane.add(nextBtn);
 
-        outerPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        outerPane.add(floorListScrollPane);
+        floorPane.setPreferredSize(new Dimension(640, 480));
+
+        JPanel emptyPane = new JPanel();
+        emptyPane.setPreferredSize(new Dimension(72, 640));
+        outerPane.add(emptyPane, BorderLayout.WEST);
+        outerPane.add(asidePane, BorderLayout.EAST);
+        outerPane.add(floorPane, BorderLayout.CENTER);
+        outerPane.add(footerPane, BorderLayout.SOUTH);
     }
 
     public void showWindow() {
@@ -49,26 +86,5 @@ public class PostWindow extends JFrame {
             this.setVisible(true);
             this.validate();
         });
-    }
-
-    // TODO：添加楼层数据接口
-
-    public static class FloorItem {
-        public final int floor;
-        public final String avatar;
-        public final String title;
-        public final String content;
-
-        // TODO：更改构造函数，使其可以从楼层+回贴用户的实体类中构造
-        public FloorItem(int floor, String avatar, String title, String content) {
-            this.floor = floor;
-            this.avatar = avatar;
-            this.title = title;
-            this.content = content;
-        }
-    }
-
-    private static class FloorItemRender extends JPanel {
-        // TODO：楼层渲染器
     }
 }

@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import java.util.Vector;
 
 // 贴子面板，用来显示特定分区内的贴子列表
@@ -42,7 +41,7 @@ public class PostPanel extends JPanel {
         this.postListPane.add(new PostItemRender(item));
     }
 
-    public void add(List<PostItem> items) {
+    public void add(Vector<PostItem> items) {
         this.postList.addAll(items);
         for (PostItem item : items)
             this.postListPane.add(new PostItemRender(item));
@@ -91,13 +90,10 @@ public class PostPanel extends JPanel {
 
     private static class PostItemRender extends JPanel {
         private PostItem item;
-        public final JPanel postItemPanel;
-        public final JPanel headerPanel;
-        public final JPanel avatarPane;
-        public final JPanel favorPane;
+        public final JPanel postItemPanel, headerPanel;
+        public final JPanel avatarPane, favorPane;
         public final JLabel avatarLbl;
-        public final JTextArea titleText;
-        public final JTextArea contentText;
+        public final JTextArea titleText, contentText;
         public final JButton favorBtn;
 
         public PostItemRender(PostItem item) {
