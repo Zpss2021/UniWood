@@ -1,12 +1,13 @@
-package info.zpss.uniwood.desktop.client.view;
+package info.zpss.uniwood.desktop.client.view.window;
 
+import info.zpss.uniwood.desktop.client.view.MainWindowView;
 import info.zpss.uniwood.desktop.client.view.panel.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements MainWindowView {
     // 定义控件
     public final JPanel outerPane;
     // 一级面板

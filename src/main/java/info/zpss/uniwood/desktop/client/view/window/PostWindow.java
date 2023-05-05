@@ -1,13 +1,13 @@
-package info.zpss.uniwood.desktop.client.view;
+package info.zpss.uniwood.desktop.client.view.window;
 
+import info.zpss.uniwood.desktop.client.view.PostWindowView;
 import info.zpss.uniwood.desktop.client.view.panel.FloorPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Vector;
 
 // 楼层窗口，用来显示特定贴子内的楼层列表
-public class PostWindow extends JFrame {
+public class PostWindow extends JFrame implements PostWindowView {
     public final JPanel outerPane, asidePane, footerPane;
     public final JButton shareBtn, favorBtn, replyBtn, refreshBtn, prevBtn, nextBtn;
     public final FloorPanel floorPane;

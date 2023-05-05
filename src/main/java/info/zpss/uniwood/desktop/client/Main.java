@@ -1,6 +1,6 @@
 package info.zpss.uniwood.desktop.client;
 
-import info.zpss.uniwood.desktop.client.tools.*;
+import info.zpss.uniwood.desktop.common.Log;
 
 public class Main {
     private static boolean debugMode;
