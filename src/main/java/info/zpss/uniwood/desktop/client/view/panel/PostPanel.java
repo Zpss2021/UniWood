@@ -1,9 +1,12 @@
 package info.zpss.uniwood.desktop.client.view.panel;
 
+import info.zpss.uniwood.desktop.client.model.Post;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 // 贴子面板，用来显示特定分区内的贴子列表
@@ -74,33 +77,35 @@ public class PostPanel extends JPanel {
     }
 
     public static class PostItem {
-        public final int id;
-        public final String avatar;
-        public final String title;
-        public final String content;
+        private final int id;
+        private final String avatar;
+        private final String title;
+        private final String content;
 
-        // TODO：更改构造函数，使其可以从贴子+发贴用户的实体类中构造
-        public PostItem(int id, String avatar, String title, String content) {
-            this.id = id;
-            this.avatar = avatar;
-            this.title = title;
-            this.content = content;
+        public PostItem(Post post) {
+            String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(post.getTime());
+            String description = post.getFloors().get(0).getContent();
+            this.id = post.getId();
+            this.avatar = post.getAuthor().getAvatar();
+            this.title = String.format("%s %s\n#%d %s",
+                    post.getAuthor().getUsername(), post.getAuthor().getUniversity(), post.getId(), createTime);
+            this.content = (description.length() > 100) ? (description.substring(0, 120) + "...") : description;
         }
     }
 
     private static class PostItemRender extends JPanel {
         private PostItem item;
-        public final JPanel postItemPanel, headerPanel;
-        public final JPanel avatarPane, favorPane;
-        public final JLabel avatarLbl;
-        public final JTextArea titleText, contentText;
-        public final JButton favorBtn;
+        private final JPanel postItemPanel, headerPanel;
+        private final JPanel avatarPane, favorPane;
+        private final JLabel avatarLbl;
+        private final JTextArea titleText, contentText;
+        private final JButton favorBtn;
 
         public PostItemRender(PostItem item) {
             super();
             this.item = item;
             postItemPanel = new JPanel(new BorderLayout());
-            headerPanel = new JPanel(new BorderLayout());
+            headerPanel = new JPanel(new BorderLayout(10, 0));
             avatarPane = new JPanel();
             favorPane = new JPanel();
 

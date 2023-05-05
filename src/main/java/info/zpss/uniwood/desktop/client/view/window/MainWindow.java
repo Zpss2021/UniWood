@@ -1,11 +1,18 @@
 package info.zpss.uniwood.desktop.client.view.window;
 
+import info.zpss.uniwood.desktop.client.model.Floor;
+import info.zpss.uniwood.desktop.client.model.Post;
+import info.zpss.uniwood.desktop.client.model.User;
+import info.zpss.uniwood.desktop.client.model.Zone;
 import info.zpss.uniwood.desktop.client.view.MainWindowView;
 import info.zpss.uniwood.desktop.client.view.panel.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Vector;
+import java.text.SimpleDateFormat;
+import java.time.chrono.ChronoLocalDate;
+import java.util.*;
+import java.util.List;
 
 public class MainWindow extends JFrame implements MainWindowView {
     // 定义控件
@@ -128,67 +135,79 @@ public class MainWindow extends JFrame implements MainWindowView {
 
     private static Vector<ZonePanel.ZoneItem> getExampleZoneItems() {
         Vector<ZonePanel.ZoneItem> zoneItems = new Vector<>();
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区1"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区2"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区3"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区4"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区5"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区6"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区7"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区8"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区9"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区10"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区11"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区12"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区13"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区14"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区15"));
-        zoneItems.add(new ZonePanel.ZoneItem("src/main/resources/default_avatar.jpg", "分区16"));
+
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(1, "分区1", "src/main/resources/default_avatar.jpg", "描述分区1")));
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(2, "分区2", "src/main/resources/default_avatar.jpg", "描述分区2")));
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(3, "分区3", "src/main/resources/default_avatar.jpg", "描述分区3")));
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(4, "分区4", "src/main/resources/default_avatar.jpg", "描述分区4")));
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(5, "分区5", "src/main/resources/default_avatar.jpg", "描述分区5")));
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(6, "分区6", "src/main/resources/default_avatar.jpg", "描述分区6")));
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(7, "分区7", "src/main/resources/default_avatar.jpg", "描述分区7")));
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(8, "分区8", "src/main/resources/default_avatar.jpg", "描述分区8")));
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(9, "分区9", "src/main/resources/default_avatar.jpg", "描述分区9")));
+        zoneItems.add(new ZonePanel.ZoneItem(new Zone(10, "分区10", "src/main/resources/default_avatar.jpg", "分区10")));
+
         return zoneItems;
     }
 
     private static Vector<PostPanel.PostItem> getExamplePostItems() {
         Vector<PostPanel.PostItem> postItems = new Vector<>();
-        postItems.add(new PostPanel.PostItem(1001, "src/main/resources/default_avatar.jpg", "Alice 河南大学\n#12345 12小时前 12-34 12:34", "帖子1的内容帖子1的内容帖子1的内容帖子1的内容帖子1的内容帖子1的内容帖子1的内容帖子1的内容"));
-        postItems.add(new PostPanel.PostItem(1002, "src/main/resources/default_avatar.jpg", "Bob 河南大学\n#12345 12小时前 12-34 12:34", "帖子2的内容帖子2的内容帖子2的内容\n帖子2的内容帖子2的内容帖子2的内容帖子2的内容帖子2的内容"));
-        postItems.add(new PostPanel.PostItem(1003, "src/main/resources/default_avatar.jpg", "Carol 河南大学\n#12345 12小时前 12-34 12:34", "帖子3的内容"));
-        postItems.add(new PostPanel.PostItem(1004, "src/main/resources/default_avatar.jpg", "Denny 河南大学\n#12345 12小时前 12-34 12:34", "帖子4的内容帖子4的内容帖子4的内容"));
-        postItems.add(new PostPanel.PostItem(1005, "src/main/resources/default_avatar.jpg", "Elsa 河南大学\n#12345 12小时前 12-34 12:34", "帖子5的内容帖子5\n的内容帖子5的内容\n帖子5的内容\n帖子5的内容"));
-        postItems.add(new PostPanel.PostItem(1006, "src/main/resources/default_avatar.jpg", "Flank 河南大学\n#12345 12小时前 12-34 12:34", "帖子6的内容\n帖子6的内容"));
-        postItems.add(new PostPanel.PostItem(1007, "src/main/resources/default_avatar.jpg", "Groin 河南大学\n#12345 12小时前 12-34 12:34", "帖子7的内容帖子7的内容帖子7的内容帖子7的内容帖子7的内容帖子7的内容" + "帖子7的内容帖子7的内容帖子7的内容帖子7的内容帖子7的内容帖子7的内容帖子7的内容帖子7的内容"));
-        postItems.add(new PostPanel.PostItem(1008, "src/main/resources/default_avatar.jpg", "Henny 河南大学\n#12345 12小时前 12-34 12:34", "帖子8的内容"));
-        postItems.add(new PostPanel.PostItem(1009, "src/main/resources/default_avatar.jpg", "Instance 河南大学\n#12345 12小时前 12-34 12:34", "帖子9的内容"));
-        postItems.add(new PostPanel.PostItem(1010, "src/main/resources/default_avatar.jpg", "Jack 河南大学\n#12345 12小时前 12-34 12:34", "帖子10的内容"));
+
+        Zone zone1 = new Zone(1, "分区1", "src/main/resources/default_avatar.jpg", "描述分区1"),
+                zone2 = new Zone(2, "分区2", "src/main/resources/default_avatar.jpg", "描述分区2");
+
+        User user1 = new User(1001, "Alice", "src/main/resources/default_avatar.jpg", "河南大学"),
+                user2 = new User(1002, "Bob", "src/main/resources/default_avatar.jpg", "清华大学");
+
+        Date date1 = new Date(),
+                date2 = new Date();
+
+        List<Floor> floors1 = List.of(new Floor(1, new User(), new Date(), "111")),
+                floors2 = List.of(new Floor(1, new User(), new Date(), "贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二" +
+                        "贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二" +
+                        "贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二" +
+                        "贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二" +
+                        "贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二" +
+                        "贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二" +
+                        "贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二贴子二"));
+
+        Post post1 = new Post(10001, zone1, user1, date1, floors1);
+        Post post2 = new Post(10002, zone2, user2, date2, floors2);
+
+        postItems.add(new PostPanel.PostItem(post1));
+        postItems.add(new PostPanel.PostItem(post2));
+        postItems.add(new PostPanel.PostItem(post1));
+        postItems.add(new PostPanel.PostItem(post2));
+        postItems.add(new PostPanel.PostItem(post1));
+        postItems.add(new PostPanel.PostItem(post2));
+
         return postItems;
     }
 
     private static Vector<FloorPanel.FloorItem> getExampleFloorItems() {
         Vector<FloorPanel.FloorItem> floorItems = new Vector<>();
-        floorItems.add(new FloorPanel.FloorItem(1, "src/main/resources/default_avatar.jpg",
-                "Alice", "河南大学", "12小时前 12-34 12:34", "1楼的内容1楼的内容1楼的内容" +
-                "1楼的内容1楼的内容1楼的内容"));
-        floorItems.add(new FloorPanel.FloorItem(2, "src/main/resources/default_avatar.jpg",
-                "Bob", "河南大学", "12小时前 12-34 12:34", "2楼的内容2楼的内容2楼的内容"));
-        floorItems.add(new FloorPanel.FloorItem(3, "src/main/resources/default_avatar.jpg",
-                "Carol", "河南大学", "12小时前 12-34 12:34", "3楼的内容3楼的内容" +
-                "3楼的内容3楼的内容3楼的内容3楼的内容3楼的内容3楼的内容"));
-        floorItems.add(new FloorPanel.FloorItem(4, "src/main/resources/default_avatar.jpg",
-                "Denny", "河南大学", "12小时前 12-34 12:34", "4楼的内容4楼的内容" +
-                "4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容4楼的内容" +
-                "4楼的内容4楼的内容"));
-        floorItems.add(new FloorPanel.FloorItem(5, "src/main/resources/default_avatar.jpg",
-                "Elsa", "河南大学", "12小时前 12-34 12:34", "5楼的内容5楼的内容\n" +
-                "5楼的内容5楼的内容\n5楼的内容5楼的内容\n5楼的内容5楼的内容\n5楼的内容5楼的内容\n5楼的内容5楼的内容\n5楼的内容"));
-        floorItems.add(new FloorPanel.FloorItem(6, "src/main/resources/default_avatar.jpg",
-                "Flank", "河南大学", "12小时前 12-34 12:34", "6楼的内容"));
-        floorItems.add(new FloorPanel.FloorItem(7, "src/main/resources/default_avatar.jpg",
-                "Groin", "河南大学", "12小时前 12-34 12:34", "7楼的内容"));
-        floorItems.add(new FloorPanel.FloorItem(8, "src/main/resources/default_avatar.jpg",
-                "Henny", "河南大学", "12小时前 12-34 12:34", "8楼的内容"));
-        floorItems.add(new FloorPanel.FloorItem(9, "src/main/resources/default_avatar.jpg",
-                "Instance", "河南大学", "12小时前 12-34 12:34", "9楼的内容"));
-        floorItems.add(new FloorPanel.FloorItem(10, "src/main/resources/default_avatar.jpg",
-                "Jack", "河南大学", "12小时前 12-34 12:34", "10楼的内容"));
+
+        User user1 = new User(1001, "Alice", "src/main/resources/default_avatar.jpg", "河南大学"),
+                user2 = new User(1002, "Bob", "src/main/resources/default_avatar.jpg", "清华大学");
+
+        Date date1 = new Date(),
+                date2 = new Date();
+
+        Floor floor1 = new Floor(1, user1, date1, "111"),
+                floor2 = new Floor(2, user2, date2, "22222222222222222222222222222222222222222222222222222222222222" +
+                        "222222222222222222222222222222222222222222222222222222222222222222222222222222222222222");
+
+        floorItems.add(new FloorPanel.FloorItem(floor1));
+        floorItems.add(new FloorPanel.FloorItem(floor2));
+        floorItems.add(new FloorPanel.FloorItem(floor1));
+        floorItems.add(new FloorPanel.FloorItem(floor2));
+        floorItems.add(new FloorPanel.FloorItem(floor1));
+        floorItems.add(new FloorPanel.FloorItem(floor2));
+        floorItems.add(new FloorPanel.FloorItem(floor1));
+        floorItems.add(new FloorPanel.FloorItem(floor2));
+        floorItems.add(new FloorPanel.FloorItem(floor1));
+        floorItems.add(new FloorPanel.FloorItem(floor2));
+
 
         return floorItems;
     }

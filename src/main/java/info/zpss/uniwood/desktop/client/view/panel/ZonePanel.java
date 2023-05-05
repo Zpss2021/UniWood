@@ -1,5 +1,7 @@
 package info.zpss.uniwood.desktop.client.view.panel;
 
+import info.zpss.uniwood.desktop.client.model.Zone;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -29,12 +31,12 @@ public class ZonePanel extends JPanel {
     }
 
     public static class ZoneItem {
-        public final String icon;
-        public final String name;
+        private final String icon;
+        private final String name;
 
-        public ZoneItem(String icon, String name) {
-            this.icon = icon;
-            this.name = name;
+        public ZoneItem(Zone zone) {
+            this.icon = zone.getIcon();
+            this.name = zone.getName();
         }
 
         @Override
@@ -44,8 +46,8 @@ public class ZonePanel extends JPanel {
     }
 
     private static class ZoneItemRender extends JPanel implements ListCellRenderer<ZoneItem> {
-        public final JLabel iconLabel;
-        public final JLabel nameLabel;
+        private final JLabel iconLabel;
+        private final JLabel nameLabel;
 
         public ZoneItemRender() {
             super();

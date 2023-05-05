@@ -1,7 +1,10 @@
 package info.zpss.uniwood.desktop.client.view.panel;
 
+import info.zpss.uniwood.desktop.client.model.Floor;
+
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 public class FloorPanel extends JPanel {
@@ -47,12 +50,12 @@ public class FloorPanel extends JPanel {
 
     public void update(FloorItem item) {
         for (int i = 0; i < this.floorList.size(); i++) {
-            if (this.floorList.get(i).floor == item.floor) {
+            if (this.floorList.get(i).id == item.id) {
                 this.floorList.set(i, item);
                 for (Component c : this.floorListPane.getComponents())
                     if (c instanceof FloorItemRender) {
                         FloorItemRender p = (FloorItemRender) c;
-                        if (p.getItem().floor == item.floor) {
+                        if (p.getItem().id == item.id) {
                             p.update(item);
                             this.floorListPane.repaint();
                             break;
@@ -72,21 +75,20 @@ public class FloorPanel extends JPanel {
     }
 
     public static class FloorItem {
-        public final int floor;
-        public final String avatar;
-        public final String username;
-        public final String university;
-        public final String time;
-        public final String content;
+        private final int id;
+        private final String avatar;
+        private final String username;
+        private final String university;
+        private final String time;
+        private final String content;
 
-        // TODO：更改构造函数，使其可以从楼层+回贴用户的实体类中构造
-        public FloorItem(int floor, String avatar, String username, String university, String time, String content) {
-            this.floor = floor;
-            this.avatar = avatar;
-            this.username = username;
-            this.university = university;
-            this.time = time;
-            this.content = content;
+        public FloorItem(Floor floor) {
+            this.id = floor.getId();
+            this.avatar = floor.getAuthor().getAvatar();
+            this.username = floor.getAuthor().getUsername();
+            this.university = floor.getAuthor().getUniversity();
+            this.time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(floor.getTime());
+            this.content = floor.getContent();
         }
     }
 
@@ -151,7 +153,7 @@ public class FloorPanel extends JPanel {
         }
 
         public void updateInfo(FloorItem item) {
-            infoLbl.setText(String.format("%d楼 %s", item.floor, item.time));
+            infoLbl.setText(String.format("%d楼 %s", item.id, item.time));
         }
 
         private void initUserPanel() {
