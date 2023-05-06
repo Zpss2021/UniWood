@@ -14,12 +14,11 @@ public class Post {
     public Post() {
     }
 
-    public Post(Integer id, Zone zone, User author, Date time, List<Floor> floors) {
+    public Post(Integer id, Zone zone, User author, Date time) {
         this.id = id;
         this.zone = zone;
         this.author = author;
         this.time = time;
-        this.floors = floors;
     }
 
     public Integer getId() {

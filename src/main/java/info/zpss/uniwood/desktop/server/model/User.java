@@ -20,6 +20,7 @@ public class User {
     public User(Integer id, String username, String password, String avatar, String university) {
         this.id = id;
         this.username = username;
+        this.password = password;
         this.avatar = avatar;
         this.university = university;
     }

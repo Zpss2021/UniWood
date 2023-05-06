@@ -40,5 +40,5 @@
 ## 项目文档
 
 - 功能分析：[FuncSpec](docs/FuncSpec.md)
-
 - 命令行参数说明：[CmdParam](docs/CmdParam.md)
+- 数据库结构：[DBDesign](docs/DBStruct.md)

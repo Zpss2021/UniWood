@@ -24,6 +24,18 @@ public class User {
         this.university = university;
     }
 
+//    public User(Integer id, String username, String avatar, String university,
+//                List<User> followers, List<User> followings, List<Zone> zones, List<Post> posts) {
+//        this.id = id;
+//        this.username = username;
+//        this.avatar = avatar;
+//        this.university = university;
+//        this.followers = followers;
+//        this.followings = followings;
+//        this.zones = zones;
+//        this.posts = posts;
+//    }
+
     public Integer getId() {
         return id;
     }

@@ -19,7 +19,7 @@ public class Post {
         this.zone = zone;
         this.author = author;
         this.time = time;
-        this.floors = floors;
+        this.floors = floors;   // TODO
     }
 
     public Integer getId() {

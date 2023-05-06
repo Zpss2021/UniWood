@@ -1,0 +1,208 @@
+# 数据库结构
+
+## 关系设计
+
+### tb_user：用户
+
+| Name       | Type        | Restrict                                | Describe            |
+|------------|-------------|-----------------------------------------|---------------------|
+| id         | int         | PRIMARY KEY                             |                     |
+| username   | varchar(20) | NOT NULL                                |                     |
+| password   | varchar(20) | NOT NULL                                |                     |
+| avatar     | varchar(40) | DEFAULT `sample/res/default_avatar.png` | path of avatar file |
+| university | varchar(20) | NOT NULL                                |                     |
+
+### tb_follow：关注
+
+| Name      | Type | Restrict                                                    | Describe                   |
+|-----------|------|-------------------------------------------------------------|----------------------------|
+| follower  | int  | PRIMARY KEY(...) FOREIGN KEY(follower) REFERENCES user(id)  | the user who follow others |
+| following | int  | PRIMARY KEY(...) FOREIGN KEY(following) REFERENCES user(id) | the user who is followed   |
+
+### tb_zone：分区
+
+| Name        | Type        | Restrict                                   | Describe               |
+|-------------|-------------|--------------------------------------------|------------------------|
+| id          | int         | PRIMARY KEY AUTO_INCREMENT                 |                        |
+| name        | varchar(20) | NOT NULL                                   |                        |
+| icon        | varchar(40) | DEFAULT `sample/res/default_zone_icon.png` | path of zone icon file |
+| description | varchar(50) | NOT NULL                                   |                        |
+
+### tb_post：贴子
+
+| Name    | Type | Restrict                                 | Describe |
+|---------|------|------------------------------------------|----------|
+| id      | int  | PRIMARY KEY AUTO_INCREMENT               |          |
+| zone_id | int  | FOREIGN KEY(zone_id) REFERENCES zone(id) |          |
+
+### tb_floor：楼层
+
+| Name        | Type     | Restrict                                                  | Describe                   |
+|-------------|----------|-----------------------------------------------------------|----------------------------|
+| id          | int      | PRIMARY KEY(...)                                          | add a trigger to set value |
+| post_id     | int      | PRIMARY KEY(...) FOREIGN KEY(post_id) REFERENCES post(id) |                            |
+| author_id   | int      | FOREIGN KEY(author_id) REFERENCES user(id)                |                            |
+| create_time | datetime | NOT NULL                                                  |                            |
+| content     | text     | NOT NULL                                                  |                            |
+
+### tb_user_post：收藏的贴子
+
+| Name    | Type | Restrict                                                  | Describe |
+|---------|------|-----------------------------------------------------------|----------|
+| user_id | int  | PRIMARY KEY(...) FOREIGN KEY(user_id) REFERENCES user(id) |          |
+| post_id | int  | PRIMARY KEY(...) FOREIGN KEY(post_id) REFERENCES post(id) |          |
+
+### tb_user_zone：加入的分区
+
+| Name    | Type | Restrict                                                  | Describe |
+|---------|------|-----------------------------------------------------------|----------|
+| user_id | int  | PRIMARY KEY(...) FOREIGN KEY(user_id) REFERENCES user(id) |          |
+| zone_id | int  | PRIMARY KEY(...) FOREIGN KEY(zone_id) REFERENCES zone(id) |          |
+
+## 建表指令
+
+```sql
+-- --------------------------------------------------------
+-- 主机:                           127.0.0.1
+-- 服务器版本:                        8.0.28 - MySQL Community Server - GPL
+-- 服务器操作系统:                      Win64
+-- HeidiSQL 版本:                  12.4.0.6659
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE = @@TIME_ZONE */;
+/*!40103 SET TIME_ZONE = '+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0 */;
+/*!40101 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES = @@SQL_NOTES, SQL_NOTES = 0 */;
+
+
+-- 导出 uniwood 的数据库结构
+CREATE DATABASE IF NOT EXISTS `uniwood` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION = 'N' */;
+USE `uniwood`;
+
+-- 导出  表 uniwood.tb_floor 结构
+CREATE TABLE IF NOT EXISTS `tb_floor`
+(
+    `id`          int  NOT NULL,
+    `post_id`     int  NOT NULL,
+    `author_id`   int      DEFAULT NULL,
+    `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+    `content`     text NOT NULL,
+    PRIMARY KEY (`id`, `post_id`),
+    KEY `post_id` (`post_id`),
+    KEY `author_id` (`author_id`),
+    CONSTRAINT `tb_floor_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `tb_post` (`id`),
+    CONSTRAINT `tb_floor_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `tb_user` (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb3;
+
+-- 导出  表 uniwood.tb_follow 结构
+CREATE TABLE IF NOT EXISTS `tb_follow`
+(
+    `follower`  int NOT NULL,
+    `following` int NOT NULL,
+    PRIMARY KEY (`follower`, `following`),
+    KEY `following` (`following`),
+    CONSTRAINT `tb_follow_ibfk_1` FOREIGN KEY (`follower`) REFERENCES `tb_user` (`id`),
+    CONSTRAINT `tb_follow_ibfk_2` FOREIGN KEY (`following`) REFERENCES `tb_user` (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb3;
+
+-- 导出  表 uniwood.tb_post 结构
+CREATE TABLE IF NOT EXISTS `tb_post`
+(
+    `id`      int NOT NULL AUTO_INCREMENT,
+    `zone_id` int DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `zone_id` (`zone_id`),
+    CONSTRAINT `tb_post_ibfk_1` FOREIGN KEY (`zone_id`) REFERENCES `tb_zone` (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 5
+  DEFAULT CHARSET = utf8mb3;
+
+-- 导出  表 uniwood.tb_user 结构
+CREATE TABLE IF NOT EXISTS `tb_user`
+(
+    `id`         int         NOT NULL AUTO_INCREMENT,
+    `username`   varchar(20) NOT NULL,
+    `password`   varchar(20) NOT NULL,
+    `avatar`     varchar(40) DEFAULT 'sample/res/default_avatar.png',
+    `university` varchar(20) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1001
+  DEFAULT CHARSET = utf8mb3;
+
+-- 导出  表 uniwood.tb_user_post 结构
+CREATE TABLE IF NOT EXISTS `tb_user_post`
+(
+    `user_id` int NOT NULL,
+    `post_id` int NOT NULL,
+    PRIMARY KEY (`user_id`, `post_id`),
+    KEY `post_id` (`post_id`),
+    CONSTRAINT `tb_user_post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`id`),
+    CONSTRAINT `tb_user_post_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `tb_post` (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb3;
+
+-- 正在导出表  uniwood.tb_user_post 的数据：~0 rows (大约)
+INSERT INTO `tb_user_post` (`user_id`, `post_id`)
+VALUES (1, 1),
+       (3, 1),
+       (1, 2),
+       (2, 3);
+
+-- 导出  表 uniwood.tb_user_zone 结构
+CREATE TABLE IF NOT EXISTS `tb_user_zone`
+(
+    `user_id` int NOT NULL,
+    `zone_id` int NOT NULL,
+    PRIMARY KEY (`user_id`, `zone_id`),
+    KEY `zone_id` (`zone_id`),
+    CONSTRAINT `tb_user_zone_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`id`),
+    CONSTRAINT `tb_user_zone_ibfk_2` FOREIGN KEY (`zone_id`) REFERENCES `tb_zone` (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb3;
+
+-- 导出  表 uniwood.tb_zone 结构
+CREATE TABLE IF NOT EXISTS `tb_zone`
+(
+    `id`          int         NOT NULL AUTO_INCREMENT,
+    `name`        varchar(20) NOT NULL,
+    `icon`        varchar(40) DEFAULT 'sample/res/default_zone_icon.png',
+    `description` varchar(50) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  DEFAULT CHARSET = utf8mb3;
+
+-- 导出  触发器 uniwood.tb_floor_before_insert 结构
+SET @OLDTMP_SQL_MODE = @@SQL_MODE, SQL_MODE =
+        'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,
+NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `tb_floor_before_insert`
+    BEFORE INSERT
+    ON `tb_floor`
+    FOR EACH ROW
+BEGIN
+    DECLARE max_id INT;
+    SET max_id = IFNULL(
+            (SELECT MAX(id)
+             FROM tb_floor
+             WHERE post_id = NEW.post_id)
+        , 0);
+    SET NEW.id = max_id + 1;
+END//
+DELIMITER ;
+SET SQL_MODE = @OLDTMP_SQL_MODE;
+
+/*!40103 SET TIME_ZONE = IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE = IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS = IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES = IFNULL(@OLD_SQL_NOTES, 1) */;
+```
