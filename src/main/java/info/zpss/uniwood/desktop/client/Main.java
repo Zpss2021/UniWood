@@ -1,5 +1,7 @@
 package info.zpss.uniwood.desktop.client;
 
+import info.zpss.uniwood.desktop.client.view.MainWindowView;
+import info.zpss.uniwood.desktop.client.view.window.MainWindow;
 import info.zpss.uniwood.desktop.common.Log;
 
 public class Main {
@@ -41,6 +43,17 @@ public class Main {
             debugMode = true;
         setLog();
         Log.add("Hello, UniWood!", Log.Type.INFO, Thread.currentThread());
+        try {
+            execute();
+        } catch (Exception e) {
+            Log.add(e, Thread.currentThread());
+        }
+    }
+
+    private static void execute() throws Exception {
+        // TODO: 从这里开始写代码
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.showWindow();
     }
 
     private static void setLog() {

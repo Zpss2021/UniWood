@@ -9,29 +9,27 @@ import info.zpss.uniwood.desktop.client.view.panel.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 import java.util.List;
 
 public class MainWindow extends JFrame implements MainWindowView {
     // 定义控件
-    public final JPanel outerPane;
+    private final JPanel outerPane;
     // 一级面板
-    public final JPanel asidePane;
-    public final JPanel mainPane;
+    private final JPanel asidePane;
+    private final JPanel mainPane;
 
     // 二级面板
-    public final ZonePanel zonePane;
-    public final JPanel cfgPane;
-    public final JPanel ctrlPane;
-    public final JPanel cntPane;
+    private final ZonePanel zonePane;
+    private final JPanel cfgPane;
+    private final JPanel ctrlPane;
+    private final JPanel cntPane;
 
     // 三级面板
-    public final UserPanel userPanel;
-    public final SearchPanel searchPane;
-    public final BtnPanel btnPane;
-    public final PostPanel postPane;
+    private final UserPanel userPanel;
+    private final SearchPanel searchPane;
+    private final BtnPanel btnPane;
+    private final PostPanel postPane;
 
     // 构造函数
     public MainWindow() {
@@ -128,8 +126,8 @@ public class MainWindow extends JFrame implements MainWindowView {
         w.showWindow();
 
         PostWindow postWindow = new PostWindow(w);
-        postWindow.floorPane.setFloorNumberTitle("共10层");
-        postWindow.floorPane.setListData(getExampleFloorItems());
+        postWindow.getFloorPanel().setFloorNumberTitle("共10层");
+        postWindow.getFloorPanel().setListData(getExampleFloorItems());
         postWindow.showWindow();
     }
 
