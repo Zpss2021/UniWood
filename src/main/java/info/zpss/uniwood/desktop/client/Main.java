@@ -1,6 +1,5 @@
 package info.zpss.uniwood.desktop.client;
 
-import info.zpss.uniwood.desktop.client.view.MainWindowView;
 import info.zpss.uniwood.desktop.client.view.window.MainWindow;
 import info.zpss.uniwood.desktop.common.Log;
 
