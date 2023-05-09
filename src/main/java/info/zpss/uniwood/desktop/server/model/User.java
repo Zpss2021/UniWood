@@ -9,8 +9,9 @@ public class User {
     private String password;
     private String avatar;
     private String university;
-    private List<User> followers;
-    private List<User> followings;
+    private String status;
+    private List<User> followers;   // 关注我的人
+    private List<User> followings;  // 我关注的人
     private List<Zone> zones;
     private List<Post> posts;
 
@@ -43,6 +44,10 @@ public class User {
 
     public String getUniversity() {
         return university;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public List<User> getFollowers() {
@@ -81,6 +86,10 @@ public class User {
         this.university = university;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void setFollowers(List<User> followers) {
         this.followers = followers;
     }
@@ -95,5 +104,17 @@ public class User {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", university='" + university + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

@@ -16,7 +16,7 @@ public class Main {
         VERSION = "1.0.0";
     }
 
-    public static boolean isDebug() {
+    public static boolean debug() {
         return Main.debugMode;
     }
 
@@ -27,9 +27,9 @@ public class Main {
         return false;
     }
 
-    public static String stringInArgs(String para) {
+    public static String stringInArgs(String paraA, String paraB) {
         for (int i = 0; i < arguments.length; i++)
-            if (arguments[i].equals(para))
+            if (arguments[i].equals(paraA) || arguments[i].equals(paraB))
                 if (i + 1 < arguments.length)
                     return arguments[i + 1];
         return null;
@@ -57,10 +57,8 @@ public class Main {
 
     private static void setLog() {
         String logDir = debugMode ? "src/main/logs/desktop/client" : "logs";
-        String fromArgs = stringInArgs("-l");
-        Log.setLogFileDir((((fromArgs == null) ?
-                (fromArgs = stringInArgs("--len")) : fromArgs) == null) ?
-                logDir : fromArgs);
+        String fromArgs = stringInArgs("-l", "--log");
+        Log.setLogFileDir((fromArgs == null) ? logDir : fromArgs);
         Log.add(String.format("UniWood-%s-%s", PLATFORM, VERSION), Log.Type.INFO, Thread.currentThread());
         if (debugMode)
             Log.add("DEBUG MODE ON!!", Log.Type.DEBUG, Thread.currentThread());

@@ -48,4 +48,14 @@ public class Zone {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Zone{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", icon='" + icon + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

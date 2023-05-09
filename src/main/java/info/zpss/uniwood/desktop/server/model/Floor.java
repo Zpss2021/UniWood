@@ -50,4 +50,14 @@ public class Floor {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public String toString() {
+        return "Floor{" +
+                "id=" + id +
+                ", author=" + author +
+                ", time=" + time +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

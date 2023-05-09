@@ -6,9 +6,10 @@ import java.util.List;
 public class User {
     private Integer id;
     private String username;
-//    private String password;
+    //    private String password;
     private String avatar;
     private String university;
+    private String status;
     private List<User> followers;
     private List<User> followings;
     private List<Zone> zones;
@@ -50,6 +51,10 @@ public class User {
 
     public String getUniversity() {
         return university;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public List<User> getFollowers() {

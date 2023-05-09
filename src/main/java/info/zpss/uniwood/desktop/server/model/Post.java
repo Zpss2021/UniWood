@@ -60,4 +60,14 @@ public class Post {
     public void setFloors(List<Floor> floors) {
         this.floors = floors;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", zone=" + zone +
+                ", author=" + author +
+                ", time=" + time +
+                '}';
+    }
 }
