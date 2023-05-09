@@ -4,13 +4,14 @@
 
 ### tb_user：用户
 
-| Name       | Type        | Restrict                                | Describe            |
-|------------|-------------|-----------------------------------------|---------------------|
-| id         | int         | PRIMARY KEY                             |                     |
-| username   | varchar(20) | NOT NULL                                |                     |
-| password   | varchar(20) | NOT NULL                                |                     |
-| avatar     | varchar(40) | DEFAULT `sample/res/default_avatar.png` | path of avatar file |
-| university | varchar(20) | NOT NULL                                |                     |
+| Name       | Type        | Restrict                                | Describe                |
+|------------|-------------|-----------------------------------------|-------------------------|
+| id         | int         | PRIMARY KEY                             |                         |
+| username   | varchar(20) | NOT NULL                                |                         |
+| password   | varchar(20) | NOT NULL                                |                         |
+| avatar     | varchar(40) | DEFAULT `sample/res/default_avatar.png` | path of avatar file     |
+| university | varchar(20) | NOT NULL                                |                         |
+| status     | varchar(10) | DEFAULT `OFFLINE`                       | OFFLINE/ONLINE/DISABLED |
 
 ### tb_follow：关注
 
@@ -131,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `tb_user`
     `password`   varchar(20) NOT NULL,
     `avatar`     varchar(40) DEFAULT 'sample/res/default_avatar.png',
     `university` varchar(20) NOT NULL,
+    `status`     varchar(10) DEFAULT 'OFFLINE',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1001

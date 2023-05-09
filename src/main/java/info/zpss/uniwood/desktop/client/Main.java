@@ -12,7 +12,7 @@ public class Main {
     static {
         debugMode = true;   // TODO: 打包jar前改为false
         arguments = null;
-        PLATFORM = "DESKTOP";
+        PLATFORM = "DESKTOP-CLIENT";
         VERSION = "1.0.0";
     }
 
@@ -56,7 +56,7 @@ public class Main {
     }
 
     private static void setLog() {
-        String logDir = debugMode ? "src/main/logs" : "logs";
+        String logDir = debugMode ? "src/main/logs/desktop/client" : "logs";
         String fromArgs = stringInArgs("-l");
         Log.setLogFileDir((((fromArgs == null) ?
                 (fromArgs = stringInArgs("--len")) : fromArgs) == null) ?

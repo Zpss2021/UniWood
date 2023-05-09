@@ -1,6 +1,5 @@
 package info.zpss.uniwood.desktop.client.view.window;
 
-import info.zpss.uniwood.desktop.client.Main;
 import info.zpss.uniwood.desktop.client.model.Floor;
 import info.zpss.uniwood.desktop.client.model.Post;
 import info.zpss.uniwood.desktop.client.model.User;
