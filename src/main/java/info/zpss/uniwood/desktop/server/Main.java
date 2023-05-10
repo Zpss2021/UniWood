@@ -1,11 +1,14 @@
 package info.zpss.uniwood.desktop.server;
 
 import info.zpss.uniwood.desktop.common.Log;
-import info.zpss.uniwood.desktop.server.mapper.Impl.UserMapperImpl;
-import info.zpss.uniwood.desktop.server.mapper.UserMapper;
+import info.zpss.uniwood.desktop.server.mapper.*;
+import info.zpss.uniwood.desktop.server.mapper.Impl.*;
 import info.zpss.uniwood.desktop.server.util.Database;
+import info.zpss.uniwood.desktop.server.model.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     private static boolean debugMode;
@@ -70,12 +73,18 @@ public class Main {
 
     private static void execute() throws Exception {
         // TODO: 从这里开始写代码
-        UserMapper userMapper = new UserMapperImpl();
-        System.out.println("1号用户的信息："+userMapper.getUser(1));
-        System.out.println("2号用户的粉丝："+userMapper.getUserFollowers(2));
-        System.out.println("2号用户的关注："+userMapper.getUserFollowings(2));
-        System.out.println("3号用户的分区："+userMapper.getUserZones(3));
-        System.out.println("3号用户的帖子："+userMapper.getUserPosts(3));
+        UserMapper userMapper = UserMapperImpl.getInstance();
+        ZoneMapper zoneMapper = ZoneMapperImpl.getInstance();
+        PostMapper postMapper = PostMapperImpl.getInstance();
+        FloorMapper floorMapper = FloorMapperImpl.getInstance();
+        User user1 = userMapper.getUser(1);
+        List<Post> postByUser1 = postMapper.getPostsByUserID(user1.getId());
+        List<List<Floor>> floorsInPosts = new ArrayList<>();
+        for(Post post : postByUser1)
+            floorsInPosts.add(floorMapper.getFloors(post.getId()));
+        for(List<Floor> floors : floorsInPosts)
+            for(Floor floor : floors)
+                System.out.println(floor);
     }
 
     private static void setLog() {
