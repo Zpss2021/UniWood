@@ -2,49 +2,42 @@ package info.zpss.uniwood.desktop.server.model;
 
 import java.util.Date;
 
-// TODO 楼层
+// 楼层
 public class Floor {
     private Integer id;
-    private User author;
-    private Date time;
+    private Integer author_id;
+    private Date createTime;
     private String content;
 
     public Floor() {
-    }
-
-    public Floor(Integer id, User author, Date time, String content) {
-        this.id = id;
-        this.author = author;
-        this.time = time;
-        this.content = content;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public User getAuthor() {
-        return author;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public Integer getAuthorId() {
+        return author_id;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setAuthorId(Integer authorId) {
+        this.author_id = authorId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public void setContent(String content) {
@@ -55,8 +48,8 @@ public class Floor {
     public String toString() {
         return "Floor{" +
                 "id=" + id +
-                ", author=" + author +
-                ", time=" + time +
+                ", author_id=" + author_id +
+                ", createTime=" + createTime +
                 ", content='" + content + '\'' +
                 '}';
     }
