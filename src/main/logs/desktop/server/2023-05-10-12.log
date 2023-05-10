@@ -1,0 +1,8 @@
+[2023-05-10 01:21:46.463][main/INFO]UniWood-DESKTOP-SERVER-1.0.0
+[2023-05-10 01:21:46.464][main/DEBUG]DEBUG MODE ON!!
+[2023-05-10 01:21:46.464][main/INFO]未指定数据库URL，使用默认URL
+[2023-05-10 01:21:46.465][main/INFO]未指定数据库用户名，使用默认用户名
+[2023-05-10 01:21:46.465][main/INFO]未指定数据库密码，使用默认密码
+[2023-05-10 01:21:46.623][main/INFO]数据库连接成功
+[2023-05-10 01:21:46.623][main/INFO]Hello, UniWood!
+[2023-05-10 01:21:46.698][main/EXCEPTION]java.sql.SQLException: Column 'user_id' not found.
