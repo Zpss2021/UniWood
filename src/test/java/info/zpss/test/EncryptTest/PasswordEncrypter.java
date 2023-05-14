@@ -1,4 +1,4 @@
-package info.zpss.test.encrypt;
+package info.zpss.test.EncryptTest;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

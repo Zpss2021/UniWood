@@ -1,7 +1,10 @@
 package info.zpss.uniwood.desktop.client;
 
+import info.zpss.uniwood.desktop.client.util.SocketHandler;
 import info.zpss.uniwood.desktop.client.view.window.MainWindow;
 import info.zpss.uniwood.desktop.common.Log;
+
+import java.net.Socket;
 
 public class Main {
     private static boolean debugMode;
@@ -51,8 +54,17 @@ public class Main {
 
     private static void execute() throws Exception {
         // TODO: 从这里开始写代码
-        MainWindow mainWindow = new MainWindow();
-        mainWindow.showWindow();
+//        MainWindow mainWindow = new MainWindow();
+//        mainWindow.showWindow();
+        try (Socket server = new Socket("localhost", 60196)){
+            Log.add("连接服务器成功！", Log.Type.INFO, Thread.currentThread());
+            SocketHandler socketHandler = new SocketHandler(server);
+            socketHandler.start();
+            socketHandler.send("Hello, Server!");
+        } catch (Exception e) {
+            Log.add("连接服务器失败！", Log.Type.ERROR, Thread.currentThread());
+            Log.add(e, Thread.currentThread());
+        }
     }
 
     private static void setLog() {

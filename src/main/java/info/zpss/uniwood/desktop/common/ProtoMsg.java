@@ -11,7 +11,8 @@ public class ProtoMsg {
         REGISTER("REGISTER"),
         POST("POST"),
         REPLY("REPLY"),
-        LIST("LIST");
+        LIST("LIST"),
+        UNKNOWN("UNKNOWN");
 
         private final String command;
 
@@ -27,7 +28,8 @@ public class ProtoMsg {
             for (Command c : Command.values())
                 if (c.command.equals(command))
                     return c;
-            throw new IllegalArgumentException("Unknown command: " + command);
+//            throw new IllegalArgumentException("Unknown command: " + command);
+            return null;
         }
 
         @Override
@@ -40,7 +42,7 @@ public class ProtoMsg {
     public final String[] args;
 
     public ProtoMsg(Command cmd, String[] args) {
-        this.cmd = cmd;
+        this.cmd = (cmd == null) ? Command.UNKNOWN : cmd;
         this.args = args;
     }
 

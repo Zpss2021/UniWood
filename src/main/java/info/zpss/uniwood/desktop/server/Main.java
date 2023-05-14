@@ -1,36 +1,32 @@
 package info.zpss.uniwood.desktop.server;
 
 import info.zpss.uniwood.desktop.common.Log;
-import info.zpss.uniwood.desktop.server.mapper.*;
-import info.zpss.uniwood.desktop.server.mapper.Impl.*;
 import info.zpss.uniwood.desktop.server.util.Database;
-import info.zpss.uniwood.desktop.server.model.*;
+import info.zpss.uniwood.desktop.server.util.ServerSocketListener;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     private static boolean debugMode;
     private static String[] arguments;
-    private static Database DATABASE;
+    private static Database database;
     public static final String PLATFORM;
     public static final String VERSION;
 
     static {
         debugMode = true;   // TODO: 打包jar前改为false
         arguments = null;
-        DATABASE = null;
+        database = null;
         PLATFORM = "DESKTOP-SERVER";
         VERSION = "1.0.0";
     }
 
     public static boolean debug() {
-        return Main.debugMode;
+        return debugMode;
     }
 
     public static Database database() {
-        return DATABASE;
+        return database;
     }
 
     public static boolean paramInArgs(String para) {
@@ -73,18 +69,20 @@ public class Main {
 
     private static void execute() throws Exception {
         // TODO: 从这里开始写代码
-        UserMapper userMapper = UserMapperImpl.getInstance();
-        ZoneMapper zoneMapper = ZoneMapperImpl.getInstance();
-        PostMapper postMapper = PostMapperImpl.getInstance();
-        FloorMapper floorMapper = FloorMapperImpl.getInstance();
-        User user1 = userMapper.getUser(1);
-        List<Post> postByUser1 = postMapper.getPostsByUserID(user1.getId());
-        List<List<Floor>> floorsInPosts = new ArrayList<>();
-        for(Post post : postByUser1)
-            floorsInPosts.add(floorMapper.getFloors(post.getId()));
-        for(List<Floor> floors : floorsInPosts)
-            for(Floor floor : floors)
-                System.out.println(floor);
+//        UserMapper userMapper = UserMapperImpl.getInstance();
+//        ZoneMapper zoneMapper = ZoneMapperImpl.getInstance();
+//        PostMapper postMapper = PostMapperImpl.getInstance();
+//        FloorMapper floorMapper = FloorMapperImpl.getInstance();
+//        User user1 = userMapper.getUser(1);
+//        List<Post> postByUser1 = postMapper.getPostsByUserID(user1.getId());
+//        List<List<Floor>> floorsInPosts = new ArrayList<>();
+//        for(Post post : postByUser1)
+//            floorsInPosts.add(floorMapper.getFloors(post.getId()));
+//        for(List<Floor> floors : floorsInPosts)
+//            for(Floor floor : floors)
+//                System.out.println(floor);
+        ServerSocketListener listener = new ServerSocketListener(60196, 10);
+        listener.start();
     }
 
     private static void setLog() {
@@ -113,7 +111,7 @@ public class Main {
             password = "henu";
             Log.add("未指定数据库密码，使用默认密码", Log.Type.INFO, Thread.currentThread());
         }
-        DATABASE = new Database(url, username, password);
+        database = new Database(url, username, password);
     }
 
 }
