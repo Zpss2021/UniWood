@@ -1,4 +1,4 @@
-package info.zpss.uniwood.desktop.server.util;
+package info.zpss.uniwood.desktop.server.util.socket;
 
 import info.zpss.uniwood.desktop.common.Log;
 import info.zpss.uniwood.desktop.common.ProtoMsg;
@@ -11,11 +11,11 @@ import java.nio.charset.StandardCharsets;
 
 public class SocketHandler extends Thread {
     private final Socket socket;
-    private final ServerSocketListener listener;
+    private final SocketListener listener;
     private BufferedReader reader;
     private PrintWriter writer;
 
-    public SocketHandler(Socket socket, ServerSocketListener listener) {
+    public SocketHandler(Socket socket, SocketListener listener) {
         this.socket = socket;
         this.listener = listener;
     }

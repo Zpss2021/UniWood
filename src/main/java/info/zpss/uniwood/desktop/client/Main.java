@@ -1,10 +1,7 @@
 package info.zpss.uniwood.desktop.client;
 
-import info.zpss.uniwood.desktop.client.util.SocketHandler;
-import info.zpss.uniwood.desktop.client.view.window.MainWindow;
+import info.zpss.uniwood.desktop.client.util.ServerConnection;
 import info.zpss.uniwood.desktop.common.Log;
-
-import java.net.Socket;
 
 public class Main {
     private static boolean debugMode;
@@ -47,20 +44,27 @@ public class Main {
         Log.add("Hello, UniWood!", Log.Type.INFO, Thread.currentThread());
         try {
             execute();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             Log.add(e, Thread.currentThread());
         }
     }
 
-    private static void execute() throws Exception {
+    private static void execute() throws RuntimeException {
         // TODO: 从这里开始写代码
 //        MainWindow mainWindow = new MainWindow();
 //        mainWindow.showWindow();
-        try (Socket server = new Socket("localhost", 60196)){
+        try {
+            ServerConnection serverConnection = new ServerConnection("localhost", 60196);
+            serverConnection.connect();
             Log.add("连接服务器成功！", Log.Type.INFO, Thread.currentThread());
-            SocketHandler socketHandler = new SocketHandler(server);
-            socketHandler.start();
-            socketHandler.send("Hello, Server!");
+            System.out.println("连接服务器成功！");
+            serverConnection.send("Hello, Server!");
+            serverConnection.send("Hello, Server!");
+            serverConnection.send("Hello, Server!");
+            serverConnection.send("Hello, Server!");
+            serverConnection.send("Hello, Server!");
+            serverConnection.send("Hello, Server!");
+            serverConnection.send("Hello, Server!");
         } catch (Exception e) {
             Log.add("连接服务器失败！", Log.Type.ERROR, Thread.currentThread());
             Log.add(e, Thread.currentThread());

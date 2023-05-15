@@ -1,4 +1,4 @@
-package info.zpss.uniwood.desktop.client.util;
+package info.zpss.uniwood.desktop.client.util.socket;
 
 import info.zpss.uniwood.desktop.client.Main;
 import info.zpss.uniwood.desktop.common.Log;
@@ -41,7 +41,9 @@ public class SocketHandler extends Thread {
             writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),
                     StandardCharsets.UTF_8)));
             String rec;
-            while (!socket.isClosed() && ((rec = reader.readLine()) != null))
+            while (!Thread.currentThread().isInterrupted()
+                    && !socket.isClosed()
+                    && ((rec = reader.readLine()) != null))
                 handleMessage(rec);
         } catch (SocketException e) {
             if (socket.isClosed())
