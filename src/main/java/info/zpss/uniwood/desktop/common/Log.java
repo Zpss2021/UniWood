@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Log {
-
     public enum Type {
         INFO("INFO"),
         WARN("WARN"),

@@ -1,13 +1,18 @@
 package info.zpss.uniwood.desktop.server.util;
 
+import info.zpss.uniwood.desktop.common.Arguable;
+import info.zpss.uniwood.desktop.common.Log;
 import info.zpss.uniwood.desktop.server.util.socket.SocketListener;
 
-public class Server {
+public class Server implements Arguable {
     private SocketListener listener;
-    private final int port;
-    private final int maxConn;
+    private int port;
+    private int maxConn;
 
-    public Server(int port, int maxConn) {
+    public Server(){
+    }
+
+    private Server(int port, int maxConn) {
         this.listener = null;
         this.port = port;
         this.maxConn = maxConn;
@@ -32,4 +37,19 @@ public class Server {
         return listener;
     }
 
+    @Override
+    public void init(String[] args) throws NumberFormatException {
+        String port = Arguable.stringInArgs(args, "-P", "--port");
+        String maxConn = Arguable.stringInArgs(args, "-M", "--max-conn");
+        if (port == null) {
+            port = "60196";
+            Log.add(String.format("未指定服务器端口，使用默认端口%s", port), Log.Type.INFO, Thread.currentThread());
+        }
+        if (maxConn == null) {
+            maxConn = "16";
+            Log.add(String.format("未指定最大客户端连接数，使用默认值%s", maxConn), Log.Type.INFO, Thread.currentThread());
+        }
+        this.port = Integer.parseInt(port);
+        this.maxConn = Integer.parseInt(maxConn);
+    }
 }

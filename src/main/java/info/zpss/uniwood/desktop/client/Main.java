@@ -1,7 +1,11 @@
 package info.zpss.uniwood.desktop.client;
 
 import info.zpss.uniwood.desktop.client.util.ServerConnection;
+import info.zpss.uniwood.desktop.common.Arguable;
 import info.zpss.uniwood.desktop.common.Log;
+
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 
 public class Main {
     private static boolean debugMode;
@@ -20,33 +24,26 @@ public class Main {
         return Main.debugMode;
     }
 
-    public static boolean paramInArgs(String para) {
-        for (String arg : arguments)
-            if (arg.equals(para))
-                return true;
-        return false;
-    }
-
-    public static String stringInArgs(String paraA, String paraB) {
-        for (int i = 0; i < arguments.length; i++)
-            if (arguments[i].equals(paraA) || arguments[i].equals(paraB))
-                if (i + 1 < arguments.length)
-                    return arguments[i + 1];
-        return null;
-    }
-
     public static void main(String[] args) {
+        if (debugMode)
+            args = new String[]{"-D"};
+
         arguments = new String[args.length];
         System.arraycopy(args, 0, arguments, 0, args.length);
-        if (paramInArgs("-D") || paramInArgs("--DEBUG"))
+
+        if (Arguable.paramInArgs(args, "-D", "--DEBUG"))
             debugMode = true;
+
         setLog();
+
         Log.add("Hello, UniWood!", Log.Type.INFO, Thread.currentThread());
+
         try {
             execute();
         } catch (RuntimeException e) {
             Log.add(e, Thread.currentThread());
         }
+
     }
 
     private static void execute() throws RuntimeException {
@@ -54,14 +51,11 @@ public class Main {
 //        MainWindow mainWindow = new MainWindow();
 //        mainWindow.showWindow();
         try {
-            ServerConnection serverConnection = new ServerConnection("localhost", 60196);
-            serverConnection.connect();
+            SocketAddress address = new InetSocketAddress("127.0.0.1", 60196);
+            ServerConnection serverConnection = new ServerConnection(address);
+            serverConnection.connect(10000);
             Log.add("连接服务器成功！", Log.Type.INFO, Thread.currentThread());
             System.out.println("连接服务器成功！");
-            serverConnection.send("Hello, Server!");
-            serverConnection.send("Hello, Server!");
-            serverConnection.send("Hello, Server!");
-            serverConnection.send("Hello, Server!");
             serverConnection.send("Hello, Server!");
             serverConnection.send("Hello, Server!");
             serverConnection.send("Hello, Server!");
@@ -73,7 +67,7 @@ public class Main {
 
     private static void setLog() {
         String logDir = debugMode ? "src/main/logs/desktop/client" : "logs";
-        String fromArgs = stringInArgs("-l", "--log");
+        String fromArgs = Arguable.stringInArgs(arguments, "-l", "--log");
         Log.setLogFileDir((fromArgs == null) ? logDir : fromArgs);
         Log.add(String.format("UniWood-%s-%s", PLATFORM, VERSION), Log.Type.INFO, Thread.currentThread());
         if (debugMode)

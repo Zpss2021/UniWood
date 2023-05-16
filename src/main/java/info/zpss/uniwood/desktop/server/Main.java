@@ -1,5 +1,6 @@
 package info.zpss.uniwood.desktop.server;
 
+import info.zpss.uniwood.desktop.common.Arguable;
 import info.zpss.uniwood.desktop.common.Log;
 import info.zpss.uniwood.desktop.server.mapper.*;
 import info.zpss.uniwood.desktop.server.mapper.Impl.*;
@@ -40,51 +41,46 @@ public class Main {
         return server;
     }
 
-    public static boolean paramInArgs(String para) {
-        for (String arg : arguments)
-            if (arg.equals(para))
-                return true;
-        return false;
-    }
-
-    public static String stringInArgs(String paraA, String paraB) {
-        for (int i = 0; i < arguments.length; i++)
-            if (arguments[i].equals(paraA) || arguments[i].equals(paraB))
-                if (i + 1 < arguments.length)
-                    return arguments[i + 1];
-        return null;
-    }
-
     public static void main(String[] args) {
         if (debugMode)
-            args = new String[]{"-D"};
+            args = new String[]{"-D", "-P", "60196", "-M", "16"};
+
         arguments = new String[args.length];
         System.arraycopy(args, 0, arguments, 0, args.length);
-        if (paramInArgs("-D") || paramInArgs("--DEBUG"))
+
+        if (Arguable.paramInArgs(args, "-D", "--DEBUG"))
             debugMode = true;
+
         setLog();
+
         try {
-            setDatabase();
+            database = new Database();
+            database.init(args);
             Log.add("数据库连接成功", Log.Type.INFO, Thread.currentThread());
         } catch (SQLException e) {
             Log.add("数据库连接失败", Log.Type.ERROR, Thread.currentThread());
             Log.add(e, Thread.currentThread());
             System.exit(1);
         }
+
         try {
-            setServer();
+            server = new Server();
+            server.init(args);
+            server.start();
             Log.add("客户端连接服务启动成功", Log.Type.INFO, Thread.currentThread());
         } catch (Exception e) {
             Log.add("客户端连接服务启动失败", Log.Type.ERROR, Thread.currentThread());
             Log.add(e, Thread.currentThread());
             System.exit(1);
         }
+
         Log.add("Hello, UniWood!", Log.Type.INFO, Thread.currentThread());
-//        try {
-//            execute();
-//        } catch (RuntimeException e) {
-//            Log.add(e, Thread.currentThread());
-//        }
+
+        try {
+            execute();
+        } catch (RuntimeException e) {
+            Log.add(e, Thread.currentThread());
+        }
     }
 
     private static void execute() throws RuntimeException {
@@ -96,60 +92,20 @@ public class Main {
         User user1 = userMapper.getUser(1);
         List<Post> postByUser1 = postMapper.getPostsByUserID(user1.getId());
         List<List<Floor>> floorsInPosts = new ArrayList<>();
-        for(Post post : postByUser1)
+        for (Post post : postByUser1)
             floorsInPosts.add(floorMapper.getFloors(post.getId()));
-        for(List<Floor> floors : floorsInPosts)
-            for(Floor floor : floors)
+        for (List<Floor> floors : floorsInPosts)
+            for (Floor floor : floors)
                 System.out.println(floor);
     }
 
     private static void setLog() {
         String logDir = debugMode ? "src/main/logs/desktop/server" : "logs";
-        String fromArgs = stringInArgs("-l", "--log");
+        String fromArgs = Arguable.stringInArgs(arguments, "-l", "--log");
         Log.setLogFileDir((fromArgs == null) ? logDir : fromArgs);
         Log.add(String.format("UniWood-%s-%s", PLATFORM, VERSION), Log.Type.INFO, Thread.currentThread());
         if (debugMode)
             Log.add("DEBUG MODE ON!!", Log.Type.DEBUG, Thread.currentThread());
-    }
-
-    private static void setDatabase() throws SQLException {
-        String url = stringInArgs("-u", "--url");
-        String username = stringInArgs("-n", "--username");
-        String password = stringInArgs("-p", "--password");
-        if (url == null) {
-            url = "jdbc:mysql://localhost:3306/uniwood" +
-                    "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useServerPrepStmts=true";
-            Log.add("未指定数据库URL，使用默认URL", Log.Type.INFO, Thread.currentThread());
-        }
-        if (username == null) {
-            username = "zpss";
-            Log.add("未指定数据库用户名，使用默认用户名", Log.Type.INFO, Thread.currentThread());
-        }
-        if (password == null) {
-            password = "henu";
-            Log.add("未指定数据库密码，使用默认密码", Log.Type.INFO, Thread.currentThread());
-        }
-        database = new Database(url, username, password);
-    }
-
-    private static void setServer() throws Exception {
-        String port = stringInArgs("-P", "--port");
-        String maxConn = stringInArgs("-M", "--max-conn");
-        if (port == null) {
-            port = "60196";
-            Log.add(String.format("未指定服务器端口，使用默认端口%s", port), Log.Type.INFO, Thread.currentThread());
-        }
-        if (maxConn == null) {
-            maxConn = "16";
-            Log.add(String.format("未指定最大客户端连接数，使用默认值%s", maxConn), Log.Type.INFO, Thread.currentThread());
-        }
-        server = new Server(Integer.parseInt(port), Integer.parseInt(maxConn));
-        try {
-            execute();
-        } catch (RuntimeException e) {
-            Log.add(e, Thread.currentThread());
-        }
-        server.start();
     }
 
 }
