@@ -25,6 +25,10 @@
 
 - `-D 或 --DEBUG`  开启调试模式
 - `-l 或 --log <log directory>` 设置存放日志的文件夹路径
+- `-H 或 --host <host>` 设置服务器地址，未设定则默认为`zpss.info`(调试模式下为`localhost`)
+- `-P 或 --port <port>` 设置服务器端口，未设定则默认为`60196`
+- `-t 或 --timeout <timeout>` 设置连接超时时间，单位为毫秒，未设定则默认为`3000`
+- `-r 或 --retry <retry>` 设置重试次数，未设定则默认为`3`
 
 例如，要将日志文件保存到 "dat/logs" 文件夹中，可以使用以下命令启动服务端：
 `java -jar xxx.jar -l "dat/logs"`

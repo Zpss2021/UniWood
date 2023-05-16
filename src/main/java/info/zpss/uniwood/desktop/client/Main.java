@@ -4,12 +4,12 @@ import info.zpss.uniwood.desktop.client.util.ServerConnection;
 import info.zpss.uniwood.desktop.common.Arguable;
 import info.zpss.uniwood.desktop.common.Log;
 
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
+import java.io.IOException;
 
 public class Main {
     private static boolean debugMode;
     private static String[] arguments;
+    private static ServerConnection connection;
     public static final String PLATFORM;
     public static final String VERSION;
 
@@ -24,9 +24,13 @@ public class Main {
         return Main.debugMode;
     }
 
+    public static ServerConnection connection() {
+        return Main.connection;
+    }
+
     public static void main(String[] args) {
         if (debugMode)
-            args = new String[]{"-D"};
+            args = new String[]{"-D", "-H" , "localhost", "-P", "60196"};
 
         arguments = new String[args.length];
         System.arraycopy(args, 0, arguments, 0, args.length);
@@ -35,6 +39,16 @@ public class Main {
             debugMode = true;
 
         setLog();
+
+        try {
+            connection = new ServerConnection();
+            connection.init(args);
+            connection.connect();
+        } catch (Exception e) {
+            Log.add("连接服务器失败！", Log.Type.ERROR, Thread.currentThread());
+            Log.add(e, Thread.currentThread());
+            System.exit(1);
+        }
 
         Log.add("Hello, UniWood!", Log.Type.INFO, Thread.currentThread());
 
@@ -50,17 +64,11 @@ public class Main {
         // TODO: 从这里开始写代码
 //        MainWindow mainWindow = new MainWindow();
 //        mainWindow.showWindow();
+        connection.send("Hello, Server!");
+        connection.send("Hello, Server!");
         try {
-            SocketAddress address = new InetSocketAddress("127.0.0.1", 60196);
-            ServerConnection serverConnection = new ServerConnection(address);
-            serverConnection.connect(10000);
-            Log.add("连接服务器成功！", Log.Type.INFO, Thread.currentThread());
-            System.out.println("连接服务器成功！");
-            serverConnection.send("Hello, Server!");
-            serverConnection.send("Hello, Server!");
-            serverConnection.send("Hello, Server!");
-        } catch (Exception e) {
-            Log.add("连接服务器失败！", Log.Type.ERROR, Thread.currentThread());
+            connection.disconnect();
+        } catch (IOException e) {
             Log.add(e, Thread.currentThread());
         }
     }
