@@ -1,6 +1,5 @@
 package info.zpss.uniwood.desktop.server.mapper.Impl;
 
-import info.zpss.uniwood.desktop.common.Log;
 import info.zpss.uniwood.desktop.server.Main;
 import info.zpss.uniwood.desktop.server.mapper.ZoneMapper;
 import info.zpss.uniwood.desktop.server.model.Zone;
@@ -39,7 +38,7 @@ public class ZoneMapperImpl implements ZoneMapper {
             resultSet.close();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return zone;
     }
@@ -62,7 +61,7 @@ public class ZoneMapperImpl implements ZoneMapper {
             resultSet.close();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return zones;
     }
@@ -86,7 +85,7 @@ public class ZoneMapperImpl implements ZoneMapper {
             resultSet.close();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return zones;
     }
@@ -111,7 +110,7 @@ public class ZoneMapperImpl implements ZoneMapper {
             resultSet.close();
             preStmtGet.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return id;
     }
@@ -128,7 +127,7 @@ public class ZoneMapperImpl implements ZoneMapper {
             preStmt.executeUpdate();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 
@@ -141,7 +140,7 @@ public class ZoneMapperImpl implements ZoneMapper {
             preStmt.executeUpdate();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 }

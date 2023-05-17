@@ -1,7 +1,7 @@
 package info.zpss.uniwood.desktop.server.util;
 
+import info.zpss.uniwood.desktop.server.Main;
 import info.zpss.uniwood.desktop.common.Arguable;
-import info.zpss.uniwood.desktop.common.Log;
 
 import java.sql.*;
 
@@ -14,7 +14,7 @@ public class Database implements Arguable {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
             System.exit(1);
         }
     }
@@ -33,15 +33,15 @@ public class Database implements Arguable {
         if (dbUrl == null) {
             dbUrl = "jdbc:mysql://localhost:3306/uniwood" +
                     "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useServerPrepStmts=true";
-            Log.add("未指定数据库URL，使用默认URL", Log.Type.INFO, Thread.currentThread());
+            Main.logger().add("未指定数据库URL，使用默认URL", Log.Type.INFO, Thread.currentThread());
         }
         if (dbUsername == null) {
             dbUsername = "zpss";
-            Log.add("未指定数据库用户名，使用默认用户名", Log.Type.INFO, Thread.currentThread());
+            Main.logger().add("未指定数据库用户名，使用默认用户名", Log.Type.INFO, Thread.currentThread());
         }
         if (dbPassword == null) {
             dbPassword = "henu";
-            Log.add("未指定数据库密码，使用默认密码", Log.Type.INFO, Thread.currentThread());
+            Main.logger().add("未指定数据库密码，使用默认密码", Log.Type.INFO, Thread.currentThread());
         }
         tryConnect();
     }

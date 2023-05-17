@@ -1,7 +1,7 @@
 package info.zpss.uniwood.desktop.server.util;
 
+import info.zpss.uniwood.desktop.client.Main;
 import info.zpss.uniwood.desktop.common.Arguable;
-import info.zpss.uniwood.desktop.common.Log;
 import info.zpss.uniwood.desktop.server.util.socket.SocketListener;
 
 public class Server implements Arguable {
@@ -43,11 +43,13 @@ public class Server implements Arguable {
         String maxConn = Arguable.stringInArgs(args, "-M", "--max-conn");
         if (port == null) {
             port = "60196";
-            Log.add(String.format("未指定服务器端口，使用默认端口%s", port), Log.Type.INFO, Thread.currentThread());
+            Main.logger().add(String.format("未指定服务器端口，使用默认端口%s", port),
+                    Log.Type.INFO, Thread.currentThread());
         }
         if (maxConn == null) {
             maxConn = "16";
-            Log.add(String.format("未指定最大客户端连接数，使用默认值%s", maxConn), Log.Type.INFO, Thread.currentThread());
+            Main.logger().add(String.format("未指定最大客户端连接数，使用默认值%s", maxConn),
+                    Log.Type.INFO, Thread.currentThread());
         }
         this.port = Integer.parseInt(port);
         this.maxConn = Integer.parseInt(maxConn);

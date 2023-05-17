@@ -1,6 +1,5 @@
 package info.zpss.uniwood.desktop.server.mapper.Impl;
 
-import info.zpss.uniwood.desktop.common.Log;
 import info.zpss.uniwood.desktop.server.Main;
 import info.zpss.uniwood.desktop.server.mapper.UserMapper;
 import info.zpss.uniwood.desktop.server.model.User;
@@ -42,7 +41,7 @@ public class UserMapperImpl implements UserMapper {
             resultSet.close();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return user;
     }
@@ -67,7 +66,7 @@ public class UserMapperImpl implements UserMapper {
             resultSet.close();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return users;
     }
@@ -85,7 +84,7 @@ public class UserMapperImpl implements UserMapper {
             resultSet.close();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return null;
     }
@@ -111,7 +110,7 @@ public class UserMapperImpl implements UserMapper {
             resultSet.close();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return followers;
     }
@@ -137,7 +136,7 @@ public class UserMapperImpl implements UserMapper {
             resultSet.close();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return followings;
     }
@@ -155,7 +154,7 @@ public class UserMapperImpl implements UserMapper {
             preStmt.executeUpdate();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 
@@ -169,7 +168,7 @@ public class UserMapperImpl implements UserMapper {
             preStmt.executeUpdate();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 
@@ -183,7 +182,7 @@ public class UserMapperImpl implements UserMapper {
             preStmt.executeUpdate();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 
@@ -197,7 +196,7 @@ public class UserMapperImpl implements UserMapper {
             preStmt.executeUpdate();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 
@@ -215,7 +214,7 @@ public class UserMapperImpl implements UserMapper {
             preStmt.executeUpdate();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 
@@ -229,7 +228,7 @@ public class UserMapperImpl implements UserMapper {
             preStmt.executeUpdate();
             preStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 }

@@ -1,6 +1,5 @@
 package info.zpss.uniwood.desktop.server.mapper.Impl;
 
-import info.zpss.uniwood.desktop.common.Log;
 import info.zpss.uniwood.desktop.server.Main;
 import info.zpss.uniwood.desktop.server.mapper.FloorMapper;
 import info.zpss.uniwood.desktop.server.model.Floor;
@@ -40,7 +39,7 @@ public class FloorMapperImpl implements FloorMapper {
             resultSet.close();
             prepStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
 
         return floor;
@@ -65,7 +64,7 @@ public class FloorMapperImpl implements FloorMapper {
             resultSet.close();
             prepStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return floors;
     }
@@ -90,7 +89,7 @@ public class FloorMapperImpl implements FloorMapper {
             resultSet.close();
             preStmtGet.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
         return id;
     }
@@ -105,7 +104,7 @@ public class FloorMapperImpl implements FloorMapper {
             prepStmt.executeUpdate();
             prepStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 
@@ -120,7 +119,7 @@ public class FloorMapperImpl implements FloorMapper {
             prepStmt.executeUpdate();
             prepStmt.close();
         } catch (SQLException e) {
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 }

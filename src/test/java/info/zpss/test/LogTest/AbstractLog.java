@@ -1,4 +1,6 @@
-package info.zpss.uniwood.desktop.common;
+package info.zpss.test.LogTest;
+
+import info.zpss.uniwood.desktop.common.Arguable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,7 +9,7 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Log {
+public abstract class AbstractLog implements Arguable {
     public enum Type {
         INFO("INFO"),
         WARN("WARN"),
@@ -29,12 +31,15 @@ public class Log {
         }
     }
 
-    private static PrintStream out = null;
+    private PrintStream out = null;
 
-    private Log() {
+    public AbstractLog() {
     }
 
-    public static void setLogFileDir(String path) {
+    @Override
+    public abstract void init(String[] args) throws Exception;
+
+    public void setLogFileDir(String path) {
         int i;
         String date_str = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
         File logsDir = new File(path);
@@ -52,29 +57,29 @@ public class Log {
         }
     }
 
-    public static void addConsole(String message) {
+    public void addConsole(String message) {
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date(System.currentTimeMillis()));
         System.out.printf("[%s]%s\n", time, message);
     }
 
-    public static void addFile(String message) {
+    public void addFile(String message) {
         if (out != null) {
             String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date(System.currentTimeMillis()));
             out.printf("[%s]%s\n", time, message);
         }
     }
 
-    public static void add(String message, Thread currentThread) {
+    public void add(String message, Thread currentThread) {
         addConsole(String.format("[%s/%s]%s", currentThread.getName(), Type.INFO, message));
         addFile(String.format("[%s/%s]%s", currentThread.getName(), Type.INFO, message));
     }
 
-    public static void add(String message, Type messageType, Thread currentThread) {
+    public void add(String message, Type messageType, Thread currentThread) {
         addConsole(String.format("[%s/%s]%s", currentThread.getName(), messageType, message));
         addFile(String.format("[%s/%s]%s", currentThread.getName(), messageType, message));
     }
 
-    public static void add(Exception e, Thread currentThread) {
+    public void add(Exception e, Thread currentThread) {
         addConsole(String.format("[%s/EXCEPTION]%s", currentThread.getName(), e));
         addFile(String.format("[%s/EXCEPTION]%s", currentThread.getName(), e));
     }

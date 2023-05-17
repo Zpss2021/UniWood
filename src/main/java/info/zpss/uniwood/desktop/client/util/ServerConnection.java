@@ -3,7 +3,6 @@ package info.zpss.uniwood.desktop.client.util;
 import info.zpss.uniwood.desktop.client.Main;
 import info.zpss.uniwood.desktop.client.util.socket.SocketHandler;
 import info.zpss.uniwood.desktop.common.Arguable;
-import info.zpss.uniwood.desktop.common.Log;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -31,7 +30,7 @@ public class ServerConnection implements Arguable {
             } catch (IOException e) {
                 if (i < retry) {
                     i++;
-                    Log.add("第" + i + "次连接服务器超时，重试中...", Log.Type.WARN, Thread.currentThread());
+                    Main.logger().add("第" + i + "次连接服务器超时，重试中...", Log.Type.WARN, Thread.currentThread());
                 } else
                     throw e;
             }
@@ -63,19 +62,23 @@ public class ServerConnection implements Arguable {
         String retry = Arguable.stringInArgs(args, "-R", "--retry");
         if (host == null) {
             host = Main.debug() ? "localhost" : "zpss.info";
-            Log.add(String.format("未指定服务器地址，使用默认地址%s", host), Log.Type.INFO, Thread.currentThread());
+            Main.logger().add(String.format("未指定服务器地址，使用默认地址%s", host),
+                    Log.Type.INFO, Thread.currentThread());
         }
         if (port == null) {
             port = "60196";
-            Log.add(String.format("未指定服务器端口，使用默认端口%s", port), Log.Type.INFO, Thread.currentThread());
+            Main.logger().add(String.format("未指定服务器端口，使用默认端口%s", port),
+                    Log.Type.INFO, Thread.currentThread());
         }
         if (timeout == null) {
             timeout = "1000";
-            Log.add(String.format("未指定连接超时时间，使用默认值%s", timeout), Log.Type.INFO, Thread.currentThread());
+            Main.logger().add(String.format("未指定连接超时时间，使用默认值%s", timeout),
+                    Log.Type.INFO, Thread.currentThread());
         }
         if (retry == null) {
             retry = "3";
-            Log.add(String.format("未指定连接重试次数，使用默认值%s", retry), Log.Type.INFO, Thread.currentThread());
+            Main.logger().add(String.format("未指定连接重试次数，使用默认值%s", retry),
+                    Log.Type.INFO, Thread.currentThread());
         }
         this.serverHost = new InetSocketAddress(host, Integer.parseInt(port));
         this.timeout = Integer.parseInt(timeout);

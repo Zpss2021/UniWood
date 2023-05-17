@@ -1,8 +1,8 @@
 package info.zpss.uniwood.desktop.server.util.socket;
 
-import info.zpss.uniwood.desktop.common.Log;
 import info.zpss.uniwood.desktop.common.ProtoMsg;
 import info.zpss.uniwood.desktop.server.Main;
+import info.zpss.uniwood.desktop.server.util.Log;
 
 import java.io.*;
 import java.net.Socket;
@@ -27,7 +27,7 @@ public class SocketHandler extends Thread {
 
     private String handleMessage(String message) {
         if (Main.debug())
-            Log.add(String.format("收到客户端%s消息：%s", this, message), Thread.currentThread());
+            Main.logger().add(String.format("收到客户端%s消息：%s", this, message), Thread.currentThread());
         ProtoMsg protoMsg = ProtoMsg.parse(message);
         switch (protoMsg.cmd) {
             // TODO
@@ -52,24 +52,24 @@ public class SocketHandler extends Thread {
                 if (snd != null)
                     send(snd);
             }
-            Log.add(String.format("客户端%s断开连接", this), Log.Type.INFO, Thread.currentThread());
+            Main.logger().add(String.format("客户端%s断开连接", this), Log.Type.INFO, Thread.currentThread());
         } catch (SocketException e) {
             if (socket.isClosed())
                 return;
-            Log.add(String.format("客户端%s套接字连接异常！", this), Log.Type.WARN, Thread.currentThread());
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(String.format("客户端%s套接字连接异常！", this), Log.Type.WARN, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         } catch (IOException e) {
             if (socket.isClosed())
                 return;
-            Log.add(String.format("客户端%s读取消息流I/O异常！", this), Log.Type.WARN, Thread.currentThread());
-            Log.add(e, Thread.currentThread());
+            Main.logger().add(String.format("客户端%s读取消息流I/O异常！", this), Log.Type.WARN, Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         } finally {
             try {
                 reader.close();
                 writer.close();
             } catch (IOException ex) {
-                Log.add(String.format("客户端%s关闭消息流I/O异常！", this), Log.Type.WARN, Thread.currentThread());
-                Log.add(ex, Thread.currentThread());
+                Main.logger().add(String.format("客户端%s关闭消息流I/O异常！", this), Log.Type.WARN, Thread.currentThread());
+                Main.logger().add(ex, Thread.currentThread());
             }
             listener.removeHandler(this);
         }
