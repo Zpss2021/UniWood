@@ -1,12 +1,12 @@
 package info.zpss.uniwood.desktop.client.view.window;
 
 import info.zpss.uniwood.desktop.client.Main;
-import info.zpss.uniwood.desktop.client.model.Floor;
-import info.zpss.uniwood.desktop.client.model.Post;
-import info.zpss.uniwood.desktop.client.model.User;
-import info.zpss.uniwood.desktop.client.model.Zone;
+import info.zpss.uniwood.desktop.client.model.entity.Floor;
+import info.zpss.uniwood.desktop.client.model.entity.Post;
+import info.zpss.uniwood.desktop.client.model.entity.User;
+import info.zpss.uniwood.desktop.client.model.entity.Zone;
 import info.zpss.uniwood.desktop.client.util.Log;
-import info.zpss.uniwood.desktop.client.view.MainWindowView;
+import info.zpss.uniwood.desktop.client.view.MainView;
 import info.zpss.uniwood.desktop.client.view.panel.*;
 
 import javax.swing.*;
@@ -14,7 +14,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class MainWindow extends JFrame implements MainWindowView {
+public class MainWindow extends JFrame implements MainView {
+    private Component parent;
     // 定义控件
     private final JPanel outerPane;
     // 一级面板
@@ -108,12 +109,28 @@ public class MainWindow extends JFrame implements MainWindowView {
         cntPane.add(postPane, BorderLayout.CENTER);
     }
 
+    @Override
     public void showWindow() {
         SwingUtilities.invokeLater(() -> {
             this.pack();
             this.setVisible(true);
             this.validate();
         });
+    }
+
+    @Override
+    public void hideWindow() {
+        SwingUtilities.invokeLater(() -> this.setVisible(false));
+    }
+
+    @Override
+    public void setParent(Component parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public Component getComponent() {
+        return this;
     }
 
     // 测试用入口函数
@@ -128,7 +145,7 @@ public class MainWindow extends JFrame implements MainWindowView {
 
         w.showWindow();
 
-        PostWindow postWindow = new PostWindow(w);
+        PostWindow postWindow = new PostWindow();
         postWindow.getFloorPanel().setFloorNumberTitle("共10层");
         postWindow.getFloorPanel().setListData(getExampleFloorItems());
         postWindow.showWindow();
@@ -211,5 +228,15 @@ public class MainWindow extends JFrame implements MainWindowView {
 
 
         return floorItems;
+    }
+
+    @Override
+    public JButton getLoginButton() {
+        return userPanel.loginBtn;
+    }
+
+    @Override
+    public JButton getRegisterButton() {
+        return userPanel.registerBtn;
     }
 }

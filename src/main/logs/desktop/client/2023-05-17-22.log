@@ -1,0 +1,9 @@
+[2023-05-17 09:32:44.971][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-05-17 09:32:44.971][main/DEBUG]DEBUG MODE ON!!
+[2023-05-17 09:32:44.971][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-05-17 09:32:44.971][main/INFO]未指定连接重试次数，使用默认值3
+[2023-05-17 09:32:44.971][main/INFO]Hello, UniWood!
+[2023-05-17 09:32:44.987][main/INFO]向服务器发送消息：Hello, Server!
+[2023-05-17 09:32:44.987][main/INFO]向服务器发送消息：Hello, Server!
+[2023-05-17 09:32:49.235][Thread-0/WARN]服务器localhost/127.0.0.1:60196套接字连接异常！
+[2023-05-17 09:32:49.235][Thread-0/EXCEPTION]java.net.SocketException: Connection reset

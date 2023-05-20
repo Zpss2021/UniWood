@@ -1,5 +1,6 @@
 package info.zpss.uniwood.desktop.client;
 
+import info.zpss.uniwood.desktop.client.controller.MainController;
 import info.zpss.uniwood.desktop.client.util.Log;
 import info.zpss.uniwood.desktop.client.util.ServerConnection;
 import info.zpss.uniwood.desktop.common.Arguable;
@@ -76,10 +77,9 @@ public class Main {
 
     private static void execute() throws RuntimeException {
         // TODO: 从这里开始写代码
-//        MainWindow mainWindow = new MainWindow();
-//        mainWindow.showWindow();
-        connection.send("Hello, Server!");
-        connection.send("Hello, Server!");
+        MainController.getInstance().register();
+        MainController.getInstance().getView().showWindow();
+
 //        try {
 //            connection.disconnect();
 //        } catch (IOException e) {

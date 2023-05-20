@@ -1,7 +1,10 @@
 package info.zpss.uniwood.desktop.client.util.socket;
 
 import info.zpss.uniwood.desktop.client.Main;
+import info.zpss.uniwood.desktop.client.controller.LoginController;
+import info.zpss.uniwood.desktop.client.model.entity.User;
 import info.zpss.uniwood.desktop.client.util.Log;
+import info.zpss.uniwood.desktop.common.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -27,6 +30,27 @@ public class SocketHandler extends Thread {
     private void handleMessage(String message) {
         if (Main.debug())
             Main.logger().add("收到服务器消息：" + message, Thread.currentThread());
+        ProtoMsg msg = ProtoMsg.parse(message);
+        if (msg.cmd == null) {  // TODO
+            Main.logger().add("服务器消息解析失败！", Log.Type.WARN, Thread.currentThread());
+            Main.logger().add(String.format("未知信息：%s", message), Log.Type.WARN, Thread.currentThread());
+            return;
+        }
+        switch (msg.cmd) {
+            case LOGIN_SUCCESS:
+                Main.logger().add("用户" + msg.args[1] + "登录成功！", Log.Type.INFO, Thread.currentThread());
+                User loginUser = new User();
+                loginUser.update(msg);
+                LoginController.getInstance().loginSuccess(loginUser);
+                break;
+            case LOGIN_FAILED:
+                Main.logger().add("用户登录失败！", Log.Type.INFO, Thread.currentThread());
+                LoginController.getInstance().loginFailed();
+                break;
+            default:
+                Main.logger().add("未知命令：" + msg.cmd, Log.Type.WARN, Thread.currentThread());
+                break;
+        }
     }
 
     @Override

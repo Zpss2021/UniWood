@@ -1,0 +1,11 @@
+[2023-05-20 19:08:01.630][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-05-20 19:08:01.631][main/DEBUG]DEBUG MODE ON!!
+[2023-05-20 19:08:01.631][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-05-20 19:08:01.631][main/INFO]未指定连接重试次数，使用默认值3
+[2023-05-20 19:08:01.638][main/INFO]Hello, UniWood!
+[2023-05-20 19:08:02.077][main/INFO]窗口初始化完成
+[2023-05-20 19:08:02.179][main/INFO]向服务器发送消息：Hello, Server!
+[2023-05-20 19:08:02.179][main/INFO]向服务器发送消息：Hello, Server!
+[2023-05-20 19:08:05.422][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|31|123
+[2023-05-20 19:08:06.293][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|31|123
+[2023-05-20 19:08:06.832][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|31|123

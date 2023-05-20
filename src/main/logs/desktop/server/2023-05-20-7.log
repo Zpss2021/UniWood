@@ -1,0 +1,11 @@
+[2023-05-20 21:13:20.200][main/INFO]UniWood-DESKTOP-SERVER-1.0.0
+[2023-05-20 21:13:20.201][main/DEBUG]DEBUG MODE ON!!
+[2023-05-20 21:13:20.215][main/INFO]未指定数据库URL，使用默认URL
+[2023-05-20 21:13:20.216][main/INFO]未指定数据库用户名，使用默认用户名
+[2023-05-20 21:13:20.216][main/INFO]未指定数据库密码，使用默认密码
+[2023-05-20 21:13:20.354][main/INFO]数据库连接成功
+[2023-05-20 21:13:20.356][main/INFO]客户端连接服务启动成功
+[2023-05-20 21:13:20.356][main/INFO]Hello, UniWood!
+[2023-05-20 21:13:29.491][pool-1-thread-1/INFO]收到客户端/127.0.0.1:62831消息：LOGIN|123|31
+[2023-05-20 21:13:33.876][pool-1-thread-1/WARN]客户端/127.0.0.1:62831套接字连接异常！
+[2023-05-20 21:13:33.876][pool-1-thread-1/EXCEPTION]java.net.SocketException: Connection reset

@@ -3,6 +3,7 @@ package info.zpss.uniwood.desktop.client.util;
 import info.zpss.uniwood.desktop.client.Main;
 import info.zpss.uniwood.desktop.client.util.socket.SocketHandler;
 import info.zpss.uniwood.desktop.common.Arguable;
+import info.zpss.uniwood.desktop.common.ProtoMsg;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -52,6 +53,10 @@ public class ServerConnection implements Arguable {
 
     public void send(String message) {
         handler.send(message);
+    }
+
+    public void send(ProtoMsg message) {
+        handler.send(message.toString());
     }
 
     @Override

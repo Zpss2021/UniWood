@@ -2,42 +2,6 @@ package info.zpss.uniwood.desktop.common;
 
 // 协议消息，用于客户端和服务器之间的通信
 public class ProtoMsg {
-
-    // 命令枚举，用于标识消息类型
-    public enum Command {
-        // TODO: 检查所有命令
-        LOGIN("LOGIN"),
-        LOGOUT("LOGOUT"),
-        REGISTER("REGISTER"),
-        POST("POST"),
-        REPLY("REPLY"),
-        LIST("LIST"),
-        UNKNOWN("UNKNOWN");
-
-        private final String command;
-
-        Command(String command) {
-            this.command = command;
-        }
-
-        public String getCommand() {
-            return command;
-        }
-
-        public static Command parse(String command) throws IllegalArgumentException {
-            for (Command c : Command.values())
-                if (c.command.equals(command))
-                    return c;
-//            throw new IllegalArgumentException("Unknown command: " + command);
-            return null;
-        }
-
-        @Override
-        public String toString() {
-            return getCommand();
-        }
-    }
-
     public final Command cmd;
     public final String[] args;
 
@@ -60,7 +24,7 @@ public class ProtoMsg {
 
     @Override
     public String toString() {
-        if (args.length == 0)
+        if (args == null || args.length == 0)
             return cmd.toString();
         return String.format("%s|%s", cmd, String.join("|", args));
     }

@@ -1,12 +1,15 @@
-package info.zpss.uniwood.desktop.client.model;
+package info.zpss.uniwood.desktop.client.model.entity;
+
+import info.zpss.uniwood.desktop.client.util.Entity;
+import info.zpss.uniwood.desktop.common.Command;
+import info.zpss.uniwood.desktop.common.ProtoMsg;
 
 import java.util.List;
 
 // TODO 用户
-public class User {
+public class User implements Entity {
     private Integer id;
     private String username;
-    //    private String password;
     private String avatar;
     private String university;
     private String status;
@@ -24,18 +27,6 @@ public class User {
         this.avatar = avatar;
         this.university = university;
     }
-
-//    public User(Integer id, String username, String avatar, String university,
-//                List<User> followers, List<User> followings, List<Zone> zones, List<Post> posts) {
-//        this.id = id;
-//        this.username = username;
-//        this.avatar = avatar;
-//        this.university = university;
-//        this.followers = followers;
-//        this.followings = followings;
-//        this.zones = zones;
-//        this.posts = posts;
-//    }
 
     public Integer getId() {
         return id;
@@ -71,5 +62,16 @@ public class User {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    @Override
+    public void update(ProtoMsg msg) {
+        if (msg.cmd == Command.LOGIN_SUCCESS) {
+            id = Integer.valueOf(msg.args[0]);
+            username = msg.args[1];
+            avatar = msg.args[2];
+            university = msg.args[3];
+        }
+        // TODO
     }
 }

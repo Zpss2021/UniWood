@@ -1,20 +1,22 @@
 package info.zpss.uniwood.desktop.client.view.window;
 
-import info.zpss.uniwood.desktop.client.view.PostWindowView;
+import info.zpss.uniwood.desktop.client.view.PostView;
 import info.zpss.uniwood.desktop.client.view.panel.FloorPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 // 楼层窗口，用来显示特定贴子内的楼层列表
-public class PostWindow extends JFrame implements PostWindowView {
+public class PostWindow extends JFrame implements PostView {
+    private Component parent;
     private final JPanel outerPane, asidePane, footerPane;
     private final JButton shareBtn, favorBtn, replyBtn, refreshBtn, prevBtn, nextBtn;
     private final FloorPanel floorPane;
 
-    public PostWindow(MainWindow parent) {
+    public PostWindow() {
         super();
 
+        this.parent = null;
         this.outerPane = new JPanel(new BorderLayout());
         this.asidePane = new JPanel();
         this.footerPane = new JPanel();
@@ -49,7 +51,7 @@ public class PostWindow extends JFrame implements PostWindowView {
         this.setTitle("贴子标题_贴子分区_UniWood");  // TODO：从贴子对象获取标题
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(outerPane);
-        this.setLocationRelativeTo(parent);
+        this.setParent(parent);
         this.setPreferredSize(new Dimension(840, 640));
         this.setMinimumSize(new Dimension(720, 560));
         this.setAlwaysOnTop(true);
@@ -80,12 +82,32 @@ public class PostWindow extends JFrame implements PostWindowView {
         outerPane.add(footerPane, BorderLayout.SOUTH);
     }
 
+    @Override
     public void showWindow() {
         SwingUtilities.invokeLater(() -> {
             this.pack();
             this.setVisible(true);
             this.validate();
         });
+    }
+
+    @Override
+    public void hideWindow() {
+        SwingUtilities.invokeLater(() -> {
+            this.setVisible(false);
+            this.dispose();
+        });
+    }
+
+    @Override
+    public void setParent(Component parent) {
+        this.parent = parent;
+        setLocationRelativeTo(parent);
+    }
+
+    @Override
+    public Component getComponent() {
+        return this;
     }
 
     @Override

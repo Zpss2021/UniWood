@@ -1,4 +1,4 @@
-package info.zpss.uniwood.desktop.client.model;
+package info.zpss.uniwood.desktop.client.model.entity;
 
 // TODO 分区
 public class Zone {
