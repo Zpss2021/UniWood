@@ -29,7 +29,7 @@ public class SocketHandler extends Thread {
 
     private void handleMessage(String message) {
         if (Main.debug())
-            Main.logger().add("收到服务器消息：" + message, Thread.currentThread());
+            Main.logger().add(String.format("收到服务器消息：%s", message), Thread.currentThread());
         ProtoMsg msg = ProtoMsg.parse(message);
         if (msg.cmd == null) {  // TODO
             Main.logger().add("服务器消息解析失败！", Log.Type.WARN, Thread.currentThread());
@@ -38,17 +38,17 @@ public class SocketHandler extends Thread {
         }
         switch (msg.cmd) {
             case LOGIN_SUCCESS:
-                Main.logger().add("用户" + msg.args[1] + "登录成功！", Log.Type.INFO, Thread.currentThread());
+                Main.logger().add(String.format("用户%s登录成功！", msg.args[1]), Log.Type.INFO, Thread.currentThread());
                 User loginUser = new User();
                 loginUser.update(msg);
                 LoginController.getInstance().loginSuccess(loginUser);
                 break;
             case LOGIN_FAILED:
-                Main.logger().add("用户登录失败！", Log.Type.INFO, Thread.currentThread());
-                LoginController.getInstance().loginFailed();
+                Main.logger().add(String.format("用户登录失败：%s", msg.args[0]), Log.Type.INFO, Thread.currentThread());
+                LoginController.getInstance().loginFailed(msg.args[0]);
                 break;
             default:
-                Main.logger().add("未知命令：" + msg.cmd, Log.Type.WARN, Thread.currentThread());
+                Main.logger().add(String.format("未知命令：%s", msg.cmd), Log.Type.WARN, Thread.currentThread());
                 break;
         }
     }

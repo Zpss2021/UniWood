@@ -74,8 +74,7 @@ public class LoginController implements Controller {
         view.hideWindow();
     }
 
-    public void loginFailed() {
-        JOptionPane.showMessageDialog(view.getComponent(), "用户登录失败，请检查用户名和密码后重试",
-                "登录", JOptionPane.WARNING_MESSAGE);
+    public void loginFailed(String message) {
+        JOptionPane.showMessageDialog(view.getComponent(), message, "登录", JOptionPane.WARNING_MESSAGE);
     }
 }

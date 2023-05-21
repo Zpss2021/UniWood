@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserMapper {
     User getUser(Integer userID);
 
+    User login(String username, String password);
+
     List<User> getUsers();
 
     String getStatus(Integer userID);

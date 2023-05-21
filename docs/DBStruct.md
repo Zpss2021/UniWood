@@ -4,14 +4,14 @@
 
 ### tb_user：用户
 
-| Name       | Type        | Restrict                                | Describe                |
-|------------|-------------|-----------------------------------------|-------------------------|
-| id         | int         | PRIMARY KEY                             |                         |
-| username   | varchar(20) | NOT NULL                                |                         |
-| password   | varchar(20) | NOT NULL                                |                         |
-| avatar     | varchar(40) | DEFAULT `sample/res/default_avatar.png` | path of avatar file     |
-| university | varchar(20) | NOT NULL                                |                         |
-| status     | varchar(10) | DEFAULT `OFFLINE`                       | OFFLINE/ONLINE/DISABLED |
+| Name       | Type        | Restrict          | Describe                   |
+|------------|-------------|-------------------|----------------------------|
+| id         | int         | PRIMARY KEY       |                            |
+| username   | varchar(20) | NOT NULL          |                            |
+| password   | varchar(20) | NOT NULL          |                            |
+| avatar     | text        |                   | base64 code of avatar file |
+| university | varchar(20) | NOT NULL          |                            |
+| status     | varchar(10) | DEFAULT `OFFLINE` | OFFLINE/ONLINE/DISABLED    |
 
 ### tb_follow：关注
 
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `tb_user`
     `id`         int         NOT NULL AUTO_INCREMENT,
     `username`   varchar(20) NOT NULL,
     `password`   varchar(20) NOT NULL,
-    `avatar`     varchar(40) DEFAULT 'sample/res/default_avatar.png',
+    `avatar`     text CHARACTER SET utf8 COLLATE utf8_general_ci,
     `university` varchar(20) NOT NULL,
     `status`     varchar(10) DEFAULT 'OFFLINE',
     PRIMARY KEY (`id`)
@@ -150,12 +150,6 @@ CREATE TABLE IF NOT EXISTS `tb_user_post`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb3;
 
--- 正在导出表  uniwood.tb_user_post 的数据：~0 rows (大约)
-INSERT INTO `tb_user_post` (`user_id`, `post_id`)
-VALUES (1, 1),
-       (3, 1),
-       (1, 2),
-       (2, 3);
 
 -- 导出  表 uniwood.tb_user_zone 结构
 CREATE TABLE IF NOT EXISTS `tb_user_zone`

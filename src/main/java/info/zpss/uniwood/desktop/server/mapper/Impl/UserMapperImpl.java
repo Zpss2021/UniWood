@@ -25,7 +25,7 @@ public class UserMapperImpl implements UserMapper {
     @Override
     public synchronized User getUser(Integer userID) {
         User user = new User();
-        String sql = "SELECT * FROM tb_user WHERE id = ?";
+        String sql = "SELECT * FROM tb_user WHERE id = ? LIMIT 1";
         try (Connection conn = Main.database().getConnection()) {
             PreparedStatement preStmt = conn.prepareStatement(sql);
             preStmt.setInt(1, userID);
@@ -44,6 +44,37 @@ public class UserMapperImpl implements UserMapper {
             Main.logger().add(e, Thread.currentThread());
         }
         return user;
+    }
+
+    @Override
+    public synchronized User login(String username, String password) {
+        User loginUser = null;
+        String sql = "SELECT * FROM tb_user WHERE username = ? AND password = ? LIMIT 1";
+        try (Connection conn = Main.database().getConnection()) {
+            PreparedStatement preStmt = conn.prepareStatement(sql);
+            preStmt.setString(1, username);
+            preStmt.setString(2, password);
+            ResultSet resultSet = preStmt.executeQuery();
+            if (resultSet.next()) {
+                loginUser = new User();
+                if (resultSet.getString("status").equals("DISABLED"))
+                    loginUser.setStatus("DISABLED");
+                else {
+                    loginUser.setId(resultSet.getInt("id"));
+                    loginUser.setUsername(resultSet.getString("username"));
+                    loginUser.setPassword(resultSet.getString("password"));
+                    loginUser.setAvatar(resultSet.getString("avatar"));
+                    loginUser.setUniversity(resultSet.getString("university"));
+                    loginUser.setStatus("ONLINE");
+                    updateStatus(resultSet.getInt("id"), "ONLINE");
+                }
+            }
+            resultSet.close();
+            preStmt.close();
+        } catch (SQLException e) {
+            Main.logger().add(e, Thread.currentThread());
+        }
+        return loginUser;
     }
 
     @Override
