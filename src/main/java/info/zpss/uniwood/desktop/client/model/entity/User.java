@@ -10,8 +10,8 @@ import java.util.List;
 public class User implements Entity {
     private Integer id;
     private String username;
-    private String avatar;
     private String university;
+    private String avatar;
     private String status;
     private List<User> followers;
     private List<User> followings;
@@ -21,11 +21,11 @@ public class User implements Entity {
     public User() {
     }
 
-    public User(Integer id, String username, String avatar, String university) {
+    public User(Integer id, String username, String university, String avatar) {
         this.id = id;
         this.username = username;
-        this.avatar = avatar;
         this.university = university;
+        this.avatar = avatar;
     }
 
     public Integer getId() {
@@ -69,8 +69,8 @@ public class User implements Entity {
         if (msg.cmd == Command.LOGIN_SUCCESS) {
             id = Integer.valueOf(msg.args[0]);
             username = msg.args[1];
-            avatar = msg.args[2];
-            university = msg.args[3];
+            university = msg.args[2];
+            avatar = msg.args[3];
         }
         // TODO
     }

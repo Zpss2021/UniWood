@@ -6,7 +6,6 @@ public enum Command {
     LOGIN("LOGIN"),
     LOGIN_SUCCESS("LOGIN_SUCCESS"),
     LOGIN_FAILED("LOGIN_FAILED"),
-    GET_AVATAR("GET_AVATAR"),
     LOGOUT("LOGOUT"),
     REGISTER("REGISTER"),
     POST("POST"),

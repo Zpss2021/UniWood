@@ -1,4 +1,4 @@
-package info.zpss.uniwood.desktop.common;
+package info.zpss.uniwood.desktop.client.util;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,7 +21,15 @@ public class Avatar {
     }
 
     public void fromFile(String srcFilePath) {
-        this.avatarIcon = standardized(new ImageIcon(new File(srcFilePath).getAbsolutePath()));
+        this.avatarIcon = standardized(new ImageIcon(new File(srcFilePath).getAbsolutePath()), 64);
+    }
+
+    public ImageIcon toIcon() {
+        return avatarIcon;
+    }
+
+    public ImageIcon toIcon(int length) {
+        return new ImageIcon(avatarIcon.getImage().getScaledInstance(length, length, Image.SCALE_SMOOTH));
     }
 
     public String toBase64() {
@@ -81,14 +89,14 @@ public class Avatar {
         return null;
     }
 
-    public static ImageIcon standardized(ImageIcon inputIcon) {
+    public static ImageIcon standardized(ImageIcon inputIcon, int length) {
         BufferedImage inputImage = new BufferedImage(
                 inputIcon.getIconWidth(),
                 inputIcon.getIconHeight(),
                 BufferedImage.TYPE_INT_ARGB
         );
         inputIcon.paintIcon(null, inputImage.getGraphics(), 0, 0);
-        BufferedImage outputImage = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage outputImage = new BufferedImage(length, length, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = outputImage.createGraphics();
         graphics2D.drawImage(inputImage, 0, 0, 64, 64, null);
         graphics2D.dispose();

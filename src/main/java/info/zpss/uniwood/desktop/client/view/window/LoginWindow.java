@@ -48,7 +48,6 @@ public class LoginWindow extends JFrame implements LoginView {
         this.setTitle("UniWood 登录");
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(contentPanel);
-        this.setParent(parent);
         this.setPreferredSize(new Dimension(480, 320));
         this.setAlwaysOnTop(true);
         this.setResizable(false);
@@ -88,8 +87,10 @@ public class LoginWindow extends JFrame implements LoginView {
     }
 
     @Override
-    public void showWindow() {
+    public void showWindow(Component parent) {
         SwingUtilities.invokeLater(() -> {
+            this.parent = parent;
+            this.setLocationRelativeTo(parent);
             this.pack();
             this.setVisible(true);
             this.validate();
@@ -102,12 +103,6 @@ public class LoginWindow extends JFrame implements LoginView {
             this.setVisible(false);
             this.dispose();
         });
-    }
-
-    @Override
-    public void setParent(Component parent) {
-        this.parent = parent;
-        this.setLocationRelativeTo(parent);
     }
 
     @Override

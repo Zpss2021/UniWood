@@ -47,7 +47,7 @@ public class SocketHandler extends Thread {
                     Main.logger().add(String.format("用户%s登录成功！", loginUser.getUsername()),
                             Log.Type.INFO, Thread.currentThread());
                     return ProtoMsg.build(LOGIN_SUCCESS, loginUser.getId().toString(), loginUser.getUsername(),
-                            loginUser.getAvatar(), loginUser.getUniversity()).toString();
+                            loginUser.getUniversity(), loginUser.getAvatar()).toString();
                 }
                 return ProtoMsg.build(LOGIN_FAILED, "登录失败，请检查用户名和密码后重试！").toString();
             default:

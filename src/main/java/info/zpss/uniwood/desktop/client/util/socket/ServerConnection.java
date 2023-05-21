@@ -1,6 +1,7 @@
-package info.zpss.uniwood.desktop.client.util;
+package info.zpss.uniwood.desktop.client.util.socket;
 
 import info.zpss.uniwood.desktop.client.Main;
+import info.zpss.uniwood.desktop.client.util.Log;
 import info.zpss.uniwood.desktop.client.util.socket.SocketHandler;
 import info.zpss.uniwood.desktop.common.Arguable;
 import info.zpss.uniwood.desktop.common.ProtoMsg;

@@ -51,7 +51,6 @@ public class PostWindow extends JFrame implements PostView {
         this.setTitle("贴子标题_贴子分区_UniWood");  // TODO：从贴子对象获取标题
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(outerPane);
-        this.setParent(parent);
         this.setPreferredSize(new Dimension(840, 640));
         this.setMinimumSize(new Dimension(720, 560));
         this.setAlwaysOnTop(true);
@@ -83,8 +82,10 @@ public class PostWindow extends JFrame implements PostView {
     }
 
     @Override
-    public void showWindow() {
+    public void showWindow(Component parent) {
         SwingUtilities.invokeLater(() -> {
+            this.parent = parent;
+            this.setLocationRelativeTo(parent);
             this.pack();
             this.setVisible(true);
             this.validate();
@@ -97,12 +98,6 @@ public class PostWindow extends JFrame implements PostView {
             this.setVisible(false);
             this.dispose();
         });
-    }
-
-    @Override
-    public void setParent(Component parent) {
-        this.parent = parent;
-        setLocationRelativeTo(parent);
     }
 
     @Override

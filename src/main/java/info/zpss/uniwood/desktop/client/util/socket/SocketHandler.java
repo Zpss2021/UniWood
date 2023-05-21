@@ -29,7 +29,8 @@ public class SocketHandler extends Thread {
 
     private void handleMessage(String message) {
         if (Main.debug())
-            Main.logger().add(String.format("收到服务器消息：%s", message), Thread.currentThread());
+            Main.logger().add(String.format("收到服务器消息：%s",
+                    ((message.length() > 64) ? (message.substring(0, 61) + "...") : message)), Thread.currentThread());
         ProtoMsg msg = ProtoMsg.parse(message);
         if (msg.cmd == null) {  // TODO
             Main.logger().add("服务器消息解析失败！", Log.Type.WARN, Thread.currentThread());

@@ -16,11 +16,13 @@ public class LoginController implements Controller {
     private static final LoginController INSTANCE;
     private static final LoginModel model;
     private static final LoginView view;
+    private static boolean registered;
 
     static {
         model = new LoginModel();
         view = new LoginWindow();
         INSTANCE = new LoginController();
+        registered = false;
     }
 
     private LoginController() {
@@ -32,7 +34,10 @@ public class LoginController implements Controller {
 
     @Override
     public void register() {
-        view.getLoginButton().addActionListener(e -> login());
+        if (!registered) {
+            registered = true;
+            view.getLoginButton().addActionListener(e -> login());
+        }
     }
 
     @Override
@@ -43,22 +48,22 @@ public class LoginController implements Controller {
     private void login() {
         String username = view.getUsernameText().getText().trim();
         String password = view.getPasswordText().getText();
-        if(username.isEmpty()) {
+        if (username.isEmpty()) {
             JOptionPane.showMessageDialog(view.getComponent(), "用户名不能为空！",
                     "登录", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if(password.isEmpty()) {
+        if (password.isEmpty()) {
             JOptionPane.showMessageDialog(view.getComponent(), "密码不能为空！",
                     "登录", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if(username.contains("|")) {
+        if (username.contains("|")) {
             JOptionPane.showMessageDialog(view.getComponent(), "用户名含有非法字符！",
                     "登录", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if(password.contains("|")) {
+        if (password.contains("|")) {
             JOptionPane.showMessageDialog(view.getComponent(), "密码含有非法字符！",
                     "登录", JOptionPane.WARNING_MESSAGE);
             return;

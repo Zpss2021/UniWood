@@ -5,8 +5,8 @@ public class User {
     private Integer id;
     private String username;
     private String password;
-    private String avatar;
     private String university;
+    private String avatar;
     private String status;
 
     public User() {
@@ -36,20 +36,20 @@ public class User {
         this.password = password;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public String getUniversity() {
         return university;
     }
 
     public void setUniversity(String university) {
         this.university = university;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getStatus() {
@@ -66,8 +66,8 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", avatar='" + avatar + '\'' +
                 ", university='" + university + '\'' +
+                ", avatar='" + avatar.substring(0, 10) + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }

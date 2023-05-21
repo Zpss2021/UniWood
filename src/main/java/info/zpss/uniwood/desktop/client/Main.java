@@ -2,7 +2,7 @@ package info.zpss.uniwood.desktop.client;
 
 import info.zpss.uniwood.desktop.client.controller.MainController;
 import info.zpss.uniwood.desktop.client.util.Log;
-import info.zpss.uniwood.desktop.client.util.ServerConnection;
+import info.zpss.uniwood.desktop.client.util.socket.ServerConnection;
 import info.zpss.uniwood.desktop.common.Arguable;
 
 public class Main {
@@ -78,7 +78,7 @@ public class Main {
     private static void execute() throws RuntimeException {
         // TODO: 从这里开始写代码
         MainController.getInstance().register();
-        MainController.getInstance().getView().showWindow();
+        MainController.getInstance().getView().showWindow(null);
 
 //        try {
 //            connection.disconnect();

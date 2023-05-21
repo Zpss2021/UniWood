@@ -11,11 +11,13 @@ public class MainController implements Controller {
     private static final MainController INSTANCE;
     private static final MainModel model;
     private static final MainView view;
+    private static boolean registered;
 
-    static  {
+    static {
         model = new MainModel();
         view = new MainWindow();
         INSTANCE = new MainController();
+        registered = false;
     }
 
     private MainController() {
@@ -27,8 +29,11 @@ public class MainController implements Controller {
 
     @Override
     public void register() {
-        view.getLoginButton().addActionListener(e -> userLogin());
-        view.getRegisterButton().addActionListener(e -> userRegister());
+        if (!registered) {
+            registered = true;
+            view.getLoginButton().addActionListener(e -> userLogin());
+            view.getRegisterButton().addActionListener(e -> userRegister());
+        }
     }
 
     @Override
@@ -38,8 +43,7 @@ public class MainController implements Controller {
 
     private void userLogin() {
         LoginController.getInstance().register();
-        LoginController.getInstance().getView().setParent(view.getComponent());
-        LoginController.getInstance().getView().showWindow();
+        LoginController.getInstance().getView().showWindow(view.getComponent());
     }
 
     private void userRegister() {
@@ -48,6 +52,7 @@ public class MainController implements Controller {
 
     public void loginSuccess(User loginUser) {
         model.setLoginUser(loginUser);
-        view.getLoginButton().setText("欢迎您，" + loginUser.getUsername());
+        view.getLoginButton().setText(loginUser.getUsername());
+        view.getUserPanel().setAvatar(loginUser.getAvatar());
     }
 }

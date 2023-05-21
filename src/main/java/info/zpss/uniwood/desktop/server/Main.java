@@ -6,7 +6,7 @@ import info.zpss.uniwood.desktop.server.mapper.Impl.*;
 import info.zpss.uniwood.desktop.server.model.*;
 import info.zpss.uniwood.desktop.server.util.Database;
 import info.zpss.uniwood.desktop.server.util.Log;
-import info.zpss.uniwood.desktop.server.util.Server;
+import info.zpss.uniwood.desktop.server.util.socket.Server;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -1,21 +1,24 @@
 package info.zpss.uniwood.desktop.client.view.panel;
 
+import info.zpss.uniwood.desktop.client.util.Avatar;
+
 import javax.swing.*;
 import java.awt.*;
 
 // 登录面板，用来显示登录界面
 public class UserPanel extends JPanel {
+    public final int avatarLen;
     public final JLabel avatarLbl;
     public final JButton loginBtn;
     public final JButton registerBtn;
 
     public UserPanel() {
         super();
+        avatarLen = 56;
         avatarLbl = new JLabel();
         loginBtn = new JButton("登录");
         registerBtn = new JButton("注册");
 
-        int avatarLen = 56;
         Icon avatarIcon = new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
                 .getImage().getScaledInstance(avatarLen, avatarLen, Image.SCALE_FAST));
         avatarLbl.setIcon(avatarIcon);
@@ -43,5 +46,11 @@ public class UserPanel extends JPanel {
 
         this.setSize(150, 115);
         this.setBorder(BorderFactory.createTitledBorder("登录"));
+    }
+
+    public void setAvatar(String base64) {
+        Avatar avatar = new Avatar();
+        avatar.fromBase64(base64);
+        avatarLbl.setIcon(avatar.toIcon(avatarLen));
     }
 }

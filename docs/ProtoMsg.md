@@ -16,6 +16,6 @@
 
 ### 2.2 服务器端发出
 
-- 登录成功：`LOGIN_SUCCESS | 用户ID | 用户名 | 头像base64 | 大学`
+- 登录成功：`LOGIN_SUCCESS | 用户ID | 用户名 | 大学 | 头像base64`
 - 登录失败：`LOGIN_FAILED | 原因短语`
 - 未知命令：`UNKNOWN`
