@@ -10,23 +10,57 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static info.zpss.uniwood.desktop.common.Command.*;
 
 public class SocketHandler extends Thread {
     private final Socket socket;
     private final SocketListener listener;
+    private final ScheduledExecutorService executor;    // 定时修改在线状态为离线
+    private final ScheduledExecutorService heartbeat;   // 若客户端离线超过一定时间，则断开连接并将用户状态置为离线
+    private Integer userId;
+    private boolean online;
     private BufferedReader reader;
     private PrintWriter writer;
 
     public SocketHandler(Socket socket, SocketListener listener) {
         this.socket = socket;
         this.listener = listener;
+        this.executor = Executors.newSingleThreadScheduledExecutor();
+        this.heartbeat = Executors.newSingleThreadScheduledExecutor();
+        this.userId = null;
+        this.online = true;
     }
 
     public void send(String message) {
         writer.println(message);
         writer.flush();
+    }
+
+    private void initSchedule() {
+        executor.scheduleAtFixedRate(() -> online = false, 0, 3, TimeUnit.SECONDS);
+        heartbeat.scheduleAtFixedRate(() -> {
+            try {
+                if (!online) {
+                    Thread.sleep(5000);
+                    if (!online) {
+                        Main.logger().add(String.format("客户端%s超时未响应，断开连接！", this),
+                                Log.Type.WARN, Thread.currentThread());
+                        socket.close();
+                    }
+                }
+            } catch (InterruptedException e) {
+                Main.logger().add(String.format("客户端%s心跳检测线程被中断！", this),
+                        Log.Type.WARN, Thread.currentThread());
+            } catch (IOException e) {
+                Main.logger().add(String.format("客户端%s套接字连接异常！", this),
+                        Log.Type.WARN, Thread.currentThread());
+                Main.logger().add(e, Thread.currentThread());
+            }
+        }, 10, 10, TimeUnit.SECONDS);
     }
 
     private String handleMessage(String message) {
@@ -46,10 +80,18 @@ public class SocketHandler extends Thread {
                         return ProtoMsg.build(LOGIN_FAILED, "该用户已被禁用！").toString();
                     Main.logger().add(String.format("用户%s登录成功！", loginUser.getUsername()),
                             Log.Type.INFO, Thread.currentThread());
+                    userId = loginUser.getId();
                     return ProtoMsg.build(LOGIN_SUCCESS, loginUser.getId().toString(), loginUser.getUsername(),
                             loginUser.getUniversity(), loginUser.getAvatar()).toString();
                 }
                 return ProtoMsg.build(LOGIN_FAILED, "登录失败，请检查用户名和密码后重试！").toString();
+            case LOGOUT:
+                userId = null;
+                // TODO
+                break;
+            case HEARTBEAT:
+                online = true;
+                break;
             default:
                 Main.logger().add(String.format("收到客户端%s未知命令：%s", this, protoMsg.cmd),
                         Log.Type.WARN, Thread.currentThread());
@@ -69,13 +111,13 @@ public class SocketHandler extends Thread {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
             writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),
                     StandardCharsets.UTF_8)));
+            initSchedule();
             String rec, snd;
             while (!socket.isClosed() && ((rec = reader.readLine()) != null)) {
                 snd = handleMessage(rec);
                 if (snd != null)
                     send(snd);
             }
-            Main.logger().add(String.format("客户端%s断开连接", this), Log.Type.INFO, Thread.currentThread());
         } catch (SocketException e) {
             if (!socket.isClosed()) {
                 try {
@@ -100,7 +142,12 @@ public class SocketHandler extends Thread {
                         Log.Type.WARN, Thread.currentThread());
                 Main.logger().add(ex, Thread.currentThread());
             }
+            executor.shutdown();
+            heartbeat.shutdown();
             listener.removeHandler(this);
+            if(userId != null)
+                UserMapperImpl.getInstance().updateStatus(userId, "OFFLINE");
+            Main.logger().add(String.format("客户端%s断开连接", this), Log.Type.INFO, Thread.currentThread());
         }
     }
 }

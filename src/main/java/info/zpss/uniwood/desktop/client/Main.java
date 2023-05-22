@@ -38,7 +38,7 @@ public class Main {
 
     public static void main(String[] args) {
         if (debugMode)
-            args = new String[]{"-D", "-H" , "localhost", "-P", "60196"};
+            args = new String[]{"-D", "-H", "localhost", "-P", "60196"};
 
         arguments = new String[args.length];
         System.arraycopy(args, 0, arguments, 0, args.length);

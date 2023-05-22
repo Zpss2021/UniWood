@@ -73,7 +73,7 @@ public class SocketHandler extends Thread {
         } catch (SocketException e) {
             if (socket.isClosed())
                 return;
-            Main.logger().add(String.format("服务器%s套接字连接异常！", this), Log.Type.WARN, Thread.currentThread());
+            Main.logger().add(String.format("服务器%s连接异常，正在尝试重新连接...", this), Log.Type.WARN, Thread.currentThread());
             Main.logger().add(e, Thread.currentThread());
             try {   // TODO：重连机制
                 Main.connection().connect();

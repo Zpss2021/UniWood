@@ -2,23 +2,38 @@ package info.zpss.uniwood.desktop.client.util.socket;
 
 import info.zpss.uniwood.desktop.client.Main;
 import info.zpss.uniwood.desktop.client.util.Log;
-import info.zpss.uniwood.desktop.client.util.socket.SocketHandler;
 import info.zpss.uniwood.desktop.common.Arguable;
+import info.zpss.uniwood.desktop.common.Command;
 import info.zpss.uniwood.desktop.common.ProtoMsg;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class ServerConnection implements Arguable {
     private SocketAddress serverHost;
     private SocketHandler handler;
     private Socket serverSocketConn;
+    private final ScheduledExecutorService executor;
     private int timeout;
     private int retry;
 
-    public ServerConnection(){
+    public ServerConnection() {
+        executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleAtFixedRate(() -> {
+            try {
+                if (serverSocketConn != null && serverSocketConn.isClosed()) {
+                    Main.logger().add("服务器连接已断开，正在重连...", Log.Type.WARN, Thread.currentThread());
+                    connect();
+                }
+                send(ProtoMsg.build(Command.HEARTBEAT).toString());
+            } catch (IOException e) {
+                Main.logger().add("服务器连接异常！", Log.Type.WARN, Thread.currentThread());
+            }
+        }, 1, 3, java.util.concurrent.TimeUnit.SECONDS);
     }
 
     public void connect() throws IOException {
@@ -28,6 +43,7 @@ public class ServerConnection implements Arguable {
             try {
                 serverSocketConn = new Socket();
                 serverSocketConn.connect(serverHost, timeout);
+                Main.logger().add("服务器已连接", Log.Type.INFO, Thread.currentThread());
                 break;
             } catch (IOException e) {
                 if (i < retry) {
@@ -42,11 +58,12 @@ public class ServerConnection implements Arguable {
     }
 
     public void disconnect() throws IOException {
-        if(serverSocketConn != null && !serverSocketConn.isClosed()) {
-            if(handler != null && handler.isAlive()) {
+        if (serverSocketConn != null && !serverSocketConn.isClosed()) {
+            if (handler != null && handler.isAlive()) {
                 handler.interrupt();
                 handler = null;
             }
+            executor.shutdown();
             serverSocketConn.close();
             serverSocketConn = null;
         }

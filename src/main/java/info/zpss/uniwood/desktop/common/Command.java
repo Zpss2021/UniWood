@@ -7,6 +7,7 @@ public enum Command {
     LOGIN_SUCCESS("LOGIN_SUCCESS"),
     LOGIN_FAILED("LOGIN_FAILED"),
     LOGOUT("LOGOUT"),
+    HEARTBEAT("HEARTBEAT"),
     REGISTER("REGISTER"),
     POST("POST"),
     REPLY("REPLY"),
@@ -27,7 +28,6 @@ public enum Command {
         for (Command c : Command.values())
             if (c.command.equals(command))
                 return c;
-//            throw new IllegalArgumentException("Unknown command: " + command);
         return null;
     }
 
