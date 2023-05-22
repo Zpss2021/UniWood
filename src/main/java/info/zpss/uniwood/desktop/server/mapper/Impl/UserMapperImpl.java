@@ -13,7 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserMapperImpl implements UserMapper {
-    private static final UserMapper INSTANCE = new UserMapperImpl();
+    private static final UserMapper INSTANCE;
+
+    static {
+        INSTANCE = new UserMapperImpl();
+        try (Connection conn = Main.database().getConnection()) {
+            PreparedStatement preStmt =
+                    conn.prepareStatement("UPDATE tb_user SET status = 'OFFLINE' WHERE status = 'ONLINE'");
+            preStmt.executeUpdate();
+            preStmt.close();
+        } catch (SQLException e) {
+            Main.logger().add(e, Thread.currentThread());
+        }
+    }
 
     private UserMapperImpl() {
     }

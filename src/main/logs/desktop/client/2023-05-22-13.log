@@ -1,0 +1,12 @@
+[2023-05-22 10:45:04.603][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-05-22 10:45:04.603][main/DEBUG]DEBUG MODE ON!!
+[2023-05-22 10:45:04.606][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-05-22 10:45:04.606][main/INFO]未指定连接重试次数，使用默认值3
+[2023-05-22 10:45:04.613][main/INFO]Hello, UniWood!
+[2023-05-22 10:45:05.045][main/INFO]窗口初始化完成
+[2023-05-22 10:45:05.622][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-22 10:45:08.607][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-22 10:45:11.619][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-22 10:45:14.610][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-22 10:45:17.609][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-22 10:45:20.617][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
