@@ -7,7 +7,7 @@
 | Name       | Type        | Restrict          | Describe                   |
 |------------|-------------|-------------------|----------------------------|
 | id         | int         | PRIMARY KEY       |                            |
-| username   | varchar(20) | NOT NULL          |                            |
+| username   | varchar(20) | NOT NULL UNIQUE   |                            |
 | password   | varchar(20) | NOT NULL          |                            |
 | avatar     | text        |                   | base64 code of avatar file |
 | university | varchar(20) | NOT NULL          |                            |
@@ -25,7 +25,7 @@
 | Name        | Type        | Restrict                                   | Describe               |
 |-------------|-------------|--------------------------------------------|------------------------|
 | id          | int         | PRIMARY KEY AUTO_INCREMENT                 |                        |
-| name        | varchar(20) | NOT NULL                                   |                        |
+| name        | varchar(20) | NOT NULL UNIQUE                            |                        |
 | icon        | varchar(40) | DEFAULT `sample/res/default_zone_icon.png` | path of zone icon file |
 | description | varchar(50) | NOT NULL                                   |                        |
 
@@ -100,6 +100,8 @@ CREATE TABLE IF NOT EXISTS `tb_floor`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb3;
 
+-- 数据导出被取消选择。
+
 -- 导出  表 uniwood.tb_follow 结构
 CREATE TABLE IF NOT EXISTS `tb_follow`
 (
@@ -111,6 +113,8 @@ CREATE TABLE IF NOT EXISTS `tb_follow`
     CONSTRAINT `tb_follow_ibfk_2` FOREIGN KEY (`following`) REFERENCES `tb_user` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb3;
+
+-- 数据导出被取消选择。
 
 -- 导出  表 uniwood.tb_post 结构
 CREATE TABLE IF NOT EXISTS `tb_post`
@@ -124,6 +128,8 @@ CREATE TABLE IF NOT EXISTS `tb_post`
   AUTO_INCREMENT = 5
   DEFAULT CHARSET = utf8mb3;
 
+-- 数据导出被取消选择。
+
 -- 导出  表 uniwood.tb_user 结构
 CREATE TABLE IF NOT EXISTS `tb_user`
 (
@@ -133,10 +139,13 @@ CREATE TABLE IF NOT EXISTS `tb_user`
     `avatar`     text CHARACTER SET utf8 COLLATE utf8_general_ci,
     `university` varchar(20) NOT NULL,
     `status`     varchar(10) DEFAULT 'OFFLINE',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `username` (`username`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1001
   DEFAULT CHARSET = utf8mb3;
+
+-- 数据导出被取消选择。
 
 -- 导出  表 uniwood.tb_user_post 结构
 CREATE TABLE IF NOT EXISTS `tb_user_post`
@@ -150,6 +159,7 @@ CREATE TABLE IF NOT EXISTS `tb_user_post`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb3;
 
+-- 数据导出被取消选择。
 
 -- 导出  表 uniwood.tb_user_zone 结构
 CREATE TABLE IF NOT EXISTS `tb_user_zone`
@@ -163,6 +173,8 @@ CREATE TABLE IF NOT EXISTS `tb_user_zone`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb3;
 
+-- 数据导出被取消选择。
+
 -- 导出  表 uniwood.tb_zone 结构
 CREATE TABLE IF NOT EXISTS `tb_zone`
 (
@@ -170,15 +182,17 @@ CREATE TABLE IF NOT EXISTS `tb_zone`
     `name`        varchar(20) NOT NULL,
     `icon`        varchar(40) DEFAULT 'sample/res/default_zone_icon.png',
     `description` varchar(50) NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `name` (`name`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 2
   DEFAULT CHARSET = utf8mb3;
 
+-- 数据导出被取消选择。
+
 -- 导出  触发器 uniwood.tb_floor_before_insert 结构
 SET @OLDTMP_SQL_MODE = @@SQL_MODE, SQL_MODE =
-        'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,
-NO_ENGINE_SUBSTITUTION';
+        'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tb_floor_before_insert`
     BEFORE INSERT

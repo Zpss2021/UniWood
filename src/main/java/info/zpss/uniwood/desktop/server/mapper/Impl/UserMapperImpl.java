@@ -17,14 +17,6 @@ public class UserMapperImpl implements UserMapper {
 
     static {
         INSTANCE = new UserMapperImpl();
-        try (Connection conn = Main.database().getConnection()) {
-            PreparedStatement preStmt =
-                    conn.prepareStatement("UPDATE tb_user SET status = 'OFFLINE' WHERE status = 'ONLINE'");
-            preStmt.executeUpdate();
-            preStmt.close();
-        } catch (SQLException e) {
-            Main.logger().add(e, Thread.currentThread());
-        }
     }
 
     private UserMapperImpl() {
@@ -268,6 +260,18 @@ public class UserMapperImpl implements UserMapper {
             PreparedStatement preStmt = conn.prepareStatement(sql);
             preStmt.setString(1, status);
             preStmt.setInt(2, userID);
+            preStmt.executeUpdate();
+            preStmt.close();
+        } catch (SQLException e) {
+            Main.logger().add(e, Thread.currentThread());
+        }
+    }
+
+    @Override
+    public void offlineAll() {
+        String sql = "UPDATE tb_user SET status = 'OFFLINE' WHERE status = 'ONLINE'";
+        try (Connection conn = Main.database().getConnection()) {
+            PreparedStatement preStmt = conn.prepareStatement(sql);
             preStmt.executeUpdate();
             preStmt.close();
         } catch (SQLException e) {

@@ -30,4 +30,6 @@ public interface UserMapper {
     void updateUser(User user);
 
     void updateStatus(Integer userID, String status);
+
+    void offlineAll();
 }

@@ -4,6 +4,7 @@ import info.zpss.uniwood.desktop.server.mapper.Impl.UserMapperImpl;
 import info.zpss.uniwood.desktop.server.model.*;
 import info.zpss.uniwood.desktop.common.ProtoMsg;
 import info.zpss.uniwood.desktop.server.Main;
+import info.zpss.uniwood.desktop.server.service.UserService;
 import info.zpss.uniwood.desktop.server.util.Log;
 
 import java.io.*;
@@ -74,7 +75,7 @@ public class SocketHandler extends Thread {
         }
         switch (protoMsg.cmd) {
             case LOGIN:
-                User loginUser = UserMapperImpl.getInstance().login(protoMsg.args[0], protoMsg.args[1]);
+                User loginUser = UserService.getInstance().login(protoMsg.args[0], protoMsg.args[1]);
                 if (loginUser != null) {
                     if (loginUser.getStatus().equals("DISABLED"))
                         return ProtoMsg.build(LOGIN_FAILED, "该用户已被禁用！").toString();
@@ -146,7 +147,7 @@ public class SocketHandler extends Thread {
             heartbeat.shutdown();
             listener.removeHandler(this);
             if(userId != null)
-                UserMapperImpl.getInstance().updateStatus(userId, "OFFLINE");
+                UserService.getInstance().offlineUser(userId);
             Main.logger().add(String.format("客户端%s断开连接", this), Log.Type.INFO, Thread.currentThread());
         }
     }
