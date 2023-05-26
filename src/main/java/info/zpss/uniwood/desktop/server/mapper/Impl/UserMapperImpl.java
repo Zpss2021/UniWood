@@ -82,6 +82,37 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
+    public User register(String username, String password, String university, String avatarBase64) {
+        User registerUser = null;
+        String sql = "INSERT INTO tb_user (username, password, avatar, university, status) " +
+                "VALUES (?, ?, ?, ?, 'OFFLINE')";
+        try (Connection conn = Main.database().getConnection()) {
+            PreparedStatement preStmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preStmt.setString(1, username);
+            preStmt.setString(2, password);
+            preStmt.setString(3, avatarBase64);
+            preStmt.setString(4, university);
+            preStmt.executeUpdate();
+            ResultSet resultSet = preStmt.getGeneratedKeys();
+            if (resultSet.next()) {
+                registerUser = new User();
+                registerUser.setId(resultSet.getInt(1));
+                registerUser.setUsername(username);
+                registerUser.setPassword(password);
+                registerUser.setAvatar(avatarBase64);
+                registerUser.setUniversity(university);
+                registerUser.setStatus("OFFLINE");
+            }
+            resultSet.close();
+            preStmt.close();
+        } catch (SQLException e) {
+            Main.logger().add(e, Thread.currentThread());
+            return null;
+        }
+        return registerUser;
+    }
+
+    @Override
     public synchronized List<User> getUsers() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM tb_user";

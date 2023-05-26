@@ -71,7 +71,11 @@ public class User implements Entity {
             username = msg.args[1];
             university = msg.args[2];
             avatar = msg.args[3];
+        } else if (msg.cmd == Command.REGISTER_SUCCESS) {
+            id = Integer.valueOf(msg.args[0]);
+            username = msg.args[1];
+            university = msg.args[2];
+            avatar = msg.args[3];
         }
-        // TODO
     }
 }

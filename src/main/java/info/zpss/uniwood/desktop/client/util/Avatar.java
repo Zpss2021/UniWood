@@ -20,6 +20,10 @@ public class Avatar {
         this.avatarIcon = toImageIcon(base64);
     }
 
+    public void fromFile(File srcFile) {
+        this.avatarIcon = standardized(new ImageIcon(srcFile.getAbsolutePath()), 64);
+    }
+
     public void fromFile(String srcFilePath) {
         this.avatarIcon = standardized(new ImageIcon(new File(srcFilePath).getAbsolutePath()), 64);
     }
@@ -36,7 +40,7 @@ public class Avatar {
         BufferedImage bufferedImage = new BufferedImage(
                 avatarIcon.getIconWidth(),
                 avatarIcon.getIconHeight(),
-                BufferedImage.TYPE_INT_RGB
+                BufferedImage.TYPE_INT_ARGB
         );
         avatarIcon.paintIcon(null, bufferedImage.getGraphics(), 0, 0);
 
@@ -62,7 +66,7 @@ public class Avatar {
         BufferedImage bufferedImage = new BufferedImage(
                 avatarIcon.getIconWidth(),
                 avatarIcon.getIconHeight(),
-                BufferedImage.TYPE_INT_RGB
+                BufferedImage.TYPE_INT_ARGB
         );
         avatarIcon.paintIcon(null, bufferedImage.getGraphics(), 0, 0);
 
@@ -96,6 +100,7 @@ public class Avatar {
                 BufferedImage.TYPE_INT_ARGB
         );
         inputIcon.paintIcon(null, inputImage.getGraphics(), 0, 0);
+        // 改为支持透明背景
         BufferedImage outputImage = new BufferedImage(length, length, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = outputImage.createGraphics();
         graphics2D.drawImage(inputImage, 0, 0, 64, 64, null);
@@ -104,6 +109,10 @@ public class Avatar {
     }
 
     public static void main(String[] args) {
-
+        // TODO: test
+        Avatar avatar = new Avatar();
+        avatar.fromFile("C:\\Users\\13937\\Desktop\\avatar.png");
+        System.out.println(avatar.toBase64());
+        avatar.toFile("C:\\Users\\13937\\Desktop\\avatar2.png");
     }
 }

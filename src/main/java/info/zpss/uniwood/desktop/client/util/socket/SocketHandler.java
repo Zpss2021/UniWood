@@ -2,6 +2,7 @@ package info.zpss.uniwood.desktop.client.util.socket;
 
 import info.zpss.uniwood.desktop.client.Main;
 import info.zpss.uniwood.desktop.client.controller.LoginController;
+import info.zpss.uniwood.desktop.client.controller.RegisterController;
 import info.zpss.uniwood.desktop.client.model.entity.User;
 import info.zpss.uniwood.desktop.client.util.Log;
 import info.zpss.uniwood.desktop.common.*;
@@ -47,6 +48,17 @@ public class SocketHandler extends Thread {
             case LOGIN_FAILED:
                 Main.logger().add(String.format("用户登录失败：%s", msg.args[0]), Log.Type.INFO, Thread.currentThread());
                 LoginController.getInstance().loginFailed(msg.args[0]);
+                break;
+            case UNIV_LIST:
+                RegisterController.getInstance().getModel().setUniversities(msg.args);
+                break;
+            case REGISTER_SUCCESS:
+                User registerUser = new User();
+                registerUser.update(msg);
+                RegisterController.getInstance().registerSuccess(registerUser);
+                break;
+            case REGISTER_FAILED:
+                RegisterController.getInstance().registerFailed(msg.args[0]);
                 break;
             default:
                 Main.logger().add(String.format("未知命令：%s", msg.cmd), Log.Type.WARN, Thread.currentThread());

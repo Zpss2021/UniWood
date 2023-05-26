@@ -4,14 +4,14 @@
 
 ### tb_user：用户
 
-| Name       | Type        | Restrict          | Describe                   |
-|------------|-------------|-------------------|----------------------------|
-| id         | int         | PRIMARY KEY       |                            |
-| username   | varchar(20) | NOT NULL UNIQUE   |                            |
-| password   | varchar(20) | NOT NULL          |                            |
-| avatar     | text        |                   | base64 code of avatar file |
-| university | varchar(20) | NOT NULL          |                            |
-| status     | varchar(10) | DEFAULT `OFFLINE` | OFFLINE/ONLINE/DISABLED    |
+| Name       | Type        | Restrict          | Describe                                                         |
+|------------|-------------|-------------------|------------------------------------------------------------------|
+| id         | int         | PRIMARY KEY       |                                                                  |
+| username   | varchar(20) | NOT NULL UNIQUE   |                                                                  |
+| password   | varchar(20) | NOT NULL          |                                                                  |
+| avatar     | text        |                   | base64 code of avatar file ; if `DEFAULT` then insert by trigger |
+| university | varchar(20) | NOT NULL          |                                                                  |
+| status     | varchar(10) | DEFAULT `OFFLINE` | OFFLINE/ONLINE/DISABLED                                          |
 
 ### tb_follow：关注
 
@@ -22,12 +22,12 @@
 
 ### tb_zone：分区
 
-| Name        | Type        | Restrict                                   | Describe               |
-|-------------|-------------|--------------------------------------------|------------------------|
-| id          | int         | PRIMARY KEY AUTO_INCREMENT                 |                        |
-| name        | varchar(20) | NOT NULL UNIQUE                            |                        |
-| icon        | varchar(40) | DEFAULT `sample/res/default_zone_icon.png` | path of zone icon file |
-| description | varchar(50) | NOT NULL                                   |                        |
+| Name        | Type        | Restrict                   | Describe                   |
+|-------------|-------------|----------------------------|----------------------------|
+| id          | int         | PRIMARY KEY AUTO_INCREMENT |                            |
+| name        | varchar(20) | NOT NULL UNIQUE            |                            |
+| icon        | text        |                            | base64 code of avatar file |
+| description | varchar(50) | NOT NULL                   |                            |
 
 ### tb_post：贴子
 
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `tb_user`
     PRIMARY KEY (`id`),
     UNIQUE KEY `username` (`username`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1001
+  AUTO_INCREMENT = 1014
   DEFAULT CHARSET = utf8mb3;
 
 -- 数据导出被取消选择。
@@ -180,12 +180,12 @@ CREATE TABLE IF NOT EXISTS `tb_zone`
 (
     `id`          int         NOT NULL AUTO_INCREMENT,
     `name`        varchar(20) NOT NULL,
-    `icon`        varchar(40) DEFAULT 'sample/res/default_zone_icon.png',
+    `icon`        text CHARACTER SET utf8 COLLATE utf8_general_ci,
     `description` varchar(50) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `name` (`name`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
+  AUTO_INCREMENT = 6
   DEFAULT CHARSET = utf8mb3;
 
 -- 数据导出被取消选择。
@@ -210,9 +210,34 @@ END//
 DELIMITER ;
 SET SQL_MODE = @OLDTMP_SQL_MODE;
 
+-- 导出  触发器 uniwood.tb_user_before_insert 结构
+SET @OLDTMP_SQL_MODE = @@SQL_MODE, SQL_MODE =
+        'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `tb_user_before_insert`
+    BEFORE INSERT
+    ON `tb_user`
+    FOR EACH ROW IF NEW.avatar = 'DEFAULT' THEN
+    SET NEW.avatar = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAADmklEQVR4Xu2Z/VPaMBjH+f/
+/nb2cTgul4Jg35wt9Qbz5w07dfAF5Kdg0TfIsHdNhUtrQZFbv+N7nuMglT59PS4FIrXFM3jQ1+am3xUagajYCVVOzT+ibZiNQNRuBqtkIVM1GoGo2Al
+XzHwWsLthdtOs97Hpo2wN5ghFqdhebhfda71zGMIfnYRC2Ds5TE2mJDgYFED8fH/Z8gERo/XlQDLDtE8tFUoUymBHYClKI2GtO6Lfv4HRncql1MSDwM
+SDtc1in+7/Z2R/Yrq6DAYGtPhZbU079iPJLJ9dUR1egdbzWK0cO3Qm0LoKuwCc3/5YtzsllmL4BSJUV0RWgVGxo/SCdi6AlYLl6L5/H7PfFyupoCbR9
+sZVyieLyn25aAh3vSuylVBKo6B4YxWIrpSMXV0RLYGrmFkgjF1dkI2AocnFFtAR+jMp/iRAiF1dES6DTm4iNlEoCYmV1tAQcl4m9lApmFV0BvikReym
+VfY1tmpaA3X0QeykVywulyqpoCmC7p+vwgMqffk7N8YgWPhdAOrdCI3gQa66DrkDDx1+vyveP4qTpMbmsOroCnM/eBMoqvHencsG1MCDgeKjRg4REYn
+dFsY6iRoCkauthRIA0U1jBP4SWQ+HgbNb2dLt3TAlw2i7ZczGeq3zDRp3+qB5guUgJjAksqPtAWa4DhWYwdzwz3TvGBTi3E7i8IUTSSCAeTqaXg1heo
+oN5geEcbgaUc3UPv4b0YpRcjPjj45NDY+d+gXmBnwM0GMHdfTbX40ReooMZAStg/BPN8cPhBA/GJJ+7IW76yArAqfpdCDV84gTRrwjGIRmFZDyj8iOH
+W2WO76fs4Hto9TBHKq5KGQHeN38TvI3hqZXJHxbjxZ/L4+VpT+PlacMJtY9v6oF4IBVq7YCpYwWzVg9dTWEW/Rc6p7f87MjHzWE9gRmDOcpmFrHMcQ6r
+luz59x1PPPQqlATss/DglM1j8nIgeHcYy53IFAt89tPPpChhhfADZ45zyF/S7o7sUyy3tEyBQKtHEjxHjMQUXp45wCBKmr28u6JAgIcwuiiHmXiATJan
+5SxRnBYT4C20g5UOKwX4uUdJ+tMdr75gMeaPC4SxMK1wiTxt1ZJ0001nX7zs11K2gN3n21xa9IvvyyVmEGFonUZyqxkCdXeaAE6/+L6m8E3rmAE/s7IA
+Xqbjk7L725fI3uGd0LAocHYdioteWRp9slKA77LF6a8v/L5s9f71/BvJmNH0yzwtJQAAAABJRU5ErkJggg==';
+END IF//
+DELIMITER ;
+SET SQL_MODE = @OLDTMP_SQL_MODE;
+
 /*!40103 SET TIME_ZONE = IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE = IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS = IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES = IFNULL(@OLD_SQL_NOTES, 1) */;
+
 ```

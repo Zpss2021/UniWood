@@ -58,7 +58,7 @@ public class PostWindow extends JFrame implements PostView {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    public void initWindow() {
+    private void initWindow() {
         asidePane.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
         asidePane.setPreferredSize(new Dimension(72, 640));
         asidePane.add(shareBtn);

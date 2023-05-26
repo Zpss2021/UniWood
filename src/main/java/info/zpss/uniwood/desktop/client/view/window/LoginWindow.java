@@ -29,7 +29,7 @@ public class LoginWindow extends JFrame implements LoginView {
         this.registerLbl = new JLabel("<html><u>注册账号</u></html>");
 
         this.usernameText = new JTextField();
-        this.passwordText = new JTextField();
+        this.passwordText = new JPasswordField();
 
         this.autoLoginCheck = new JCheckBox("自动登录");
         this.rememberMeCheck = new JCheckBox("记住密码");
@@ -41,7 +41,6 @@ public class LoginWindow extends JFrame implements LoginView {
 
         // TODO: 头图
         // TODO：字体
-        // TODO：为按钮添加事件
 
         this.initWindow();
 
@@ -54,7 +53,7 @@ public class LoginWindow extends JFrame implements LoginView {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // TODO
     }
 
-    public void initWindow() {
+    private void initWindow() {
         this.contentPanel.setLayout(new BorderLayout());
         this.contentPanel.add(bgPane, BorderLayout.NORTH);
         this.contentPanel.add(formPane, BorderLayout.CENTER);
@@ -71,6 +70,8 @@ public class LoginWindow extends JFrame implements LoginView {
         this.formPane.add(autoLoginCheck);
         this.formPane.add(rememberMeCheck);
         this.formPane.add(loginBtn);
+        usernameLbl.setHorizontalAlignment(SwingConstants.RIGHT);
+        passwordLbl.setHorizontalAlignment(SwingConstants.RIGHT);
         usernameLbl.setBounds(80,10, 60, 30);
         usernameText.setBounds(140, 10, 200, 30);
         passwordLbl.setBounds(80, 50, 60, 30);

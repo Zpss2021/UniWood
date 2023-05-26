@@ -47,7 +47,8 @@ public class MainController implements Controller {
     }
 
     private void userRegister() {
-
+        RegisterController.getInstance().register();
+        RegisterController.getInstance().getView().showWindow(view.getComponent());
     }
 
     public void loginSuccess(User loginUser) {

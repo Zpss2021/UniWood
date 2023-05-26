@@ -15,6 +15,8 @@ public class ProtoMsg {
     }
 
     public static ProtoMsg parse(String msg) {
+        if (!msg.contains("|"))
+            return new ProtoMsg(Command.parse(msg), null);
         String[] parts = msg.split("\\|");
         String cmd = parts[0];
         String[] args = new String[parts.length - 1];

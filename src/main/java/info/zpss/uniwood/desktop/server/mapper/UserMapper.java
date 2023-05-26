@@ -9,6 +9,8 @@ public interface UserMapper {
 
     User login(String username, String password);
 
+    User register(String username, String password, String university, String avatarBase64);
+
     List<User> getUsers();
 
     String getStatus(Integer userID);

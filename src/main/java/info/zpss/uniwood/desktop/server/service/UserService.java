@@ -9,6 +9,7 @@ public interface UserService {
         return UserServiceImpl.getInstance();
     }
     User login(String username, String password);
+    User register(String username, String password, String university, String avatarBase64);
     void onlineUser(Integer userId);
     void offlineUser(Integer userId);
     void offlineAll();

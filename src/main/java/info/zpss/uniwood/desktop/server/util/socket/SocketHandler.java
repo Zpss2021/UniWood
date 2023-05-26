@@ -4,6 +4,7 @@ import info.zpss.uniwood.desktop.server.model.*;
 import info.zpss.uniwood.desktop.common.ProtoMsg;
 import info.zpss.uniwood.desktop.server.Main;
 import info.zpss.uniwood.desktop.server.service.UserService;
+import info.zpss.uniwood.desktop.server.service.ZoneService;
 import info.zpss.uniwood.desktop.server.util.Log;
 
 import java.io.*;
@@ -45,7 +46,7 @@ public class SocketHandler extends Thread {
         heartbeat.scheduleAtFixedRate(() -> {
             try {
                 if (!online) {
-                    for(int i = 0; i < 5; i ++) {
+                    for (int i = 0; i < 5; i++) {
                         Thread.sleep(500);
                         if (online) return;
                     }
@@ -93,6 +94,21 @@ public class SocketHandler extends Thread {
             case HEARTBEAT:
                 online = true;
                 break;
+            case UNIV_LIST:
+                String[] universities = ZoneService.getInstance().getUniversities();
+                return ProtoMsg.build(UNIV_LIST, universities).toString();
+            case REGISTER:
+                User registerUser = UserService.getInstance().register(protoMsg.args[0], protoMsg.args[1],
+                        protoMsg.args[2], protoMsg.args[3]);
+                if (registerUser != null) {
+                    Main.logger().add(String.format("用户%s注册成功！", registerUser.getUsername()),
+                            Log.Type.INFO, Thread.currentThread());
+                    registerUser = UserService.getInstance().login(registerUser.getUsername(), registerUser.getPassword());
+                    userId = registerUser.getId();
+                    return ProtoMsg.build(REGISTER_SUCCESS, registerUser.getId().toString(), registerUser.getUsername(),
+                            registerUser.getUniversity(), registerUser.getAvatar()).toString();
+                }
+                return ProtoMsg.build(REGISTER_FAILED, "注册失败，请检查用户名和密码后重试！").toString();
             default:
                 Main.logger().add(String.format("收到客户端%s未知命令：%s", this, protoMsg.cmd),
                         Log.Type.WARN, Thread.currentThread());
@@ -146,7 +162,7 @@ public class SocketHandler extends Thread {
             checker.shutdown();
             heartbeat.shutdown();
             listener.removeHandler(this);
-            if(userId != null)
+            if (userId != null)
                 UserService.getInstance().offlineUser(userId);
             Main.logger().add(String.format("客户端%s断开连接", this), Log.Type.INFO, Thread.currentThread());
         }
