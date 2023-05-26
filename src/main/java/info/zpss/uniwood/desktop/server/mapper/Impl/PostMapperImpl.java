@@ -24,7 +24,7 @@ public class PostMapperImpl implements PostMapper {
     @Override
     public synchronized Post getPost(Integer postID) {
         Post post = new Post();
-        String sql = "SELECT * FROM tb_post WHERE id = ?";
+        String sql = "SELECT * FROM tb_post WHERE id = ? LIMIT 1";
         try (Connection conn = Main.database().getConnection()) {
             PreparedStatement preStmt = conn.prepareStatement(sql);
             preStmt.setInt(1, postID);

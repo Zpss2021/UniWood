@@ -1,6 +1,5 @@
 package info.zpss.uniwood.desktop.server.util.socket;
 
-import info.zpss.uniwood.desktop.server.mapper.Impl.UserMapperImpl;
 import info.zpss.uniwood.desktop.server.model.*;
 import info.zpss.uniwood.desktop.common.ProtoMsg;
 import info.zpss.uniwood.desktop.server.Main;
@@ -20,7 +19,7 @@ import static info.zpss.uniwood.desktop.common.Command.*;
 public class SocketHandler extends Thread {
     private final Socket socket;
     private final SocketListener listener;
-    private final ScheduledExecutorService executor;    // 定时修改在线状态为离线
+    private final ScheduledExecutorService checker;    // 定时修改在线状态为离线
     private final ScheduledExecutorService heartbeat;   // 若客户端离线超过一定时间，则断开连接并将用户状态置为离线
     private Integer userId;
     private boolean online;
@@ -30,7 +29,7 @@ public class SocketHandler extends Thread {
     public SocketHandler(Socket socket, SocketListener listener) {
         this.socket = socket;
         this.listener = listener;
-        this.executor = Executors.newSingleThreadScheduledExecutor();
+        this.checker = Executors.newSingleThreadScheduledExecutor();
         this.heartbeat = Executors.newSingleThreadScheduledExecutor();
         this.userId = null;
         this.online = true;
@@ -42,16 +41,17 @@ public class SocketHandler extends Thread {
     }
 
     private void initSchedule() {
-        executor.scheduleAtFixedRate(() -> online = false, 0, 3, TimeUnit.SECONDS);
+        checker.scheduleAtFixedRate(() -> online = false, 0, 3, TimeUnit.SECONDS);
         heartbeat.scheduleAtFixedRate(() -> {
             try {
                 if (!online) {
-                    Thread.sleep(5000);
-                    if (!online) {
-                        Main.logger().add(String.format("客户端%s超时未响应，断开连接！", this),
-                                Log.Type.WARN, Thread.currentThread());
-                        socket.close();
+                    for(int i = 0; i < 5; i ++) {
+                        Thread.sleep(500);
+                        if (online) return;
                     }
+                    Main.logger().add(String.format("客户端%s超时未响应，断开连接！", this),
+                            Log.Type.WARN, Thread.currentThread());
+                    socket.close();
                 }
             } catch (InterruptedException e) {
                 Main.logger().add(String.format("客户端%s心跳检测线程被中断！", this),
@@ -143,7 +143,7 @@ public class SocketHandler extends Thread {
                         Log.Type.WARN, Thread.currentThread());
                 Main.logger().add(ex, Thread.currentThread());
             }
-            executor.shutdown();
+            checker.shutdown();
             heartbeat.shutdown();
             listener.removeHandler(this);
             if(userId != null)

@@ -1,9 +1,6 @@
 package info.zpss.uniwood.desktop.server;
 
 import info.zpss.uniwood.desktop.common.Arguable;
-import info.zpss.uniwood.desktop.server.mapper.*;
-import info.zpss.uniwood.desktop.server.mapper.Impl.*;
-import info.zpss.uniwood.desktop.server.model.*;
 import info.zpss.uniwood.desktop.server.service.UserService;
 import info.zpss.uniwood.desktop.server.util.Database;
 import info.zpss.uniwood.desktop.server.util.Log;
@@ -103,17 +100,5 @@ public class Main {
     private static void execute() throws RuntimeException {
         // TODO：数据库连接后，服务器开始监听前运行的代码
         UserService.getInstance().offlineAll(); // 重置所有在线用户状态为离线
-//        UserMapper userMapper = UserMapperImpl.getInstance();
-//        ZoneMapper zoneMapper = ZoneMapperImpl.getInstance();
-//        PostMapper postMapper = PostMapperImpl.getInstance();
-//        FloorMapper floorMapper = FloorMapperImpl.getInstance();
-//        User user1 = userMapper.getUser(1);
-//        List<Post> postByUser1 = postMapper.getPostsByUserID(user1.getId());
-//        List<List<Floor>> floorsInPosts = new ArrayList<>();
-//        for (Post post : postByUser1)
-//            floorsInPosts.add(floorMapper.getFloors(post.getId()));
-//        for (List<Floor> floors : floorsInPosts)
-//            for (Floor floor : floors)
-//                System.out.println(floor);
     }
 }
