@@ -7,7 +7,7 @@ import info.zpss.uniwood.desktop.client.util.interfaces.Controller;
 import info.zpss.uniwood.desktop.client.view.LoginView;
 import info.zpss.uniwood.desktop.client.view.window.LoginWindow;
 import info.zpss.uniwood.desktop.common.Command;
-import info.zpss.uniwood.desktop.common.ProtoMsg;
+import info.zpss.uniwood.desktop.common.MsgProto;
 
 import javax.swing.*;
 
@@ -75,7 +75,7 @@ public class LoginController implements Controller<LoginModel, LoginView> {
         }
         model.setUsername(username);
         model.setPassword(password);
-        ProtoMsg msg = ProtoMsg.build(Command.LOGIN, model.getUsername(), model.getPassword());
+        MsgProto msg = MsgProto.build(Command.LOGIN, model.getUsername(), model.getPassword());
         Main.connection().send(msg);
     }
 

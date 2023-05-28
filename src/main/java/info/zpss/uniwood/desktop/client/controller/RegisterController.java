@@ -8,7 +8,7 @@ import info.zpss.uniwood.desktop.client.util.interfaces.Controller;
 import info.zpss.uniwood.desktop.client.view.RegisterView;
 import info.zpss.uniwood.desktop.client.view.window.RegisterWindow;
 import info.zpss.uniwood.desktop.common.Command;
-import info.zpss.uniwood.desktop.common.ProtoMsg;
+import info.zpss.uniwood.desktop.common.MsgProto;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -114,7 +114,7 @@ public class RegisterController implements Controller<RegisterModel, RegisterVie
         model.setUsername(username);
         model.setPassword(new String(password));
         model.setUniversity(university);
-        ProtoMsg msg = ProtoMsg.build(Command.REGISTER, model.getUsername(),
+        MsgProto msg = MsgProto.build(Command.REGISTER, model.getUsername(),
                 model.getPassword(), model.getUniversity(), model.getAvatarBase64());
         Main.connection().send(msg);
     }

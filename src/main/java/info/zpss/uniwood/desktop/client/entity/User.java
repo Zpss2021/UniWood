@@ -2,7 +2,7 @@ package info.zpss.uniwood.desktop.client.entity;
 
 import info.zpss.uniwood.desktop.client.util.interfaces.Entity;
 import info.zpss.uniwood.desktop.common.Command;
-import info.zpss.uniwood.desktop.common.ProtoMsg;
+import info.zpss.uniwood.desktop.common.MsgProto;
 
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class User implements Entity {
     }
 
     @Override
-    public void update(ProtoMsg msg) {
+    public void update(MsgProto msg) {
         if (msg.cmd == Command.LOGIN_SUCCESS) {
             id = Integer.valueOf(msg.args[0]);
             username = msg.args[1];

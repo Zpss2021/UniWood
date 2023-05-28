@@ -3,7 +3,7 @@ package info.zpss.uniwood.desktop.client.model;
 import info.zpss.uniwood.desktop.client.Main;
 import info.zpss.uniwood.desktop.client.util.interfaces.Model;
 import info.zpss.uniwood.desktop.common.Command;
-import info.zpss.uniwood.desktop.common.ProtoMsg;
+import info.zpss.uniwood.desktop.common.MsgProto;
 
 import java.util.Objects;
 
@@ -53,7 +53,7 @@ public class RegisterModel implements Model {
     public String[] getUniversities() throws InterruptedException {
         if (universities != null)
             return universities;
-        new Thread(() -> Main.connection().send(ProtoMsg.build(Command.UNIV_LIST))).start();
+        new Thread(() -> Main.connection().send(MsgProto.build(Command.UNIV_LIST))).start();
         Thread.sleep(500);
         return getUniversities();
     }

@@ -1,7 +1,7 @@
 package info.zpss.uniwood.desktop.server.util.socket;
 
 import info.zpss.uniwood.desktop.server.entity.*;
-import info.zpss.uniwood.desktop.common.ProtoMsg;
+import info.zpss.uniwood.desktop.common.MsgProto;
 import info.zpss.uniwood.desktop.server.Main;
 import info.zpss.uniwood.desktop.server.service.UserService;
 import info.zpss.uniwood.desktop.server.service.ZoneService;
@@ -68,25 +68,25 @@ public class SocketHandler extends Thread {
     private String handleMessage(String message) {
         if (Main.debug())
             Main.logger().add(String.format("收到客户端%s消息：%s", this, message), Thread.currentThread());
-        ProtoMsg protoMsg = ProtoMsg.parse(message);
-        if (protoMsg.cmd == null) {  // TODO
+        MsgProto msgProto = MsgProto.parse(message);
+        if (msgProto.cmd == null) {  // TODO
             Main.logger().add(String.format("客户端%s消息解析失败！", this), ServerLogger.Type.WARN, Thread.currentThread());
             Main.logger().add(String.format("未知信息：%s", message), ServerLogger.Type.WARN, Thread.currentThread());
-            return ProtoMsg.build(UNKNOWN).toString();
+            return MsgProto.build(UNKNOWN).toString();
         }
-        switch (protoMsg.cmd) {
+        switch (msgProto.cmd) {
             case LOGIN:
-                User loginUser = UserService.getInstance().login(protoMsg.args[0], protoMsg.args[1]);
+                User loginUser = UserService.getInstance().login(msgProto.args[0], msgProto.args[1]);
                 if (loginUser != null) {
                     if (loginUser.getStatus().equals("DISABLED"))
-                        return ProtoMsg.build(LOGIN_FAILED, "该用户已被禁用！").toString();
+                        return MsgProto.build(LOGIN_FAILED, "该用户已被禁用！").toString();
                     Main.logger().add(String.format("用户%s登录成功！", loginUser.getUsername()),
                             ServerLogger.Type.INFO, Thread.currentThread());
                     userId = loginUser.getId();
-                    return ProtoMsg.build(LOGIN_SUCCESS, loginUser.getId().toString(), loginUser.getUsername(),
+                    return MsgProto.build(LOGIN_SUCCESS, loginUser.getId().toString(), loginUser.getUsername(),
                             loginUser.getUniversity(), loginUser.getAvatar()).toString();
                 }
-                return ProtoMsg.build(LOGIN_FAILED, "登录失败，请检查用户名和密码后重试！").toString();
+                return MsgProto.build(LOGIN_FAILED, "登录失败，请检查用户名和密码后重试！").toString();
             case LOGOUT:
                 userId = null;
                 // TODO
@@ -96,21 +96,21 @@ public class SocketHandler extends Thread {
                 break;
             case UNIV_LIST:
                 String[] universities = ZoneService.getInstance().getUniversities();
-                return ProtoMsg.build(UNIV_LIST, universities).toString();
+                return MsgProto.build(UNIV_LIST, universities).toString();
             case REGISTER:
-                User registerUser = UserService.getInstance().register(protoMsg.args[0], protoMsg.args[1],
-                        protoMsg.args[2], protoMsg.args[3]);
+                User registerUser = UserService.getInstance().register(msgProto.args[0], msgProto.args[1],
+                        msgProto.args[2], msgProto.args[3]);
                 if (registerUser != null) {
                     Main.logger().add(String.format("用户%s注册成功！", registerUser.getUsername()),
                             ServerLogger.Type.INFO, Thread.currentThread());
                     registerUser = UserService.getInstance().login(registerUser.getUsername(), registerUser.getPassword());
                     userId = registerUser.getId();
-                    return ProtoMsg.build(REGISTER_SUCCESS, registerUser.getId().toString(), registerUser.getUsername(),
+                    return MsgProto.build(REGISTER_SUCCESS, registerUser.getId().toString(), registerUser.getUsername(),
                             registerUser.getUniversity(), registerUser.getAvatar()).toString();
                 }
-                return ProtoMsg.build(REGISTER_FAILED, "注册失败，请检查用户名和密码后重试！").toString();
+                return MsgProto.build(REGISTER_FAILED, "注册失败，请检查用户名和密码后重试！").toString();
             default:
-                Main.logger().add(String.format("收到客户端%s未知命令：%s", this, protoMsg.cmd),
+                Main.logger().add(String.format("收到客户端%s未知命令：%s", this, msgProto.cmd),
                         ServerLogger.Type.WARN, Thread.currentThread());
                 break;
         }

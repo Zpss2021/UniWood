@@ -4,7 +4,7 @@ import info.zpss.uniwood.desktop.client.Main;
 import info.zpss.uniwood.desktop.client.util.ClientLogger;
 import info.zpss.uniwood.desktop.common.Arguable;
 import info.zpss.uniwood.desktop.common.Command;
-import info.zpss.uniwood.desktop.common.ProtoMsg;
+import info.zpss.uniwood.desktop.common.MsgProto;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -29,7 +29,7 @@ public class ServerConnection implements Arguable {
                     Main.logger().add("服务器连接已断开，正在重连...", ClientLogger.Type.WARN, Thread.currentThread());
                     connect();
                 }
-                send(ProtoMsg.build(Command.HEARTBEAT).toString());
+                send(MsgProto.build(Command.HEARTBEAT).toString());
             } catch (IOException e) {
                 Main.logger().add("服务器连接异常！", ClientLogger.Type.WARN, Thread.currentThread());
             }
@@ -73,7 +73,7 @@ public class ServerConnection implements Arguable {
         handler.send(message);
     }
 
-    public void send(ProtoMsg message) {
+    public void send(MsgProto message) {
         handler.send(message.toString());
     }
 
