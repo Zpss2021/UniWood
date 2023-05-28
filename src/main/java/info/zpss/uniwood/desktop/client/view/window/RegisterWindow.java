@@ -106,10 +106,10 @@ public class RegisterWindow extends JFrame implements RegisterView {
     public void showWindow(Component parent) {
         SwingUtilities.invokeLater(() -> {
             this.parent = parent;
-            this.setLocationRelativeTo(parent);
             this.pack();
             this.setVisible(true);
             this.validate();
+            this.setLocationRelativeTo(parent);
         });
     }
 
