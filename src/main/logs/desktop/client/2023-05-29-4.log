@@ -1,0 +1,22 @@
+[2023-05-29 01:29:14.682][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-05-29 01:29:14.682][main/DEBUG]DEBUG MODE ON!!
+[2023-05-29 01:29:14.686][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-05-29 01:29:14.686][main/INFO]未指定连接重试次数，使用默认值3
+[2023-05-29 01:29:14.694][main/INFO]服务器已连接
+[2023-05-29 01:29:14.694][main/INFO]Hello, UniWood!
+[2023-05-29 01:29:15.173][main/INFO]窗口初始化完成
+[2023-05-29 01:29:15.692][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:18.698][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:21.698][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:24.695][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:27.686][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:30.698][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:33.697][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:36.697][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:39.694][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:42.697][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:45.696][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:48.686][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:51.698][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:54.699][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-29 01:29:57.696][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
