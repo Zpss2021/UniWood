@@ -1,13 +1,12 @@
 package info.zpss.uniwood.desktop.client.controller;
 
-import info.zpss.uniwood.desktop.client.model.entity.User;
-import info.zpss.uniwood.desktop.client.model.view.MainModel;
-import info.zpss.uniwood.desktop.client.util.Controller;
-import info.zpss.uniwood.desktop.client.util.View;
+import info.zpss.uniwood.desktop.client.entity.User;
+import info.zpss.uniwood.desktop.client.model.MainModel;
+import info.zpss.uniwood.desktop.client.util.interfaces.Controller;
 import info.zpss.uniwood.desktop.client.view.MainView;
 import info.zpss.uniwood.desktop.client.view.window.MainWindow;
 
-public class MainController implements Controller {
+public class MainController implements Controller<MainModel, MainView> {
     private static final MainController INSTANCE;
     private static final MainModel model;
     private static final MainView view;
@@ -37,7 +36,13 @@ public class MainController implements Controller {
     }
 
     @Override
-    public View getView() {
+    public MainModel getModel() {
+        return model;
+    }
+
+
+    @Override
+    public MainView getView() {
         return view;
     }
 

@@ -1,7 +1,7 @@
 package info.zpss.uniwood.desktop.client.util.socket;
 
 import info.zpss.uniwood.desktop.client.Main;
-import info.zpss.uniwood.desktop.client.util.Log;
+import info.zpss.uniwood.desktop.client.util.ClientLogger;
 import info.zpss.uniwood.desktop.common.Arguable;
 import info.zpss.uniwood.desktop.common.Command;
 import info.zpss.uniwood.desktop.common.ProtoMsg;
@@ -26,12 +26,12 @@ public class ServerConnection implements Arguable {
         executor.scheduleAtFixedRate(() -> {
             try {
                 if (serverSocketConn != null && serverSocketConn.isClosed()) {
-                    Main.logger().add("服务器连接已断开，正在重连...", Log.Type.WARN, Thread.currentThread());
+                    Main.logger().add("服务器连接已断开，正在重连...", ClientLogger.Type.WARN, Thread.currentThread());
                     connect();
                 }
                 send(ProtoMsg.build(Command.HEARTBEAT).toString());
             } catch (IOException e) {
-                Main.logger().add("服务器连接异常！", Log.Type.WARN, Thread.currentThread());
+                Main.logger().add("服务器连接异常！", ClientLogger.Type.WARN, Thread.currentThread());
             }
         }, 1, 3, java.util.concurrent.TimeUnit.SECONDS);
     }
@@ -43,12 +43,12 @@ public class ServerConnection implements Arguable {
             try {
                 serverSocketConn = new Socket();
                 serverSocketConn.connect(serverHost, timeout);
-                Main.logger().add("服务器已连接", Log.Type.INFO, Thread.currentThread());
+                Main.logger().add("服务器已连接", ClientLogger.Type.INFO, Thread.currentThread());
                 break;
             } catch (IOException e) {
                 if (i < retry) {
                     i++;
-                    Main.logger().add("第" + i + "次连接服务器超时，重试中...", Log.Type.WARN, Thread.currentThread());
+                    Main.logger().add("第" + i + "次连接服务器超时，重试中...", ClientLogger.Type.WARN, Thread.currentThread());
                 } else
                     throw e;
             }
@@ -78,7 +78,7 @@ public class ServerConnection implements Arguable {
     }
 
     @Override
-    public void init(String[] args) throws RuntimeException {
+    public void config(String[] args) throws RuntimeException {
         String host = Arguable.stringInArgs(args, "-H", "--host");
         String port = Arguable.stringInArgs(args, "-P", "--port");
         String timeout = Arguable.stringInArgs(args, "-T", "--timeout");
@@ -86,22 +86,22 @@ public class ServerConnection implements Arguable {
         if (host == null) {
             host = Main.debug() ? "localhost" : "zpss.info";
             Main.logger().add(String.format("未指定服务器地址，使用默认地址%s", host),
-                    Log.Type.INFO, Thread.currentThread());
+                    ClientLogger.Type.INFO, Thread.currentThread());
         }
         if (port == null) {
             port = "60196";
             Main.logger().add(String.format("未指定服务器端口，使用默认端口%s", port),
-                    Log.Type.INFO, Thread.currentThread());
+                    ClientLogger.Type.INFO, Thread.currentThread());
         }
         if (timeout == null) {
             timeout = "1000";
             Main.logger().add(String.format("未指定连接超时时间，使用默认值%s", timeout),
-                    Log.Type.INFO, Thread.currentThread());
+                    ClientLogger.Type.INFO, Thread.currentThread());
         }
         if (retry == null) {
             retry = "3";
             Main.logger().add(String.format("未指定连接重试次数，使用默认值%s", retry),
-                    Log.Type.INFO, Thread.currentThread());
+                    ClientLogger.Type.INFO, Thread.currentThread());
         }
         this.serverHost = new InetSocketAddress(host, Integer.parseInt(port));
         this.timeout = Integer.parseInt(timeout);

@@ -1,10 +1,9 @@
 package info.zpss.uniwood.desktop.client.controller;
 
 import info.zpss.uniwood.desktop.client.Main;
-import info.zpss.uniwood.desktop.client.model.entity.User;
-import info.zpss.uniwood.desktop.client.model.view.LoginModel;
-import info.zpss.uniwood.desktop.client.util.Controller;
-import info.zpss.uniwood.desktop.client.util.View;
+import info.zpss.uniwood.desktop.client.entity.User;
+import info.zpss.uniwood.desktop.client.model.LoginModel;
+import info.zpss.uniwood.desktop.client.util.interfaces.Controller;
 import info.zpss.uniwood.desktop.client.view.LoginView;
 import info.zpss.uniwood.desktop.client.view.window.LoginWindow;
 import info.zpss.uniwood.desktop.common.Command;
@@ -12,7 +11,7 @@ import info.zpss.uniwood.desktop.common.ProtoMsg;
 
 import javax.swing.*;
 
-public class LoginController implements Controller {
+public class LoginController implements Controller<LoginModel, LoginView> {
     private static final LoginController INSTANCE;
     private static final LoginModel model;
     private static final LoginView view;
@@ -41,7 +40,13 @@ public class LoginController implements Controller {
     }
 
     @Override
-    public View getView() {
+    public LoginModel getModel() {
+        return model;
+    }
+
+
+    @Override
+    public LoginView getView() {
         return view;
     }
 

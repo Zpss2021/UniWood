@@ -1,18 +1,12 @@
 package info.zpss.uniwood.desktop.client.view.window;
 
 import info.zpss.uniwood.desktop.client.Main;
-import info.zpss.uniwood.desktop.client.model.entity.Floor;
-import info.zpss.uniwood.desktop.client.model.entity.Post;
-import info.zpss.uniwood.desktop.client.model.entity.User;
-import info.zpss.uniwood.desktop.client.model.entity.Zone;
-import info.zpss.uniwood.desktop.client.util.Log;
+import info.zpss.uniwood.desktop.client.util.ClientLogger;
 import info.zpss.uniwood.desktop.client.view.MainView;
 import info.zpss.uniwood.desktop.client.view.panel.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 public class MainWindow extends JFrame implements MainView {
     private Component parent;
@@ -75,7 +69,7 @@ public class MainWindow extends JFrame implements MainView {
             }
         }
         SwingUtilities.updateComponentTreeUI(this);
-        Main.logger().add("窗口初始化完成", Log.Type.INFO, Thread.currentThread());
+        Main.logger().add("窗口初始化完成", ClientLogger.Type.INFO, Thread.currentThread());
     }
 
     private void initWindow() {

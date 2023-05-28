@@ -3,17 +3,15 @@ package info.zpss.uniwood.desktop.server;
 import info.zpss.uniwood.desktop.common.Arguable;
 import info.zpss.uniwood.desktop.server.service.UserService;
 import info.zpss.uniwood.desktop.server.util.Database;
-import info.zpss.uniwood.desktop.server.util.Log;
+import info.zpss.uniwood.desktop.server.util.ServerLogger;
 import info.zpss.uniwood.desktop.server.util.socket.Server;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     private static boolean debugMode;
     private static String[] arguments;
-    private static Log logger;
+    private static ServerLogger logger;
     private static Database database;
     private static Server server;
     public static final String PLATFORM;
@@ -36,7 +34,7 @@ public class Main {
         return arguments;
     }
 
-    public static Log logger() {
+    public static ServerLogger logger() {
         return logger;
     }
 
@@ -59,8 +57,8 @@ public class Main {
             debugMode = true;
 
         try {
-            logger = new Log();
-            logger().init(args);
+            logger = new ServerLogger();
+            logger().config(args);
         } catch (Exception e) {
             System.err.println("日志初始化失败");
             e.printStackTrace();
@@ -69,26 +67,26 @@ public class Main {
 
         try {
             database = new Database();
-            database.init(args);
-            logger.add("数据库连接成功", Log.Type.INFO, Thread.currentThread());
+            database.config(args);
+            logger.add("数据库连接成功", ServerLogger.Type.INFO, Thread.currentThread());
         } catch (SQLException e) {
-            logger.add("数据库连接失败", Log.Type.ERROR, Thread.currentThread());
+            logger.add("数据库连接失败", ServerLogger.Type.ERROR, Thread.currentThread());
             logger.add(e, Thread.currentThread());
             System.exit(1);
         }
 
         try {
             server = new Server();
-            server.init(args);
+            server.config(args);
             server.start();
-            logger.add("客户端连接服务启动成功", Log.Type.INFO, Thread.currentThread());
+            logger.add("客户端连接服务启动成功", ServerLogger.Type.INFO, Thread.currentThread());
         } catch (Exception e) {
-            logger.add("客户端连接服务启动失败", Log.Type.ERROR, Thread.currentThread());
+            logger.add("客户端连接服务启动失败", ServerLogger.Type.ERROR, Thread.currentThread());
             logger.add(e, Thread.currentThread());
             System.exit(1);
         }
 
-        logger.add("Hello, UniWood!", Log.Type.INFO, Thread.currentThread());
+        logger.add("Hello, UniWood!", ServerLogger.Type.INFO, Thread.currentThread());
 
         try {
             execute();

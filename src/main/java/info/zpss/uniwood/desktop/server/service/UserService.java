@@ -1,7 +1,7 @@
 package info.zpss.uniwood.desktop.server.service;
 
-import info.zpss.uniwood.desktop.server.model.User;
-import info.zpss.uniwood.desktop.server.service.Impl.UserServiceImpl;
+import info.zpss.uniwood.desktop.server.entity.User;
+import info.zpss.uniwood.desktop.server.service.impl.UserServiceImpl;
 
 public interface UserService {
     // TODO

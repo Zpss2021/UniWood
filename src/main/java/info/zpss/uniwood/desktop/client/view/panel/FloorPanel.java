@@ -1,6 +1,6 @@
 package info.zpss.uniwood.desktop.client.view.panel;
 
-import info.zpss.uniwood.desktop.client.model.entity.Floor;
+import info.zpss.uniwood.desktop.client.entity.Floor;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,11 +1,10 @@
 package info.zpss.uniwood.desktop.client.controller;
 
 import info.zpss.uniwood.desktop.client.Main;
-import info.zpss.uniwood.desktop.client.model.entity.User;
-import info.zpss.uniwood.desktop.client.model.view.RegisterModel;
+import info.zpss.uniwood.desktop.client.entity.User;
+import info.zpss.uniwood.desktop.client.model.RegisterModel;
 import info.zpss.uniwood.desktop.client.util.Avatar;
-import info.zpss.uniwood.desktop.client.util.Controller;
-import info.zpss.uniwood.desktop.client.util.View;
+import info.zpss.uniwood.desktop.client.util.interfaces.Controller;
 import info.zpss.uniwood.desktop.client.view.RegisterView;
 import info.zpss.uniwood.desktop.client.view.window.RegisterWindow;
 import info.zpss.uniwood.desktop.common.Command;
@@ -16,7 +15,7 @@ import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.util.Arrays;
 
-public class RegisterController implements Controller {
+public class RegisterController implements Controller<RegisterModel, RegisterView> {
     private static final RegisterController INSTANCE;
     private static final RegisterModel model;
     private static final RegisterView view;
@@ -52,12 +51,13 @@ public class RegisterController implements Controller {
     }
 
     @Override
-    public View getView() {
-        return view;
-    }
-
     public RegisterModel getModel() {
         return model;
+    }
+
+    @Override
+    public RegisterView getView() {
+        return view;
     }
 
     private void userRegister() {

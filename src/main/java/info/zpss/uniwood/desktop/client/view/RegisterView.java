@@ -1,7 +1,7 @@
 package info.zpss.uniwood.desktop.client.view;
 
 import info.zpss.uniwood.desktop.client.util.Avatar;
-import info.zpss.uniwood.desktop.client.util.View;
+import info.zpss.uniwood.desktop.client.util.interfaces.View;
 
 import javax.swing.*;
 

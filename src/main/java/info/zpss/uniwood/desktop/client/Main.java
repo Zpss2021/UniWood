@@ -1,14 +1,14 @@
 package info.zpss.uniwood.desktop.client;
 
 import info.zpss.uniwood.desktop.client.controller.MainController;
-import info.zpss.uniwood.desktop.client.util.Log;
+import info.zpss.uniwood.desktop.client.util.ClientLogger;
 import info.zpss.uniwood.desktop.client.util.socket.ServerConnection;
 import info.zpss.uniwood.desktop.common.Arguable;
 
 public class Main {
     private static boolean debugMode;
     private static String[] arguments;
-    private static Log logger;
+    private static ClientLogger logger;
     private static ServerConnection connection;
     public static final String PLATFORM;
     public static final String VERSION;
@@ -28,7 +28,7 @@ public class Main {
         return Main.arguments;
     }
 
-    public static Log logger() {
+    public static ClientLogger logger() {
         return Main.logger;
     }
 
@@ -47,8 +47,8 @@ public class Main {
             debugMode = true;
 
         try {
-            logger = new Log();
-            logger.init(args);
+            logger = new ClientLogger();
+            logger.config(args);
         } catch (Exception e) {
             System.err.println("初始化日志失败！");
             e.printStackTrace();
@@ -57,15 +57,15 @@ public class Main {
 
         try {
             connection = new ServerConnection();
-            connection.init(args);
+            connection.config(args);
             connection.connect();
         } catch (Exception e) {
-            logger.add("连接服务器失败！", Log.Type.ERROR, Thread.currentThread());
+            logger.add("连接服务器失败！", ClientLogger.Type.ERROR, Thread.currentThread());
             logger.add(e, Thread.currentThread());
             System.exit(1);
         }
 
-        logger.add("Hello, UniWood!", Log.Type.INFO, Thread.currentThread());
+        logger.add("Hello, UniWood!", ClientLogger.Type.INFO, Thread.currentThread());
 
         try {
             execute();
@@ -83,7 +83,7 @@ public class Main {
 //        try {
 //            connection.disconnect();
 //        } catch (IOException e) {
-//            Log.add(e, Thread.currentThread());
+//            ClientLogger.add(e, Thread.currentThread());
 //        }
     }
 }

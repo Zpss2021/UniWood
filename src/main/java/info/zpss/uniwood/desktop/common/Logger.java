@@ -1,6 +1,4 @@
-package info.zpss.test.LogTest;
-
-import info.zpss.uniwood.desktop.common.Arguable;
+package info.zpss.uniwood.desktop.common;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,7 +7,7 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class AbstractLog implements Arguable {
+public abstract class Logger implements Arguable {
     public enum Type {
         INFO("INFO"),
         WARN("WARN"),
@@ -33,7 +31,7 @@ public abstract class AbstractLog implements Arguable {
 
     private PrintStream out = null;
 
-    public AbstractLog() {
+    public Logger() {
     }
 
     @Override

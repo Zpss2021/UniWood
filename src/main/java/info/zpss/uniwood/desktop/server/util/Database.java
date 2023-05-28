@@ -26,22 +26,22 @@ public class Database implements Arguable {
     }
 
     @Override
-    public void init(String[] args) throws SQLException {
+    public void config(String[] args) throws SQLException {
         dbUrl = Arguable.stringInArgs(args, "-u", "--url");
         dbUsername= Arguable.stringInArgs(args, "-n", "--username");
         dbPassword = Arguable.stringInArgs(args, "-p", "--password");
         if (dbUrl == null) {
             dbUrl = "jdbc:mysql://localhost:3306/uniwood" +
                     "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useServerPrepStmts=true";
-            Main.logger().add("未指定数据库URL，使用默认URL", Log.Type.INFO, Thread.currentThread());
+            Main.logger().add("未指定数据库URL，使用默认URL", ServerLogger.Type.INFO, Thread.currentThread());
         }
         if (dbUsername == null) {
             dbUsername = "zpss";
-            Main.logger().add("未指定数据库用户名，使用默认用户名", Log.Type.INFO, Thread.currentThread());
+            Main.logger().add("未指定数据库用户名，使用默认用户名", ServerLogger.Type.INFO, Thread.currentThread());
         }
         if (dbPassword == null) {
             dbPassword = "henu";
-            Main.logger().add("未指定数据库密码，使用默认密码", Log.Type.INFO, Thread.currentThread());
+            Main.logger().add("未指定数据库密码，使用默认密码", ServerLogger.Type.INFO, Thread.currentThread());
         }
         tryConnect();
     }

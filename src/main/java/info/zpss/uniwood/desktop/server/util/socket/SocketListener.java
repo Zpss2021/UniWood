@@ -1,7 +1,7 @@
 package info.zpss.uniwood.desktop.server.util.socket;
 
 import info.zpss.uniwood.desktop.server.Main;
-import info.zpss.uniwood.desktop.server.util.Log;
+import info.zpss.uniwood.desktop.server.util.ServerLogger;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -48,10 +48,10 @@ public class SocketListener extends Thread {
                 handlers.add(handler);
                 pool.execute(handler);
             } catch (IOException e) {
-                Main.logger().add("处理套接字连接异常！", Log.Type.WARN, Thread.currentThread());
+                Main.logger().add("处理套接字连接异常！", ServerLogger.Type.WARN, Thread.currentThread());
                 Main.logger().add(e, Thread.currentThread());
             } catch (InterruptedException e) {
-                Main.logger().add("套接字监听线程中断！", Log.Type.WARN, Thread.currentThread());
+                Main.logger().add("套接字监听线程中断！", ServerLogger.Type.WARN, Thread.currentThread());
                 Main.logger().add(e, Thread.currentThread());
             }
         }

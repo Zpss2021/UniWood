@@ -1,6 +1,6 @@
 package info.zpss.uniwood.desktop.server.service;
 
-import info.zpss.uniwood.desktop.server.service.Impl.ZoneServiceImpl;
+import info.zpss.uniwood.desktop.server.service.impl.ZoneServiceImpl;
 
 public interface ZoneService {
     // TODO

@@ -1,6 +1,8 @@
 package info.zpss.uniwood.desktop.common;
 
 public interface Arguable {
+    void config(String[] args) throws Exception;
+
     static boolean paramInArgs(String[] args, String paraA, String paraB) {
         for (String arg : args)
             if (arg.equals(paraA) || arg.equals(paraB))
@@ -15,6 +17,4 @@ public interface Arguable {
                     return args[i + 1];
         return null;
     }
-
-    void init(String[] args) throws Exception;
 }
