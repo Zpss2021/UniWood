@@ -8,7 +8,7 @@ public class ServerLogger extends Logger {
 
     @Override
     public void config(String[] args) throws Exception {
-        String logDir = Main.debug() ? "src/main/logs/desktop/server" : "logs";
+        String logDir = Main.debug() ? "src/main/logs/server" : "logs";
         String fromArgs = Arguable.stringInArgs(args, "-l", "--log");
         this.setLogFileDir((fromArgs == null) ? logDir : fromArgs);
         this.add(String.format("UniWood-%s-%s", Main.PLATFORM, Main.VERSION), ServerLogger.Type.INFO, Thread.currentThread());
