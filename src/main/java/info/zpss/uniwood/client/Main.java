@@ -1,9 +1,15 @@
 package info.zpss.uniwood.client;
 
 import info.zpss.uniwood.client.controller.MainController;
+import info.zpss.uniwood.client.entity.Floor;
+import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.client.util.ClientLogger;
 import info.zpss.uniwood.client.util.socket.ServerConnection;
+import info.zpss.uniwood.client.view.window.PostWindow;
 import info.zpss.uniwood.common.Arguable;
+
+import java.util.Date;
+import java.util.Vector;
 
 public class Main {
     private static boolean debugMode;
@@ -79,7 +85,23 @@ public class Main {
         // TODO: 从这里开始写代码
         MainController.getInstance().register();
         MainController.getInstance().getView().showWindow(null);
-
+        PostWindow window = new PostWindow();
+        Vector<PostWindow.FloorPanel.FloorItem> floorItems = new Vector<>();
+        Floor floor = new Floor(1, new User(1, "张三", "河南大学", "12"), new Date(System.currentTimeMillis()), "内容内容");
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        floorItems.add(new PostWindow.FloorPanel.FloorItem(floor));
+        window.getFloorPanel().setListData(floorItems);
+        window.showWindow(MainController.getInstance().getView().getComponent());
 //        try {
 //            connection.disconnect();
 //        } catch (IOException e) {

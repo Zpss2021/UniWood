@@ -5,38 +5,28 @@ import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.entity.Zone;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.ClientLogger;
+import info.zpss.uniwood.client.util.FontBuilder;
 import info.zpss.uniwood.client.view.MainView;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
+import java.util.Enumeration;
 import java.util.Vector;
 
 public class MainWindow extends JFrame implements MainView {
-    private Component parent;
-    // 定义控件
-    private final JPanel outerPane;
-    // 一级面板
-    private final JPanel asidePane;
-    private final JPanel mainPane;
-
-    // 二级面板
+    private final JPanel outerPane, asidePane, mainPane, cfgPane, ctrlPane, cntPane;
     private final ZonePanel zonePane;
-    private final JPanel cfgPane;
-    private final JPanel ctrlPane;
-    private final JPanel cntPane;
-
-    // 三级面板
     private final UserPanel userPanel;
     private final SearchPanel searchPane;
     private final BtnPanel btnPane;
     private final PostPanel postPane;
 
-    // 构造函数
     public MainWindow() {
         super();
         this.outerPane = new JPanel(new BorderLayout());
@@ -53,6 +43,7 @@ public class MainWindow extends JFrame implements MainView {
         this.btnPane = new BtnPanel();
         this.postPane = new PostPanel();
 
+        this.initGlobalFont(new FontBuilder().build());
         this.initWindow();
 
         Dimension windowSize = new Dimension(960, 640);
@@ -114,7 +105,6 @@ public class MainWindow extends JFrame implements MainView {
     @Override
     public void showWindow(Component parent) {
         SwingUtilities.invokeLater(() -> {
-            this.parent = parent;
             this.pack();
             this.setVisible(true);
             this.validate();
@@ -147,6 +137,17 @@ public class MainWindow extends JFrame implements MainView {
         return userPanel;
     }
 
+    @Override
+    public void initGlobalFont(Font font) {
+        FontUIResource fontRes = new FontUIResource(font);
+        for (Enumeration<Object> keys = UIManager.getDefaults().keys(); keys.hasMoreElements(); ) {
+            Object key = keys.nextElement();
+            Object value = UIManager.get(key);
+            if (value instanceof FontUIResource)
+                UIManager.put(key, fontRes);
+        }
+    }
+
     public static class BtnPanel extends JPanel {
         public final JButton newPostBtn;
         public final JButton refreshBtn;
@@ -161,17 +162,16 @@ public class MainWindow extends JFrame implements MainView {
             this.prevPageBtn = new JButton("上一页");
             this.nextPageBtn = new JButton("下一页");
 
-            newPostBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
-            refreshBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
-            prevPageBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
-            nextPageBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+            newPostBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发布.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+            refreshBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/刷新.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+            prevPageBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/上一页.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+            nextPageBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/下一页.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 
             // TODO：字体
-            // TODO：为按钮添加图标
             // TODO：为按钮添加事件
 
             this.setLayout(new GridLayout(2, 2, 5, 5));
@@ -318,7 +318,7 @@ public class MainWindow extends JFrame implements MainView {
             public void updateAvatar(PostItem item) {
                 int infoLen = 35;
                 Icon avatarIcon = new ImageIcon(new ImageIcon(item.avatar).getImage().getScaledInstance(infoLen,
-                        infoLen, Image.SCALE_FAST));
+                        infoLen, Image.SCALE_SMOOTH));
                 avatarLbl.setIcon(avatarIcon);
                 avatarLbl.setBounds(0, 0, infoLen, infoLen);
                 avatarPane.setOpaque(false);
@@ -353,8 +353,8 @@ public class MainWindow extends JFrame implements MainView {
                 favorBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 favorBtn.setOpaque(false);
                 favorBtn.setPreferredSize(new Dimension(72, 35));
-                favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg").getImage()
-                        .getScaledInstance(12, 12, Image.SCALE_FAST)));
+                favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png").getImage()
+                        .getScaledInstance(12, 12, Image.SCALE_SMOOTH)));
 
                 favorBtn.addActionListener(e -> System.out.println("收藏了" + titleText.getText()));
             }
@@ -415,14 +415,16 @@ public class MainWindow extends JFrame implements MainView {
             this.zoneRadio = new JRadioButton("分区");
             this.userRadio = new JRadioButton("用户");
 
-            searchBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(20, 20, Image.SCALE_FAST)));  // TODO
+            searchBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/搜索.png")
+                    .getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
 
             radioPane.add(postRadio);
             radioPane.add(zoneRadio);
             radioPane.add(userRadio);
 
-            searchField.setText("输入关键词搜索贴子/分区/用户"); // TODO：根据不同的搜索类型，显示不同的提示
+//            ButtonGroup group = new ButtonGroup(); TODO
+            searchField.setFont(new FontBuilder().bold().large().build());
+            searchField.setText(" 输入关键词搜索贴子/分区/用户"); // TODO：根据不同的搜索类型，显示不同的提示
             searchField.setForeground(Color.GRAY);
             searchField.addFocusListener(new FocusAdapter() {
                 @Override
@@ -448,7 +450,6 @@ public class MainWindow extends JFrame implements MainView {
 
 
             // TODO：字体
-            // TODO：为按钮添加图标
             // TODO：为按钮和搜索框添加事件
 
             searchPanel.add(searchField, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER,
@@ -478,12 +479,12 @@ public class MainWindow extends JFrame implements MainView {
             registerBtn = new JButton("注册");
 
             Icon avatarIcon = new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(avatarLen, avatarLen, Image.SCALE_FAST));
+                    .getImage().getScaledInstance(avatarLen, avatarLen, Image.SCALE_SMOOTH));
             avatarLbl.setIcon(avatarIcon);
-            loginBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
-            registerBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+            loginBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/登录.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));  // TODO
+            registerBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/注册.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));  // TODO
             avatarLbl.setSize(avatarLen, avatarLen);
             loginBtn.setSize(85, 30);
             registerBtn.setSize(85, 30);
@@ -570,7 +571,7 @@ public class MainWindow extends JFrame implements MainView {
                                                           boolean isSelected, boolean cellHasFocus) {
                 int len = 48;
                 Icon zoneIcon = new ImageIcon(new ImageIcon(value.icon)
-                        .getImage().getScaledInstance(len, len, Image.SCALE_FAST));
+                        .getImage().getScaledInstance(len, len, Image.SCALE_SMOOTH));
                 this.iconLabel.setIcon(zoneIcon);
                 this.iconLabel.setSize(len, len);
                 this.nameLabel.setText(value.name);

@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 public class PostWindow extends JFrame implements PostView {
-    private Component parent;
     private final JPanel outerPane, asidePane, footerPane;
     private final JButton shareBtn, favorBtn, replyBtn, refreshBtn, prevBtn, nextBtn;
     private final FloorPanel floorPane;
@@ -17,34 +16,47 @@ public class PostWindow extends JFrame implements PostView {
     public PostWindow() {
         super();
 
-        this.parent = null;
         this.outerPane = new JPanel(new BorderLayout());
         this.asidePane = new JPanel();
         this.footerPane = new JPanel();
         this.floorPane = new FloorPanel();
 
-        this.shareBtn = new JButton("分享");
-        this.favorBtn = new JButton("收藏");
-        this.replyBtn = new JButton("回复");
+        this.shareBtn = new JButton();
+        this.favorBtn = new JButton();
+        this.replyBtn = new JButton();
         this.refreshBtn = new JButton("刷新");
         this.prevBtn = new JButton("上一页");
         this.nextBtn = new JButton("下一页");
 
-        shareBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
-        favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
-        replyBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
-        refreshBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
-        prevBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
-        nextBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_FAST)));  // TODO
+        shareBtn.setToolTipText("分享");
+        favorBtn.setToolTipText("收藏");
+        replyBtn.setToolTipText("回复");
+
+        shareBtn.setFocusable(false);
+        favorBtn.setFocusable(false);
+        replyBtn.setFocusable(false);
+
+        shareBtn.setPreferredSize(new Dimension(56, 48));
+        favorBtn.setPreferredSize(new Dimension(56, 48));
+        replyBtn.setPreferredSize(new Dimension(56, 48));
+        refreshBtn.setPreferredSize(new Dimension(84, 32));
+        prevBtn.setPreferredSize(new Dimension(96, 32));
+        nextBtn.setPreferredSize(new Dimension(96, 32));
+
+        shareBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/分享.png")
+                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+        favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png")
+                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+        replyBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发送.png")
+                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+        refreshBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/刷新.png")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        prevBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/上一页.png")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        nextBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/下一页.png")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 
         // TODO：字体
-        // TODO：为按钮添加图标
         // TODO：为按钮添加事件
 
         this.initWindow();
@@ -60,14 +72,14 @@ public class PostWindow extends JFrame implements PostView {
     }
 
     private void initWindow() {
-        asidePane.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
+        asidePane.setLayout(new FlowLayout(FlowLayout.CENTER, 16, 16));
         asidePane.setPreferredSize(new Dimension(72, 640));
         asidePane.add(shareBtn);
         asidePane.add(favorBtn);
         asidePane.add(replyBtn);
 
         footerPane.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
-        footerPane.setPreferredSize(new Dimension(840, 40));
+        footerPane.setPreferredSize(new Dimension(840, 45));
         footerPane.add(prevBtn);
         footerPane.add(refreshBtn);
         footerPane.add(nextBtn);
@@ -85,7 +97,6 @@ public class PostWindow extends JFrame implements PostView {
     @Override
     public void showWindow(Component parent) {
         SwingUtilities.invokeLater(() -> {
-            this.parent = parent;
             this.pack();
             this.setVisible(true);
             this.validate();

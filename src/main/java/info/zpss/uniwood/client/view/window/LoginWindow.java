@@ -7,7 +7,6 @@ import java.awt.*;
 
 // 登录窗口
 public class LoginWindow extends JFrame implements LoginView {
-    private Component parent;
     private final JPanel contentPanel, bgPane, formPane, footerPane;
     private final JLabel bgLbl, usernameLbl, passwordLbl, registerLbl;
     private final JTextField usernameText, passwordText;
@@ -17,7 +16,6 @@ public class LoginWindow extends JFrame implements LoginView {
     public LoginWindow() {
         super();
 
-        this.parent = null;
         this.contentPanel = new JPanel();
         this.bgPane = new JPanel();
         this.formPane = new JPanel();
@@ -90,7 +88,6 @@ public class LoginWindow extends JFrame implements LoginView {
     @Override
     public void showWindow(Component parent) {
         SwingUtilities.invokeLater(() -> {
-            this.parent = parent;
             this.pack();
             this.setVisible(true);
             this.validate();

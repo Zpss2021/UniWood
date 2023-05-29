@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RegisterWindow extends JFrame implements RegisterView {
-    private Component parent;
     private final JPanel contentPanel, formPanel, footerPanel, avatarPane, textPane;
     private final JLabel usernameLbl, passwordLbl, cfmPwdLbl, universityLbl, avatarLbl;
     private final JTextField usernameText, passwordText, pwdConfirmText;
@@ -17,7 +16,6 @@ public class RegisterWindow extends JFrame implements RegisterView {
     public RegisterWindow() {
         super();
 
-        this.parent = null;
         this.contentPanel = new JPanel();
         this.formPanel = new JPanel();
         this.footerPanel = new JPanel();
@@ -39,7 +37,11 @@ public class RegisterWindow extends JFrame implements RegisterView {
         this.registerBtn = new JButton("立即注册");
 
         avatarLbl.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(96, 96, Image.SCALE_SMOOTH)));  // TODO
+                .getImage().getScaledInstance(96, 96, Image.SCALE_SMOOTH)));
+        setAvatarBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/打开.png")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        registerBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/注册.png")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 
         // TODO：字体
 
@@ -105,7 +107,6 @@ public class RegisterWindow extends JFrame implements RegisterView {
     @Override
     public void showWindow(Component parent) {
         SwingUtilities.invokeLater(() -> {
-            this.parent = parent;
             this.pack();
             this.setVisible(true);
             this.validate();
