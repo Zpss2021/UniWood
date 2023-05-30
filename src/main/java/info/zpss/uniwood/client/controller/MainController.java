@@ -27,23 +27,22 @@ public class MainController implements Controller<MainModel, MainView> {
     }
 
     @Override
+    public MainModel getModel() {
+        return model;
+    }
+
+    @Override
+    public MainView getView() {
+        return view;
+    }
+
+    @Override
     public void register() {
         if (!registered) {
             registered = true;
             view.getLoginButton().addActionListener(e -> userLogin());
             view.getRegisterButton().addActionListener(e -> userRegister());
         }
-    }
-
-    @Override
-    public MainModel getModel() {
-        return model;
-    }
-
-
-    @Override
-    public MainView getView() {
-        return view;
     }
 
     private void userLogin() {

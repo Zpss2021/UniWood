@@ -1,6 +1,5 @@
 package info.zpss.uniwood.common;
 
-// 协议消息，用于客户端和服务器之间的通信
 public class MsgProto {
     public final Command cmd;
     public final String[] args;

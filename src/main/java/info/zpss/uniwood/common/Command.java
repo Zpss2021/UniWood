@@ -1,6 +1,5 @@
 package info.zpss.uniwood.common;
 
-// 命令枚举，用于标识消息类型
 public enum Command {
     // TODO: 检查所有命令
     LOGIN("LOGIN"),
