@@ -5,18 +5,22 @@ import info.zpss.uniwood.client.model.MainModel;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.MainView;
 import info.zpss.uniwood.client.view.window.MainWindow;
+import info.zpss.uniwood.common.Command;
+import info.zpss.uniwood.common.Logger;
+import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.common.MsgProto;
+
+import java.awt.event.ActionListener;
 
 public class MainController implements Controller<MainModel, MainView> {
     private static final MainController INSTANCE;
     private static final MainModel model;
     private static final MainView view;
-    private static boolean registered;
 
     static {
         model = new MainModel();
         view = new MainWindow();
         INSTANCE = new MainController();
-        registered = false;
     }
 
     private MainController() {
@@ -38,10 +42,20 @@ public class MainController implements Controller<MainModel, MainView> {
 
     @Override
     public void register() {
-        if (!registered) {
-            registered = true;
-            view.getLoginButton().addActionListener(e -> userLogin());
-            view.getRegisterButton().addActionListener(e -> userRegister());
+        for (ActionListener l : view.getLoginOrUserCenterButton().getActionListeners())
+            view.getLoginOrUserCenterButton().removeActionListener(l);
+        for (ActionListener l : view.getRegisterOrLogoutButton().getActionListeners())
+            view.getRegisterOrLogoutButton().removeActionListener(l);
+        ActionListener loginListener = e -> userLogin();
+        ActionListener registerListener = e -> userRegister();
+        ActionListener userCenterListener = e -> userCenter();
+        ActionListener logoutListener = e -> userLogout();
+        if (model.getLoginUser() != null) {
+            view.getLoginOrUserCenterButton().addActionListener(userCenterListener);
+            view.getRegisterOrLogoutButton().addActionListener(logoutListener);
+        } else {
+            view.getRegisterOrLogoutButton().addActionListener(registerListener);
+            view.getLoginOrUserCenterButton().addActionListener(loginListener);
         }
     }
 
@@ -55,9 +69,22 @@ public class MainController implements Controller<MainModel, MainView> {
         RegisterController.getInstance().getView().showWindow(view.getComponent());
     }
 
+    private void userCenter() {
+        // TODO
+        Main.logger().add("userCenter", Logger.Type.DEBUG, Thread.currentThread());
+    }
+
+    private void userLogout() {
+        Main.connection().send(MsgProto.build(Command.LOGOUT));
+//        Main.logger().add("userLogout", Logger.Type.DEBUG, Thread.currentThread());
+        model.init();
+        view.getUserPanel().setLogout();
+        register();
+    }
+
     public void loginSuccess(User loginUser) {
         model.setLoginUser(loginUser);
-        view.getLoginButton().setText(loginUser.getUsername());
-        view.getUserPanel().setAvatar(loginUser.getAvatar());
+        view.getUserPanel().setLogin(loginUser.getAvatar());
+        register();
     }
 }

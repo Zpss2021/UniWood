@@ -1,6 +1,7 @@
 package info.zpss.uniwood.server.util.socket;
 
 import info.zpss.uniwood.common.Command;
+import info.zpss.uniwood.common.Logger;
 import info.zpss.uniwood.common.MsgProto;
 import info.zpss.uniwood.server.Main;
 import info.zpss.uniwood.server.service.UserService;
@@ -22,7 +23,7 @@ public class SocketHandler extends Thread {
     private final ScheduledExecutorService checker;    // 定时修改在线状态为离线
     private final ScheduledExecutorService heartbeat;   // 若客户端离线超过一定时间，则断开连接并将用户状态置为离线
     private Integer userId;
-    private boolean online;
+    private boolean onConn;
     private BufferedReader reader;
     private PrintWriter writer;
 
@@ -32,7 +33,7 @@ public class SocketHandler extends Thread {
         this.checker = Executors.newSingleThreadScheduledExecutor();
         this.heartbeat = Executors.newSingleThreadScheduledExecutor();
         this.userId = null;
-        this.online = true;
+        this.onConn = true;
     }
 
     public void send(String message) {
@@ -41,13 +42,13 @@ public class SocketHandler extends Thread {
     }
 
     private void initSchedule() {
-        checker.scheduleAtFixedRate(() -> online = false, 0, 3, TimeUnit.SECONDS);
+        checker.scheduleAtFixedRate(() -> onConn = false, 0, 3, TimeUnit.SECONDS);
         heartbeat.scheduleAtFixedRate(() -> {
             try {
-                if (!online) {
+                if (!onConn) {
                     for (int i = 0; i < 5; i++) {
                         Thread.sleep(500);
-                        if (online) return;
+                        if (onConn) return;
                     }
                     Main.logger().add(String.format("客户端%s超时未响应，断开连接！", this),
                             ServerLogger.Type.WARN, Thread.currentThread());
@@ -87,11 +88,12 @@ public class SocketHandler extends Thread {
                 }
                 return MsgProto.build(Command.LOGIN_FAILED, "登录失败，请检查用户名和密码后重试！").toString();
             case LOGOUT:
+                Main.logger().add(String.format("用户%s已登出！", userId), Thread.currentThread());
+                UserService.getInstance().offlineUser(userId);
                 userId = null;
-                // TODO
                 break;
             case HEARTBEAT:
-                online = true;
+                onConn = true;
                 break;
             case UNIV_LIST:
                 String[] universities = ZoneService.getInstance().getUniversities();

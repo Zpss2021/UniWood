@@ -15,6 +15,7 @@ public class RegisterModel implements Model {
     private String[] universities;
 
     public RegisterModel() {
+        init();
     }
 
     public String getUsername() {
@@ -60,5 +61,14 @@ public class RegisterModel implements Model {
 
     public void setUniversities(String[] universities) {
         this.universities = universities;
+    }
+
+    @Override
+    public void init() {
+        username = null;
+        password = null;
+        university = null;
+        avatarBase64 = null;
+        universities = null;
     }
 }

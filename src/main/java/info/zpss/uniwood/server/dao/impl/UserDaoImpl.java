@@ -93,7 +93,7 @@ public class UserDaoImpl implements UserDao {
             preStmt.setString(3, avatarBase64);
             preStmt.setString(4, university);
             preStmt.executeUpdate();
-            ResultSet resultSet = preStmt.getGeneratedKeys();   // TODO:参考修改其他代码
+            ResultSet resultSet = preStmt.getGeneratedKeys();
             if (resultSet.next()) {
                 registerUser = new User();
                 registerUser.setId(resultSet.getInt(1));

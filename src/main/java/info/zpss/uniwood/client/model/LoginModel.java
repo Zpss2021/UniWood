@@ -9,6 +9,7 @@ public class LoginModel implements Model {
     private boolean autoLogin;
 
     public LoginModel() {
+        this.init();
     }
 
     public String getUsername() {
@@ -41,5 +42,13 @@ public class LoginModel implements Model {
 
     public void setAutoLogin(boolean autoLogin) {
         this.autoLogin = autoLogin;
+    }
+
+    @Override
+    public void init() {
+        this.username = null;
+        this.password = null;
+        this.rememberMe = false;
+        this.autoLogin = false;
     }
 }

@@ -7,7 +7,7 @@ public class MainModel implements Model {
     private User loginUser;
 
     public MainModel() {
-        this.loginUser = new User();
+        this.init();
     }
 
     public User getLoginUser() {
@@ -16,5 +16,10 @@ public class MainModel implements Model {
 
     public void setLoginUser(User loginUser) {
         this.loginUser = loginUser;
+    }
+
+    @Override
+    public void init() {
+        loginUser = null;
     }
 }

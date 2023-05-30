@@ -1,0 +1,19 @@
+[2023-05-31 03:38:19.998][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-05-31 03:38:19.998][main/DEBUG]DEBUG MODE ON!!
+[2023-05-31 03:38:20.001][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-05-31 03:38:20.002][main/INFO]未指定连接重试次数，使用默认值3
+[2023-05-31 03:38:20.008][main/INFO]服务器已连接
+[2023-05-31 03:38:20.009][main/INFO]Hello, UniWood!
+[2023-05-31 03:38:20.542][main/INFO]窗口初始化完成
+[2023-05-31 03:38:21.008][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 03:38:24.009][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 03:38:27.002][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 03:38:30.015][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 03:38:30.565][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-05-31 03:38:30.579][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-05-31 03:38:30.580][Thread-0/INFO]用户test_user_1登录成功！
+[2023-05-31 03:38:33.015][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 03:38:33.210][Thread-1/INFO]向服务器发送消息：UNIV_LIST
+[2023-05-31 03:38:33.214][Thread-0/INFO]收到服务器消息：UNIV_LIST|河南大学|清华大学|北京大学|郑州大学
+[2023-05-31 03:38:36.004][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 03:38:39.009][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT

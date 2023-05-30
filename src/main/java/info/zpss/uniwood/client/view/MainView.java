@@ -9,9 +9,9 @@ import java.awt.*;
 public interface MainView extends View {
     void initGlobalFont(Font font);
 
-    JButton getLoginButton();
+    JButton getLoginOrUserCenterButton();
 
-    JButton getRegisterButton();
+    JButton getRegisterOrLogoutButton();
 
     UserPanel getUserPanel();
 }

@@ -123,13 +123,13 @@ public class MainWindow extends JFrame implements MainView {
     }
 
     @Override
-    public JButton getLoginButton() {
-        return userPanel.loginBtn;
+    public JButton getLoginOrUserCenterButton() {
+        return userPanel.loginOrUserCenterBtn;
     }
 
     @Override
-    public JButton getRegisterButton() {
-        return userPanel.registerBtn;
+    public JButton getRegisterOrLogoutButton() {
+        return userPanel.registerOrLogoutBtn;
     }
 
     @Override
@@ -468,49 +468,59 @@ public class MainWindow extends JFrame implements MainView {
     public static class UserPanel extends JPanel {
         public final int avatarLen;
         public final JLabel avatarLbl;
-        public final JButton loginBtn;
-        public final JButton registerBtn;
+        public final JButton loginOrUserCenterBtn;
+        public final JButton registerOrLogoutBtn;
 
         public UserPanel() {
             super();
             avatarLen = 56;
             avatarLbl = new JLabel();
-            loginBtn = new JButton("登录");
-            registerBtn = new JButton("注册");
+            loginOrUserCenterBtn = new JButton("登录");
+            registerOrLogoutBtn = new JButton("注册");
 
             Icon avatarIcon = new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
                     .getImage().getScaledInstance(avatarLen, avatarLen, Image.SCALE_SMOOTH));
             avatarLbl.setIcon(avatarIcon);
-            loginBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/登录.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));  // TODO
-            registerBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/注册.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));  // TODO
+            loginOrUserCenterBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/登录.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+            registerOrLogoutBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/注册.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
             avatarLbl.setSize(avatarLen, avatarLen);
-            loginBtn.setSize(85, 30);
-            registerBtn.setSize(85, 30);
+            loginOrUserCenterBtn.setSize(85, 30);
+            registerOrLogoutBtn.setSize(85, 30);
 
             this.setLayout(null);
 
             avatarLbl.setLocation(15, 25);
-            loginBtn.setLocation(75, 25);
-            registerBtn.setLocation(75, 55);
-
-            // TODO：字体
-            // TODO：为按钮添加图标
-            // TODO：为按钮添加事件
+            loginOrUserCenterBtn.setLocation(75, 25);
+            registerOrLogoutBtn.setLocation(75, 55);
 
             this.add(avatarLbl);
-            this.add(loginBtn);
-            this.add(registerBtn);
+            this.add(loginOrUserCenterBtn);
+            this.add(registerOrLogoutBtn);
 
             this.setSize(150, 115);
             this.setBorder(BorderFactory.createTitledBorder("登录"));
         }
 
-        public void setAvatar(String base64) {
+        public void setLogin(String avatarBase64) {
             Avatar avatar = new Avatar();
-            avatar.fromBase64(base64);
+            avatar.fromBase64(avatarBase64);
             avatarLbl.setIcon(avatar.toIcon(avatarLen));
+            loginOrUserCenterBtn.setText("个人");
+            registerOrLogoutBtn.setText("登出");
+            loginOrUserCenterBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/个人中心.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        }
+
+        public void setLogout() {
+            Icon avatarIcon = new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+                    .getImage().getScaledInstance(avatarLen, avatarLen, Image.SCALE_SMOOTH));
+            avatarLbl.setIcon(avatarIcon);
+            loginOrUserCenterBtn.setText("登录");
+            registerOrLogoutBtn.setText("注册");
+            loginOrUserCenterBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/登录.png")
+                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
         }
     }
 
@@ -522,7 +532,6 @@ public class MainWindow extends JFrame implements MainView {
             super();
             this.zoneList = new JList<>();
 
-            // TODO：字体
             // TODO：为按钮添加事件
 
             this.zoneList.setCellRenderer(new ZoneItemRender());
