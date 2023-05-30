@@ -6,7 +6,6 @@ import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.MainView;
 import info.zpss.uniwood.client.view.window.MainWindow;
 import info.zpss.uniwood.common.Command;
-import info.zpss.uniwood.common.Logger;
 import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.common.MsgProto;
 
@@ -46,10 +45,10 @@ public class MainController implements Controller<MainModel, MainView> {
             view.getLoginOrUserCenterButton().removeActionListener(l);
         for (ActionListener l : view.getRegisterOrLogoutButton().getActionListeners())
             view.getRegisterOrLogoutButton().removeActionListener(l);
-        ActionListener loginListener = e -> userLogin();
-        ActionListener registerListener = e -> userRegister();
-        ActionListener userCenterListener = e -> userCenter();
-        ActionListener logoutListener = e -> userLogout();
+        ActionListener loginListener = e -> userLogin(),
+                registerListener = e -> userRegister(),
+                userCenterListener = e -> userCenter(),
+                logoutListener = e -> userLogout();
         if (model.getLoginUser() != null) {
             view.getLoginOrUserCenterButton().addActionListener(userCenterListener);
             view.getRegisterOrLogoutButton().addActionListener(logoutListener);
@@ -70,13 +69,11 @@ public class MainController implements Controller<MainModel, MainView> {
     }
 
     private void userCenter() {
-        // TODO
-        Main.logger().add("userCenter", Logger.Type.DEBUG, Thread.currentThread());
+        // TODO：打开用户中心界面
     }
 
     private void userLogout() {
         Main.connection().send(MsgProto.build(Command.LOGOUT));
-//        Main.logger().add("userLogout", Logger.Type.DEBUG, Thread.currentThread());
         model.init();
         view.getUserPanel().setLogout();
         register();

@@ -1,7 +1,6 @@
 package info.zpss.uniwood.server.util.socket;
 
 import info.zpss.uniwood.common.Command;
-import info.zpss.uniwood.common.Logger;
 import info.zpss.uniwood.common.MsgProto;
 import info.zpss.uniwood.server.Main;
 import info.zpss.uniwood.server.service.UserService;
@@ -20,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 public class SocketHandler extends Thread {
     private final Socket socket;
     private final SocketListener listener;
-    private final ScheduledExecutorService checker;    // 定时修改在线状态为离线
-    private final ScheduledExecutorService heartbeat;   // 若客户端离线超过一定时间，则断开连接并将用户状态置为离线
+    private final ScheduledExecutorService beater;    // 定时修改在线状态为离线
+    private final ScheduledExecutorService kicker;   // 若客户端状态为离线超过一定时间，则断开连接
     private Integer userId;
     private boolean onConn;
     private BufferedReader reader;
@@ -30,8 +29,8 @@ public class SocketHandler extends Thread {
     public SocketHandler(Socket socket, SocketListener listener) {
         this.socket = socket;
         this.listener = listener;
-        this.checker = Executors.newSingleThreadScheduledExecutor();
-        this.heartbeat = Executors.newSingleThreadScheduledExecutor();
+        this.beater = Executors.newSingleThreadScheduledExecutor();
+        this.kicker = Executors.newSingleThreadScheduledExecutor();
         this.userId = null;
         this.onConn = true;
     }
@@ -42,8 +41,8 @@ public class SocketHandler extends Thread {
     }
 
     private void initSchedule() {
-        checker.scheduleAtFixedRate(() -> onConn = false, 0, 3, TimeUnit.SECONDS);
-        heartbeat.scheduleAtFixedRate(() -> {
+        beater.scheduleAtFixedRate(() -> onConn = false, 0, 3, TimeUnit.SECONDS);
+        kicker.scheduleAtFixedRate(() -> {
             try {
                 if (!onConn) {
                     for (int i = 0; i < 5; i++) {
@@ -69,7 +68,7 @@ public class SocketHandler extends Thread {
         if (Main.debug())
             Main.logger().add(String.format("收到客户端%s消息：%s", this, message), Thread.currentThread());
         MsgProto msgProto = MsgProto.parse(message);
-        if (msgProto.cmd == null) {  // TODO
+        if (msgProto.cmd == null) {
             Main.logger().add(String.format("客户端%s消息解析失败！", this), ServerLogger.Type.WARN, Thread.currentThread());
             Main.logger().add(String.format("未知信息：%s", message), ServerLogger.Type.WARN, Thread.currentThread());
             return MsgProto.build(Command.UNKNOWN).toString();
@@ -160,8 +159,8 @@ public class SocketHandler extends Thread {
                         ServerLogger.Type.WARN, Thread.currentThread());
                 Main.logger().add(ex, Thread.currentThread());
             }
-            checker.shutdown();
-            heartbeat.shutdown();
+            beater.shutdown();
+            kicker.shutdown();
             listener.removeHandler(this);
             if (userId != null)
                 UserService.getInstance().offlineUser(userId);

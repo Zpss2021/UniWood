@@ -4,7 +4,6 @@ import info.zpss.uniwood.server.entity.User;
 import info.zpss.uniwood.server.service.impl.UserServiceImpl;
 
 public interface UserService {
-    // TODO
     static UserService getInstance() {
         return UserServiceImpl.getInstance();
     }
