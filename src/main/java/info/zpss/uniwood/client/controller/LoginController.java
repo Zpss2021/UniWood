@@ -7,9 +7,11 @@ import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.client.model.LoginModel;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.LoginView;
-import info.zpss.uniwood.client.view.window.LoginWindow;
+import info.zpss.uniwood.client.view.dialog.LoginDialog;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginController implements Controller<LoginModel, LoginView> {
     private static final LoginController INSTANCE;
@@ -19,7 +21,7 @@ public class LoginController implements Controller<LoginModel, LoginView> {
 
     static {
         model = new LoginModel();
-        view = new LoginWindow();
+        view = new LoginDialog(MainController.getInstance().getView().getComponent());
         INSTANCE = new LoginController();
         registered = false;
     }
@@ -32,14 +34,6 @@ public class LoginController implements Controller<LoginModel, LoginView> {
     }
 
     @Override
-    public void register() {
-        if (!registered) {
-            registered = true;
-            view.getLoginButton().addActionListener(e -> login());
-        }
-    }
-
-    @Override
     public LoginModel getModel() {
         return model;
     }
@@ -48,6 +42,20 @@ public class LoginController implements Controller<LoginModel, LoginView> {
     @Override
     public LoginView getView() {
         return view;
+    }
+
+    @Override
+    public void register() {
+        if (!registered) {
+            registered = true;
+            view.getLoginButton().addActionListener(e -> login());
+            view.getRegisterLabel().addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    toRegister();
+                }
+            });
+        }
     }
 
     private void login() {
@@ -77,6 +85,12 @@ public class LoginController implements Controller<LoginModel, LoginView> {
         model.setPassword(password);
         MsgProto msg = MsgProto.build(Command.LOGIN, model.getUsername(), model.getPassword());
         Main.connection().send(msg);
+    }
+
+    private void toRegister() {
+        view.hideWindow();
+        RegisterController.getInstance().register();
+        RegisterController.getInstance().getView().showWindow(view.getComponent());
     }
 
     public void loginSuccess(User loginUser) {

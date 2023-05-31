@@ -1,4 +1,4 @@
-package info.zpss.uniwood.client.view.window;
+package info.zpss.uniwood.client.view.dialog;
 
 import info.zpss.uniwood.client.view.RegisterView;
 import info.zpss.uniwood.client.util.Avatar;
@@ -6,15 +6,18 @@ import info.zpss.uniwood.client.util.Avatar;
 import javax.swing.*;
 import java.awt.*;
 
-public class RegisterWindow extends JFrame implements RegisterView {
+public class RegisterDialog extends JDialog implements RegisterView {
     private final JPanel contentPanel, formPanel, footerPanel, avatarPane, textPane;
     private final JLabel usernameLbl, passwordLbl, cfmPwdLbl, universityLbl, avatarLbl;
     private final JTextField usernameText, passwordText, pwdConfirmText;
     private final JComboBox<String> universityCombo;
     private final JButton setAvatarBtn, registerBtn;
 
-    public RegisterWindow() {
-        super();
+    public RegisterDialog(Component owner) {
+        super((Frame) owner, true);
+
+        this.setLocation(owner.getX() + owner.getWidth() / 2 - 240,
+                owner.getY() + owner.getHeight() / 2 - 160);
 
         this.contentPanel = new JPanel();
         this.formPanel = new JPanel();
@@ -43,8 +46,6 @@ public class RegisterWindow extends JFrame implements RegisterView {
         registerBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/注册.png")
                 .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 
-        // TODO：字体
-
         this.initWindow();
 
         this.setTitle("UniWood 注册");
@@ -53,7 +54,7 @@ public class RegisterWindow extends JFrame implements RegisterView {
         this.setPreferredSize(new Dimension(480, 320));
         this.setAlwaysOnTop(true);
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // TODO
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void initWindow() {
@@ -110,7 +111,6 @@ public class RegisterWindow extends JFrame implements RegisterView {
             this.pack();
             this.setVisible(true);
             this.validate();
-            this.setLocationRelativeTo(parent);
         });
     }
 
@@ -125,10 +125,6 @@ public class RegisterWindow extends JFrame implements RegisterView {
     @Override
     public Component getComponent() {
         return this;
-    }
-
-    public static void main(String[] args) {
-        new RegisterWindow().showWindow(null);
     }
 
     @Override

@@ -7,5 +7,6 @@ import javax.swing.*;
 public interface LoginView extends View {
     JTextField getUsernameText();
     JTextField getPasswordText();
+    JLabel getRegisterLabel();
     JButton getLoginButton();
 }

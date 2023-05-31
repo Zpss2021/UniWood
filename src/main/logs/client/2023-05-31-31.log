@@ -1,0 +1,37 @@
+[2023-05-31 17:57:34.070][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-05-31 17:57:34.071][main/DEBUG]DEBUG MODE ON!!
+[2023-05-31 17:57:34.074][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-05-31 17:57:34.074][main/INFO]未指定连接重试次数，使用默认值3
+[2023-05-31 17:57:34.081][main/INFO]服务器已连接
+[2023-05-31 17:57:34.082][main/INFO]Hello, UniWood!
+[2023-05-31 17:57:34.601][main/INFO]窗口初始化完成
+[2023-05-31 17:57:35.084][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:57:38.074][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:57:41.082][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:57:42.201][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-05-31 17:57:42.212][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-05-31 17:57:42.213][Thread-0/INFO]用户test_user_1登录成功！
+[2023-05-31 17:57:44.082][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:57:47.074][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:57:50.083][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:57:53.079][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:57:56.074][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:57:59.075][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:02.075][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:05.076][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:08.078][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:11.083][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:14.081][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:17.080][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:20.086][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:23.084][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:26.079][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:29.081][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:32.081][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:35.081][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:38.087][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:41.076][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:44.076][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:47.086][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:50.084][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 17:58:53.083][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT

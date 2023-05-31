@@ -1,0 +1,29 @@
+[2023-05-31 21:38:35.848][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-05-31 21:38:35.848][main/DEBUG]DEBUG MODE ON!!
+[2023-05-31 21:38:35.851][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-05-31 21:38:35.852][main/INFO]未指定连接重试次数，使用默认值3
+[2023-05-31 21:38:35.858][main/INFO]服务器已连接
+[2023-05-31 21:38:35.859][main/INFO]Hello, UniWood!
+[2023-05-31 21:38:36.344][main/INFO]窗口初始化完成
+[2023-05-31 21:38:36.865][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:38:39.852][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:38:42.863][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:38:45.861][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:38:48.863][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:38:51.855][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:38:54.860][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:38:57.866][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:39:00.865][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:39:02.633][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-05-31 21:39:02.658][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-05-31 21:39:02.659][Thread-0/INFO]用户test_user_1登录成功！
+[2023-05-31 21:39:03.860][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:39:06.857][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:39:07.036][AWT-EventQueue-0/INFO]向服务器发送消息：LOGOUT
+[2023-05-31 21:39:09.856][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:39:11.715][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-05-31 21:39:11.726][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-05-31 21:39:11.726][Thread-0/INFO]用户test_user_1登录成功！
+[2023-05-31 21:39:12.865][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:39:15.863][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 21:39:16.668][AWT-EventQueue-0/INFO]向服务器发送消息：LOGOUT

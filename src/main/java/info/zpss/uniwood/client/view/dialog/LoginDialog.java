@@ -1,20 +1,23 @@
-package info.zpss.uniwood.client.view.window;
+package info.zpss.uniwood.client.view.dialog;
 
+import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.client.view.LoginView;
 
 import javax.swing.*;
 import java.awt.*;
 
-// 登录窗口
-public class LoginWindow extends JFrame implements LoginView {
+public class LoginDialog extends JDialog implements LoginView {
     private final JPanel contentPanel, bgPane, formPane, footerPane;
     private final JLabel bgLbl, usernameLbl, passwordLbl, registerLbl;
     private final JTextField usernameText, passwordText;
     private final JCheckBox autoLoginCheck, rememberMeCheck;
     private final JButton loginBtn;
 
-    public LoginWindow() {
-        super();
+    public LoginDialog(Component owner) {
+        super((Frame) owner, true);
+
+        this.setLocation(owner.getX() + owner.getWidth() / 2 - 240,
+                owner.getY() + owner.getHeight() / 2 - 160);
 
         this.contentPanel = new JPanel();
         this.bgPane = new JPanel();
@@ -38,7 +41,6 @@ public class LoginWindow extends JFrame implements LoginView {
                 .getImage().getScaledInstance(480, 105, Image.SCALE_FAST)));  // TODO
 
         // TODO: 头图
-        // TODO：字体
 
         this.initWindow();
 
@@ -70,7 +72,7 @@ public class LoginWindow extends JFrame implements LoginView {
         this.formPane.add(loginBtn);
         usernameLbl.setHorizontalAlignment(SwingConstants.RIGHT);
         passwordLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-        usernameLbl.setBounds(80,10, 60, 30);
+        usernameLbl.setBounds(80, 10, 60, 30);
         usernameText.setBounds(140, 10, 200, 30);
         passwordLbl.setBounds(80, 50, 60, 30);
         passwordText.setBounds(140, 50, 200, 30);
@@ -83,6 +85,11 @@ public class LoginWindow extends JFrame implements LoginView {
 
         this.footerPane.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.footerPane.add(registerLbl);
+
+        if (Main.debug()) {
+            this.usernameText.setText("test_user_1");
+            this.passwordText.setText("123456");
+        }
     }
 
     @Override
@@ -91,7 +98,6 @@ public class LoginWindow extends JFrame implements LoginView {
             this.pack();
             this.setVisible(true);
             this.validate();
-            this.setLocationRelativeTo(parent);
         });
     }
 
@@ -117,6 +123,11 @@ public class LoginWindow extends JFrame implements LoginView {
     @Override
     public JTextField getPasswordText() {
         return passwordText;
+    }
+
+    @Override
+    public JLabel getRegisterLabel() {
+        return registerLbl;
     }
 
     @Override

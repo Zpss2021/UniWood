@@ -507,7 +507,7 @@ public class MainWindow extends JFrame implements MainView {
             Avatar avatar = new Avatar();
             avatar.fromBase64(avatarBase64);
             avatarLbl.setIcon(avatar.toIcon(avatarLen));
-            loginOrUserCenterBtn.setText("个人");
+            loginOrUserCenterBtn.setText("我的");
             registerOrLogoutBtn.setText("登出");
             loginOrUserCenterBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/个人中心.png")
                     .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));

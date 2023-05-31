@@ -6,7 +6,7 @@ import info.zpss.uniwood.client.model.RegisterModel;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.RegisterView;
-import info.zpss.uniwood.client.view.window.RegisterWindow;
+import info.zpss.uniwood.client.view.dialog.RegisterDialog;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 
@@ -23,7 +23,7 @@ public class RegisterController implements Controller<RegisterModel, RegisterVie
 
     static {
         model = new RegisterModel();
-        view = new RegisterWindow();
+        view = new RegisterDialog(MainController.getInstance().getView().getComponent());
         INSTANCE = new RegisterController();
         registered = false;
     }
@@ -33,6 +33,16 @@ public class RegisterController implements Controller<RegisterModel, RegisterVie
 
     public static RegisterController getInstance() {
         return INSTANCE;
+    }
+
+    @Override
+    public RegisterModel getModel() {
+        return model;
+    }
+
+    @Override
+    public RegisterView getView() {
+        return view;
     }
 
     @Override
@@ -48,16 +58,6 @@ public class RegisterController implements Controller<RegisterModel, RegisterVie
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    @Override
-    public RegisterModel getModel() {
-        return model;
-    }
-
-    @Override
-    public RegisterView getView() {
-        return view;
     }
 
     private void userRegister() {

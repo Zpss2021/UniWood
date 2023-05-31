@@ -1,0 +1,32 @@
+[2023-05-31 04:16:45.493][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-05-31 04:16:45.494][main/DEBUG]DEBUG MODE ON!!
+[2023-05-31 04:16:45.497][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-05-31 04:16:45.497][main/INFO]未指定连接重试次数，使用默认值3
+[2023-05-31 04:16:45.504][main/INFO]服务器已连接
+[2023-05-31 04:16:45.505][main/INFO]Hello, UniWood!
+[2023-05-31 04:16:46.066][main/INFO]窗口初始化完成
+[2023-05-31 04:16:46.501][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:16:49.501][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:16:52.509][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:16:55.504][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:16:58.507][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:16:59.192][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-05-31 04:16:59.229][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-05-31 04:16:59.230][Thread-0/INFO]用户test_user_1登录成功！
+[2023-05-31 04:17:01.503][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:17:02.316][AWT-EventQueue-0/INFO]向服务器发送消息：LOGOUT
+[2023-05-31 04:17:04.510][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:17:04.604][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-05-31 04:17:04.618][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-05-31 04:17:04.618][Thread-0/INFO]用户test_user_1登录成功！
+[2023-05-31 04:17:06.559][AWT-EventQueue-0/INFO]向服务器发送消息：LOGOUT
+[2023-05-31 04:17:07.505][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:17:08.759][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-05-31 04:17:08.773][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-05-31 04:17:08.773][Thread-0/INFO]用户test_user_1登录成功！
+[2023-05-31 04:17:09.699][AWT-EventQueue-0/INFO]向服务器发送消息：LOGOUT
+[2023-05-31 04:17:10.497][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:17:10.565][Thread-1/INFO]向服务器发送消息：UNIV_LIST
+[2023-05-31 04:17:10.574][Thread-0/INFO]收到服务器消息：UNIV_LIST|河南大学|清华大学|北京大学|郑州大学
+[2023-05-31 04:17:13.499][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 04:17:16.510][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT

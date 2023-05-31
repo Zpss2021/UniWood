@@ -56,7 +56,6 @@ public class PostWindow extends JFrame implements PostView {
         nextBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/下一页.png")
                 .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 
-        // TODO：字体
         // TODO：为按钮添加事件
 
         this.initWindow();
@@ -307,6 +306,14 @@ public class PostWindow extends JFrame implements PostView {
                 floorItemPanel.add(centerPanel, BorderLayout.CENTER);
                 floorItemPanel.add(infoPanel, BorderLayout.SOUTH);
                 floorItemPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+            }
+
+            @Override
+            public void repaint() {
+                super.repaint();
+                if (floorItemPanel != null)
+                    SwingUtilities.invokeLater(() -> floorItemPanel.setPreferredSize(new Dimension(0,
+                            floorItemPanel.getPreferredSize().height)));
             }
         }
     }

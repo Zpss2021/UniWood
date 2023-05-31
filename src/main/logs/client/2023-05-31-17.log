@@ -1,0 +1,21 @@
+[2023-05-31 16:28:31.667][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-05-31 16:28:31.668][main/DEBUG]DEBUG MODE ON!!
+[2023-05-31 16:28:31.671][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-05-31 16:28:31.671][main/INFO]未指定连接重试次数，使用默认值3
+[2023-05-31 16:28:31.678][main/INFO]服务器已连接
+[2023-05-31 16:28:31.679][main/INFO]Hello, UniWood!
+[2023-05-31 16:28:32.178][main/INFO]窗口初始化完成
+[2023-05-31 16:28:32.685][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:28:35.081][Thread-1/INFO]向服务器发送消息：UNIV_LIST
+[2023-05-31 16:28:35.085][Thread-0/INFO]收到服务器消息：UNIV_LIST|河南大学|清华大学|北京大学|郑州大学
+[2023-05-31 16:28:35.677][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:28:38.676][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:28:41.684][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:28:44.682][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:28:47.677][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:28:50.680][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:28:53.671][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:28:56.685][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:28:59.685][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:29:02.684][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-05-31 16:29:05.677][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
