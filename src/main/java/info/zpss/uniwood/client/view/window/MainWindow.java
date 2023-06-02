@@ -236,6 +236,8 @@ public class MainWindow extends JFrame implements MainView {
                 this.postListPane.add(new PostItemRender(item));
         }
 
+
+
         public void update(PostItem item) {
             for (int i = 0; i < this.postList.size(); i++) {
                 if (this.postList.get(i).id == item.id) {
@@ -400,6 +402,13 @@ public class MainWindow extends JFrame implements MainView {
                 postItemPanel.add(headerPanel, BorderLayout.NORTH);
                 postItemPanel.add(contentText, BorderLayout.CENTER);
                 postItemPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+            }
+
+            @Override
+            public void repaint() {
+                super.repaint();
+                if (postItemPanel != null)
+                    SwingUtilities.updateComponentTreeUI(postItemPanel);
             }
         }
     }
