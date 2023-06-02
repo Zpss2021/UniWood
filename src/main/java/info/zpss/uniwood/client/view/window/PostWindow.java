@@ -56,8 +56,6 @@ public class PostWindow extends JFrame implements PostView {
         nextBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/下一页.png")
                 .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 
-        // TODO：为按钮添加事件
-
         this.initWindow();
 
         this.setTitle("贴子标题_贴子分区_UniWood");  // TODO：从贴子对象获取标题

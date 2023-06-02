@@ -1,20 +1,23 @@
 package info.zpss.uniwood.client.entity;
 
-// TODO 分区
-public class Zone {
+import info.zpss.uniwood.client.util.interfaces.Entity;
+import info.zpss.uniwood.common.Command;
+import info.zpss.uniwood.common.MsgProto;
+
+public class Zone implements Entity {
     private Integer id;
     private String name;
-    private String icon;
     private String description;
+    private String icon;
 
     public Zone() {
     }
 
-    public Zone(Integer id, String name, String icon, String description) {
+    public Zone(Integer id, String name, String description, String icon) {
         this.id = id;
         this.name = name;
-        this.icon = icon;
         this.description = description;
+        this.icon = icon;
     }
 
     public Integer getId() {
@@ -25,11 +28,21 @@ public class Zone {
         return name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public String getIcon() {
         return icon;
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public void update(MsgProto msg) {
+        if (msg.cmd.equals(Command.ZONE_INFO)) {
+            this.id = Integer.valueOf(msg.args[0]);
+            this.name = msg.args[1];
+            this.description = msg.args[2];
+            this.icon = msg.args[3];
+        }
     }
 }

@@ -3,7 +3,7 @@ package info.zpss.uniwood.client.view.dialog;
 import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.client.model.UserCenterModel;
 import info.zpss.uniwood.client.util.Avatar;
-import info.zpss.uniwood.client.util.builders.FontBuilder;
+import info.zpss.uniwood.client.util.FontMaker;
 import info.zpss.uniwood.client.view.UserCenterView;
 
 import javax.swing.*;
@@ -34,11 +34,11 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
         this.followPane = new JPanel();
         this.btnPane = new JPanel();
         this.avatarLbl = new JLabel();
-        this.usernameLbl = new JLabel("username");  // TODO
-        this.userIdLbl = new JLabel("ID：0000"); // TODO
-        this.universityLbl = new JLabel("大学：河南大学"); // TODO
-        this.followingLbl = new JLabel("<html><u>0 关注</u></html>");   // 关注数 TODO
-        this.followerLbl = new JLabel("<html><u>0 粉丝</u></html>");    // 粉丝数 TODO
+        this.usernameLbl = new JLabel("username");
+        this.userIdLbl = new JLabel("ID：0000");
+        this.universityLbl = new JLabel("大学：河南大学");
+        this.followingLbl = new JLabel("<html><u>0 关注</u></html>");   // 关注数
+        this.followerLbl = new JLabel("<html><u>0 粉丝</u></html>");    // 粉丝数
         this.favorBtn = new JButton();
         this.postBtn = new JButton();
         this.followOrEditBtn = new JButton("编辑");
@@ -74,12 +74,12 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
         contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         avatarLbl.setPreferredSize(new Dimension(96, 96));
-        usernameLbl.setFont(new FontBuilder().large().large().large().bold().build());
-        userIdLbl.setFont(new FontBuilder().small().build());
-        universityLbl.setFont(new FontBuilder().small().build());
+        usernameLbl.setFont(new FontMaker().large().large().large().bold().build());
+        userIdLbl.setFont(new FontMaker().small().build());
+        universityLbl.setFont(new FontMaker().small().build());
 
-        followerLbl.setFont(new FontBuilder().large().build());
-        followingLbl.setFont(new FontBuilder().large().build());
+        followerLbl.setFont(new FontMaker().large().build());
+        followingLbl.setFont(new FontMaker().large().build());
         followerLbl.setForeground(Color.BLUE);
         followingLbl.setForeground(Color.BLUE);
 

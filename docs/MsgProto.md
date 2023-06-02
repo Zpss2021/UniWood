@@ -18,7 +18,10 @@
 - 获取关注列表：`FOLW_LIST | 用户ID`
 - 获取粉丝列表：`FANS_LIST | 用户ID`
 - 获取发贴列表：`POST_LIST | 用户ID`
+- 获取关注分区：`ZONE_LIST | 用户ID`
 - 修改个人信息：`EDIT_INFO | 用户ID | 用户名 | 密码 | 大学 | 头像base64`
+- 获取贴子信息：`POST_INFO | 帖子ID`
+- 获取分区信息：`ZONE_INFO | 分区ID`
 
 [//]: # (- 用户下线：`LOGOUT`)
 
@@ -33,6 +36,9 @@
 - 关注列表：`FOLW_LIST | 用户1 ID | 用户2 ID | ...`
 - 粉丝列表：`FANS_LIST | 用户1 ID | 用户2 ID | ...`
 - 发贴列表：`POST_LIST | 帖子1 ID | 帖子2 ID | ...`
+- 关注分区：`ZONE_LIST | 分区1 ID | 分区2 ID | ...`
 - 修改成功：`EDIT_SUCCESS`
 - 修改失败：`EDIT_FAILED | 原因短语`
+- 贴子信息：`POST_INFO | 帖子ID | 分区ID | 楼主ID | 发贴时间`
+- 分区信息：`ZONE_INFO | 分区ID | 分区名 | 分区描述 | 分区图标base64`
 - 未知命令：`UNKNOWN`

@@ -1,5 +1,12 @@
 package info.zpss.uniwood.server.service;
 
+import info.zpss.uniwood.server.entity.Floor;
+import info.zpss.uniwood.server.service.impl.FloorServiceImpl;
+
 public interface FloorService {
-    // TODO
+    static FloorService getInstance() {
+        return FloorServiceImpl.getInstance();
+    }
+
+    Floor getFloor(Integer floorID, Integer postID);
 }

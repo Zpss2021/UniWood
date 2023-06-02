@@ -3,6 +3,11 @@ package info.zpss.uniwood.server.util.socket;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 import info.zpss.uniwood.server.Main;
+import info.zpss.uniwood.server.entity.Floor;
+import info.zpss.uniwood.server.entity.Post;
+import info.zpss.uniwood.server.entity.Zone;
+import info.zpss.uniwood.server.service.FloorService;
+import info.zpss.uniwood.server.service.PostService;
 import info.zpss.uniwood.server.service.UserService;
 import info.zpss.uniwood.server.service.ZoneService;
 import info.zpss.uniwood.server.util.ServerLogger;
@@ -84,8 +89,12 @@ public class SocketHandler extends Thread {
                     Main.logger().add(String.format("用户%s登录成功！", loginUser.getUsername()),
                             ServerLogger.Type.INFO, Thread.currentThread());
                     userId = loginUser.getId();
-                    return MsgProto.build(Command.LOGIN_SUCCESS, loginUser.getId().toString(), loginUser.getUsername(),
-                            loginUser.getUniversity(), loginUser.getAvatar()).toString();
+                    return MsgProto.build(Command.LOGIN_SUCCESS,
+                            loginUser.getId().toString(),
+                            loginUser.getUsername(),
+                            loginUser.getUniversity(),
+                            loginUser.getAvatar()
+                    ).toString();
                 }
                 return MsgProto.build(Command.LOGIN_FAILED, "登录失败，请检查用户名和密码后重试！").toString();
             case LOGOUT:
@@ -104,8 +113,12 @@ public class SocketHandler extends Thread {
                             ServerLogger.Type.INFO, Thread.currentThread());
                     registerUser = UserService.getInstance().login(registerUser.getUsername(), registerUser.getPassword());
                     userId = registerUser.getId();
-                    return MsgProto.build(Command.REGISTER_SUCCESS, registerUser.getId().toString(),
-                            registerUser.getUsername(), registerUser.getUniversity(), registerUser.getAvatar()).toString();
+                    return MsgProto.build(Command.REGISTER_SUCCESS,
+                            registerUser.getId().toString(),
+                            registerUser.getUsername(),
+                            registerUser.getUniversity(),
+                            registerUser.getAvatar()
+                    ).toString();
                 }
                 return MsgProto.build(Command.REGISTER_FAILED, "注册失败，请检查用户名和密码后重试！").toString();
             case UNIV_LIST:
@@ -113,8 +126,12 @@ public class SocketHandler extends Thread {
                 return MsgProto.build(Command.UNIV_LIST, universities).toString();
             case USER_INFO:
                 User user = UserService.getInstance().getUser(Integer.valueOf(msgProto.args[0]));
-                return MsgProto.build(Command.USER_INFO, user.getId().toString(), user.getUsername(),
-                        user.getUniversity(), user.getAvatar()).toString();
+                return MsgProto.build(Command.USER_INFO,
+                        user.getId().toString(),
+                        user.getUsername(),
+                        user.getUniversity(),
+                        user.getAvatar()
+                ).toString();
             case FOLW_LIST:
                 List<User> followList = UserService.getInstance().getFollowings(Integer.valueOf(msgProto.args[0]));
                 String[] followListStr = followList
@@ -129,6 +146,20 @@ public class SocketHandler extends Thread {
                         .map(item -> item.getId().toString())
                         .toArray(String[]::new);
                 return MsgProto.build(Command.FANS_LIST, fansListStr).toString();
+            case POST_LIST:
+                List<Post> postList = PostService.getInstance().getPostsByUserId(Integer.valueOf(msgProto.args[0]));
+                String[] postListStr = postList
+                        .stream()
+                        .map(item -> item.getId().toString())
+                        .toArray(String[]::new);
+                return MsgProto.build(Command.POST_LIST, postListStr).toString();
+            case ZONE_LIST:
+                List<Zone> zoneList = ZoneService.getInstance().getZonesByUserId(Integer.valueOf(msgProto.args[0]));
+                String[] zoneListStr = zoneList
+                        .stream()
+                        .map(item -> item.getId().toString())
+                        .toArray(String[]::new);
+                return MsgProto.build(Command.ZONE_LIST, zoneListStr).toString();
             case EDIT_INFO:
                 if (!msgProto.args[0].equals(userId.toString()) || msgProto.args.length != 5)
                     return null;
@@ -137,10 +168,31 @@ public class SocketHandler extends Thread {
                 if (editUser != null) {
                     Main.logger().add(String.format("用户%s修改信息成功！", editUser.getUsername()),
                             ServerLogger.Type.INFO, Thread.currentThread());
-                    return MsgProto.build(Command.EDIT_SUCCESS, editUser.getId().toString(),
-                            editUser.getUsername(), editUser.getUniversity(), editUser.getAvatar()).toString();
+                    return MsgProto.build(Command.EDIT_SUCCESS,
+                            editUser.getId().toString(),
+                            editUser.getUsername(),
+                            editUser.getUniversity(),
+                            editUser.getAvatar()
+                    ).toString();
                 }
                 return MsgProto.build(Command.EDIT_FAILED, "修改信息失败，请检查后重试！").toString();
+            case POST_INFO:
+                Post post = PostService.getInstance().getPost(Integer.valueOf(msgProto.args[0]));
+                Floor firstFloor = FloorService.getInstance().getFloor(1, post.getId());
+                return MsgProto.build(Command.POST_INFO,
+                        post.getId().toString(),
+                        post.getZoneId().toString(),
+                        firstFloor.getAuthorId().toString(),
+                        String.valueOf(firstFloor.getCreateTime().getTime())
+                ).toString();
+            case ZONE_INFO:
+                Zone zone = ZoneService.getInstance().getZone(Integer.valueOf(msgProto.args[0]));
+                return MsgProto.build(Command.ZONE_INFO,
+                        zone.getId().toString(),
+                        zone.getName(),
+                        zone.getDescription(),
+                        zone.getIcon()
+                ).toString();
             default:
                 Main.logger().add(String.format("收到客户端%s未知命令：%s", this, msgProto.cmd),
                         ServerLogger.Type.WARN, Thread.currentThread());

@@ -1,7 +1,9 @@
 package info.zpss.uniwood.client.entity;
 
 import info.zpss.uniwood.client.Main;
-import info.zpss.uniwood.client.util.builders.UserBuilder;
+import info.zpss.uniwood.client.builder.PostBuilder;
+import info.zpss.uniwood.client.builder.UserBuilder;
+import info.zpss.uniwood.client.builder.ZoneBuilder;
 import info.zpss.uniwood.common.MsgProto;
 import info.zpss.uniwood.client.util.interfaces.Entity;
 
@@ -92,9 +94,15 @@ public class User implements Entity {
                     break;
                 case POST_LIST:
                     ArrayList<Post> post = new ArrayList<>();
-                    for (String s : msg.args)   // TODO: PostBuilder
-                        post.add(new Post(Integer.parseInt(s), null, null, null, null));
+                    for (String s : msg.args)
+                        post.add(PostBuilder.getInstance().get(Integer.parseInt(s)));
                     this.posts = post;
+                    break;
+                case ZONE_LIST:
+                    ArrayList<Zone> zone = new ArrayList<>();
+                    for (String s : msg.args)
+                        zone.add(ZoneBuilder.getInstance().get(Integer.parseInt(s)));
+                    this.zones = zone;
                     break;
             }
         } catch (InterruptedException e) {

@@ -1,14 +1,15 @@
-package info.zpss.uniwood.client.util.builders;
+package info.zpss.uniwood.client.builder;
 
 import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.client.entity.User;
+import info.zpss.uniwood.client.util.interfaces.Builder;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserBuilder {
+public class UserBuilder implements Builder<User> {
     private static final UserBuilder INSTANCE;
     private static final int expireSecond = 180;
     private static final Map<Integer, User> users;
@@ -33,7 +34,8 @@ public class UserBuilder {
         holder.start();
     }
 
-    private void hold() {
+    @Override
+    public void hold() {
         try {
             Thread.sleep(expireSecond * 1000);
         } catch (InterruptedException e) {
@@ -41,16 +43,19 @@ public class UserBuilder {
         }
     }
 
+    @Override
     public void add(User user) {
         users.put(user.getId(), user);
     }
 
+    @Override
     public User get(Integer userId) throws InterruptedException {
         if (users.containsKey(userId))
             return users.get(userId);
         return build(userId);
     }
 
+    @Override
     public User build(Integer userId) throws InterruptedException {
         if (users.containsKey(userId))
             return users.get(userId);

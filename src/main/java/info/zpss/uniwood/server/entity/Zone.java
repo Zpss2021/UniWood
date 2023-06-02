@@ -1,6 +1,5 @@
 package info.zpss.uniwood.server.entity;
 
-// TODO 分区
 public class Zone {
     private Integer id;
     private String name;

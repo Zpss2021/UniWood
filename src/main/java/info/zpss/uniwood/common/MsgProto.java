@@ -6,7 +6,7 @@ public class MsgProto {
 
     private MsgProto(Command cmd, String[] args) {
         this.cmd = (cmd == null) ? Command.UNKNOWN : cmd;
-        this.args = args;
+        this.args = (args == null) ? new String[0] : args;
     }
 
     public static MsgProto build(Command command, String... args) {
@@ -25,7 +25,7 @@ public class MsgProto {
 
     @Override
     public String toString() {
-        if (args == null || args.length == 0)
+        if (args.length == 0)
             return cmd.toString();
         return String.format("%s|%s", cmd, String.join("|", args));
     }

@@ -43,6 +43,13 @@ public class ZoneServiceImpl implements ZoneService {
         return null;
     }
 
+    @Override
+    public Zone getZone(Integer zoneID) {
+        return zoneDao.getZone(zoneID);
+    }
 
-    // TODO
+    @Override
+    public List<Zone> getZonesByUserId(Integer userID) {
+        return zoneDao.getZonesByUserID(userID);
+    }
 }

@@ -1,5 +1,6 @@
 package info.zpss.uniwood.client.view;
 
+import info.zpss.uniwood.client.view.window.MainWindow.ZonePanel;
 import info.zpss.uniwood.client.view.window.MainWindow.UserPanel;
 import info.zpss.uniwood.client.util.interfaces.View;
 
@@ -14,4 +15,6 @@ public interface MainView extends View {
     JButton getRegisterOrLogoutButton();
 
     UserPanel getUserPanel();
+
+    ZonePanel getZonePanel();
 }

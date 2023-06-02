@@ -1,13 +1,14 @@
 package info.zpss.uniwood.client.util.socket;
 
 import info.zpss.uniwood.client.Main;
-import info.zpss.uniwood.client.controller.EditController;
-import info.zpss.uniwood.client.controller.LoginController;
-import info.zpss.uniwood.client.controller.RegisterController;
-import info.zpss.uniwood.client.controller.UserCenterController;
+import info.zpss.uniwood.client.controller.*;
+import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.entity.User;
+import info.zpss.uniwood.client.entity.Zone;
 import info.zpss.uniwood.client.util.ClientLogger;
-import info.zpss.uniwood.client.util.builders.UserBuilder;
+import info.zpss.uniwood.client.builder.PostBuilder;
+import info.zpss.uniwood.client.builder.UserBuilder;
+import info.zpss.uniwood.client.builder.ZoneBuilder;
 import info.zpss.uniwood.common.MsgProto;
 
 public class HandlerMethods {
@@ -49,11 +50,27 @@ public class HandlerMethods {
         UserCenterController.getInstance().getModel().update(msg);
     }
 
+    public static void loginUserUpdate(MsgProto msg) {
+        MainController.getInstance().getModel().getLoginUser().update(msg);
+    }
+
     public static void editSuccess() {
         EditController.getInstance().editSuccess();
     }
 
     public static void editFailed(MsgProto msg) {
         EditController.getInstance().editFailed(msg.args[0]);
+    }
+
+    public static void postInfo(MsgProto msg) {
+        Post post = new Post();
+        post.update(msg);
+        PostBuilder.getInstance().add(post);
+    }
+
+    public static void zoneInfo(MsgProto msg) {
+        Zone zone = new Zone();
+        zone.update(msg);
+        ZoneBuilder.getInstance().add(zone);
     }
 }

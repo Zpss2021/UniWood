@@ -5,7 +5,7 @@ import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.entity.Zone;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.ClientLogger;
-import info.zpss.uniwood.client.util.builders.FontBuilder;
+import info.zpss.uniwood.client.util.FontMaker;
 import info.zpss.uniwood.client.view.MainView;
 
 import javax.swing.*;
@@ -43,7 +43,7 @@ public class MainWindow extends JFrame implements MainView {
         this.btnPane = new BtnPanel();
         this.postPane = new PostPanel();
 
-        this.initGlobalFont(new FontBuilder().build());
+        this.initGlobalFont(new FontMaker().build());
         this.initWindow();
 
         Dimension windowSize = new Dimension(960, 640);
@@ -135,6 +135,11 @@ public class MainWindow extends JFrame implements MainView {
     @Override
     public UserPanel getUserPanel() {
         return userPanel;
+    }
+
+    @Override
+    public ZonePanel getZonePanel() {
+        return zonePane;
     }
 
     @Override
@@ -423,7 +428,7 @@ public class MainWindow extends JFrame implements MainView {
             radioPane.add(userRadio);
 
 //            ButtonGroup group = new ButtonGroup(); TODO
-            searchField.setFont(new FontBuilder().bold().large().build());
+            searchField.setFont(new FontMaker().bold().large().build());
             searchField.setText(" 输入关键词搜索贴子/分区/用户"); // TODO：根据不同的搜索类型，显示不同的提示
             searchField.setForeground(Color.GRAY);
             searchField.addFocusListener(new FocusAdapter() {
@@ -579,8 +584,9 @@ public class MainWindow extends JFrame implements MainView {
             public Component getListCellRendererComponent(JList<? extends ZoneItem> list, ZoneItem value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
                 int len = 48;
-                Icon zoneIcon = new ImageIcon(new ImageIcon(value.icon)
-                        .getImage().getScaledInstance(len, len, Image.SCALE_SMOOTH));
+                Avatar icon = new Avatar();
+                icon.fromBase64(value.icon);
+                Icon zoneIcon = icon.toIcon(len);
                 this.iconLabel.setIcon(zoneIcon);
                 this.iconLabel.setSize(len, len);
                 this.nameLabel.setText(value.name);

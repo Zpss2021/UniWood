@@ -1,9 +1,9 @@
-package info.zpss.uniwood.client.util.builders;
+package info.zpss.uniwood.client.util;
 
 import java.awt.*;
 import java.util.Arrays;
 
-public class FontBuilder {
+public class FontMaker {
     private static final String fontName;
     private Font font;
 
@@ -18,36 +18,36 @@ public class FontBuilder {
                         .orElse("SansSerif"));
     }
 
-    public FontBuilder() {
+    public FontMaker() {
         font = new Font(fontName, Font.PLAIN, 12);
     }
 
-    public FontBuilder size(float size) {
+    public FontMaker size(float size) {
         font = this.font.deriveFont(size);
         return this;
     }
 
-    public FontBuilder small() {
+    public FontMaker small() {
         font = this.font.deriveFont(font.getSize() - 2.0f);
         return this;
     }
 
-    public FontBuilder large() {
+    public FontMaker large() {
         font = this.font.deriveFont(font.getSize() + 2.0f);
         return this;
     }
 
-    public FontBuilder plain() {
+    public FontMaker plain() {
         font = this.font.deriveFont(Font.PLAIN);
         return this;
     }
 
-    public FontBuilder bold() {
+    public FontMaker bold() {
         font = this.font.deriveFont(Font.BOLD);
         return this;
     }
 
-    public FontBuilder italic() {
+    public FontMaker italic() {
         font = this.font.deriveFont(Font.ITALIC);
         return this;
     }

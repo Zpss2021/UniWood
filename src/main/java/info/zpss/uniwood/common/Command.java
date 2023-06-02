@@ -1,7 +1,6 @@
 package info.zpss.uniwood.common;
 
 public enum Command {
-    // TODO: 检查所有命令
     LOGIN("LOGIN"),
     LOGIN_SUCCESS("LOGIN_SUCCESS"),
     LOGIN_FAILED("LOGIN_FAILED"),
@@ -15,9 +14,12 @@ public enum Command {
     FOLW_LIST("FOLW_LIST"),
     FANS_LIST("FANS_LIST"),
     POST_LIST("POST_LIST"),
+    ZONE_LIST("ZONE_LIST"),
     EDIT_INFO("EDIT_INFO"),
     EDIT_SUCCESS("EDIT_SUCCESS"),
     EDIT_FAILED("EDIT_FAILED"),
+    POST_INFO("POST_INFO"),
+    ZONE_INFO("ZONE_INFO"),
     UNKNOWN("UNKNOWN");
 
     private final String command;

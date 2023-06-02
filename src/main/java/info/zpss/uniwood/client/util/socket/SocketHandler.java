@@ -31,7 +31,7 @@ public class SocketHandler extends Thread {
             Main.logger().add(String.format("收到服务器消息：%s",
                     ((message.length() > 64) ? (message.substring(0, 61) + "...") : message)), Thread.currentThread());
         MsgProto msg = MsgProto.parse(message);
-        if (msg.cmd == null) {  // TODO
+        if (msg.cmd == null) {
             Main.logger().add("服务器消息解析失败！", ClientLogger.Type.WARN, Thread.currentThread());
             Main.logger().add(String.format("未知信息：%s", message), ClientLogger.Type.WARN, Thread.currentThread());
             return;
@@ -60,11 +60,20 @@ public class SocketHandler extends Thread {
             case POST_LIST:
                 new Thread(() -> HandlerMethods.userCenterUpdate(msg)).start();
                 break;
+            case ZONE_LIST:
+                new Thread(() -> HandlerMethods.loginUserUpdate(msg)).start();
+                break;
             case EDIT_SUCCESS:
                 new Thread(HandlerMethods::editSuccess).start();
                 break;
             case EDIT_FAILED:
                 new Thread(() -> HandlerMethods.editFailed(msg)).start();
+                break;
+            case POST_INFO:
+                new Thread(() -> HandlerMethods.postInfo(msg)).start();
+                break;
+            case ZONE_INFO:
+                new Thread(() -> HandlerMethods.zoneInfo(msg)).start();
                 break;
             default:
                 Main.logger().add(String.format("未知命令：%s", msg.cmd), ClientLogger.Type.WARN, Thread.currentThread());

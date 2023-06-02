@@ -100,7 +100,6 @@ public class Avatar {
                 BufferedImage.TYPE_INT_ARGB
         );
         inputIcon.paintIcon(null, inputImage.getGraphics(), 0, 0);
-        // 改为支持透明背景
         BufferedImage outputImage = new BufferedImage(length, length, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = outputImage.createGraphics();
         graphics2D.drawImage(inputImage, 0, 0, 64, 64, null);
