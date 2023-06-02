@@ -1,4 +1,4 @@
-package info.zpss.uniwood.client.util;
+package info.zpss.uniwood.client.util.builders;
 
 import java.awt.*;
 import java.util.Arrays;

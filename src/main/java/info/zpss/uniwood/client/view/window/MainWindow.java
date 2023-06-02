@@ -5,7 +5,7 @@ import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.entity.Zone;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.ClientLogger;
-import info.zpss.uniwood.client.util.FontBuilder;
+import info.zpss.uniwood.client.util.builders.FontBuilder;
 import info.zpss.uniwood.client.view.MainView;
 
 import javax.swing.*;

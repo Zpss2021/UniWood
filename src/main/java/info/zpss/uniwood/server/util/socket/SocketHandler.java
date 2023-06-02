@@ -12,6 +12,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -66,7 +67,8 @@ public class SocketHandler extends Thread {
 
     private String handleMessage(String message) {
         if (Main.debug())
-            Main.logger().add(String.format("收到客户端%s消息：%s", this, message), Thread.currentThread());
+            Main.logger().add(String.format("收到客户端%s消息：%s", this,
+                    message.length() > 64 ? message.substring(0, 61) + "..." : message), Thread.currentThread());
         MsgProto msgProto = MsgProto.parse(message);
         if (msgProto.cmd == null) {
             Main.logger().add(String.format("客户端%s消息解析失败！", this), ServerLogger.Type.WARN, Thread.currentThread());
@@ -94,9 +96,6 @@ public class SocketHandler extends Thread {
             case HEARTBEAT:
                 onConn = true;
                 break;
-            case UNIV_LIST:
-                String[] universities = ZoneService.getInstance().getUniversities();
-                return MsgProto.build(Command.UNIV_LIST, universities).toString();
             case REGISTER:
                 User registerUser = UserService.getInstance().register(msgProto.args[0], msgProto.args[1],
                         msgProto.args[2], msgProto.args[3]);
@@ -105,10 +104,43 @@ public class SocketHandler extends Thread {
                             ServerLogger.Type.INFO, Thread.currentThread());
                     registerUser = UserService.getInstance().login(registerUser.getUsername(), registerUser.getPassword());
                     userId = registerUser.getId();
-                    return MsgProto.build(Command.REGISTER_SUCCESS, registerUser.getId().toString(), registerUser.getUsername(),
-                            registerUser.getUniversity(), registerUser.getAvatar()).toString();
+                    return MsgProto.build(Command.REGISTER_SUCCESS, registerUser.getId().toString(),
+                            registerUser.getUsername(), registerUser.getUniversity(), registerUser.getAvatar()).toString();
                 }
                 return MsgProto.build(Command.REGISTER_FAILED, "注册失败，请检查用户名和密码后重试！").toString();
+            case UNIV_LIST:
+                String[] universities = ZoneService.getInstance().getUniversities();
+                return MsgProto.build(Command.UNIV_LIST, universities).toString();
+            case USER_INFO:
+                User user = UserService.getInstance().getUser(Integer.valueOf(msgProto.args[0]));
+                return MsgProto.build(Command.USER_INFO, user.getId().toString(), user.getUsername(),
+                        user.getUniversity(), user.getAvatar()).toString();
+            case FOLW_LIST:
+                List<User> followList = UserService.getInstance().getFollowings(Integer.valueOf(msgProto.args[0]));
+                String[] followListStr = followList
+                        .stream()
+                        .map(item -> item.getId().toString())
+                        .toArray(String[]::new);
+                return MsgProto.build(Command.FOLW_LIST, followListStr).toString();
+            case FANS_LIST:
+                List<User> fansList = UserService.getInstance().getFollowers(Integer.valueOf(msgProto.args[0]));
+                String[] fansListStr = fansList
+                        .stream()
+                        .map(item -> item.getId().toString())
+                        .toArray(String[]::new);
+                return MsgProto.build(Command.FANS_LIST, fansListStr).toString();
+            case EDIT_INFO:
+                if (!msgProto.args[0].equals(userId.toString()) || msgProto.args.length != 5)
+                    return null;
+                User editUser = UserService.getInstance().editUser(Integer.valueOf(msgProto.args[0]), msgProto.args[1],
+                        msgProto.args[2], msgProto.args[3], msgProto.args[4]);
+                if (editUser != null) {
+                    Main.logger().add(String.format("用户%s修改信息成功！", editUser.getUsername()),
+                            ServerLogger.Type.INFO, Thread.currentThread());
+                    return MsgProto.build(Command.EDIT_SUCCESS, editUser.getId().toString(),
+                            editUser.getUsername(), editUser.getUniversity(), editUser.getAvatar()).toString();
+                }
+                return MsgProto.build(Command.EDIT_FAILED, "修改信息失败，请检查后重试！").toString();
             default:
                 Main.logger().add(String.format("收到客户端%s未知命令：%s", this, msgProto.cmd),
                         ServerLogger.Type.WARN, Thread.currentThread());
@@ -132,8 +164,12 @@ public class SocketHandler extends Thread {
             String rec, snd;
             while (!socket.isClosed() && ((rec = reader.readLine()) != null)) {
                 snd = handleMessage(rec);
-                if (snd != null)
+                if (snd != null) {
+                    if (Main.debug())
+                        Main.logger().add(String.format("向客户端%s发送消息：%s",
+                                this, snd.length() > 64 ? snd.substring(0, 61) + "..." : snd), Thread.currentThread());
                     send(snd);
+                }
             }
         } catch (SocketException e) {
             if (!socket.isClosed()) {

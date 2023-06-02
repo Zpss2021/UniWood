@@ -1,0 +1,36 @@
+[2023-06-03 00:05:13.495][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-06-03 00:05:13.495][main/DEBUG]DEBUG MODE ON!!
+[2023-06-03 00:05:13.499][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-06-03 00:05:13.499][main/INFO]未指定连接重试次数，使用默认值3
+[2023-06-03 00:05:13.506][main/INFO]服务器已连接
+[2023-06-03 00:05:13.507][main/INFO]Hello, UniWood!
+[2023-06-03 00:05:14.024][main/INFO]窗口初始化完成
+[2023-06-03 00:05:14.503][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:05:16.485][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-06-03 00:05:16.496][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-06-03 00:05:16.497][Thread-0/INFO]用户test_user_1登录成功！
+[2023-06-03 00:05:17.503][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:05:17.689][Thread-1/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:05:17.692][Thread-0/INFO]收到服务器消息：FOLW_LIST|2|3
+[2023-06-03 00:05:17.693][Thread-2/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:18.692][Thread-3/INFO]向服务器发送消息：FANS_LIST|1
+[2023-06-03 00:05:18.707][Thread-4/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:19.701][Thread-5/INFO]向服务器发送消息：FANS_LIST|1
+[2023-06-03 00:05:19.716][Thread-6/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:20.507][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:05:20.706][Thread-7/INFO]向服务器发送消息：FANS_LIST|1
+[2023-06-03 00:05:20.721][Thread-8/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:21.714][Thread-9/INFO]向服务器发送消息：FANS_LIST|1
+[2023-06-03 00:05:21.729][Thread-10/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:22.728][Thread-11/INFO]向服务器发送消息：FANS_LIST|1
+[2023-06-03 00:05:22.743][Thread-12/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:23.503][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:05:23.736][Thread-13/INFO]向服务器发送消息：FANS_LIST|1
+[2023-06-03 00:05:23.751][Thread-14/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:24.745][Thread-15/INFO]向服务器发送消息：FANS_LIST|1
+[2023-06-03 00:05:24.761][Thread-16/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:25.754][Thread-17/INFO]向服务器发送消息：FANS_LIST|1
+[2023-06-03 00:05:25.768][Thread-18/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:26.499][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:05:26.762][Thread-19/INFO]向服务器发送消息：FANS_LIST|1
+[2023-06-03 00:05:26.776][Thread-20/INFO]向服务器发送消息：USER_INFO|2

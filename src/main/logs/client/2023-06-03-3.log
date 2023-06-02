@@ -1,0 +1,12 @@
+[2023-06-03 00:05:00.251][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-06-03 00:05:00.252][main/DEBUG]DEBUG MODE ON!!
+[2023-06-03 00:05:00.255][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-06-03 00:05:00.256][main/INFO]未指定连接重试次数，使用默认值3
+[2023-06-03 00:05:00.262][main/INFO]服务器已连接
+[2023-06-03 00:05:00.264][main/INFO]Hello, UniWood!
+[2023-06-03 00:05:00.274][main/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:05:00.281][Thread-0/INFO]收到服务器消息：USER_INFO|2|test_user_2|清华大学|data:image/png;base64,iVBORw0KGg...
+[2023-06-03 00:05:01.267][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:05:04.268][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:05:07.255][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:05:10.268][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT

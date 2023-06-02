@@ -6,7 +6,7 @@ import info.zpss.uniwood.client.model.RegisterModel;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.RegisterView;
-import info.zpss.uniwood.client.view.dialog.RegisterDialog;
+import info.zpss.uniwood.client.view.dialog.RegisterOrEditDialog;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 
@@ -23,7 +23,7 @@ public class RegisterController implements Controller<RegisterModel, RegisterVie
 
     static {
         model = new RegisterModel();
-        view = new RegisterDialog(MainController.getInstance().getView().getComponent());
+        view = new RegisterOrEditDialog(MainController.getInstance().getView().getComponent());
         INSTANCE = new RegisterController();
         registered = false;
     }
@@ -55,7 +55,7 @@ public class RegisterController implements Controller<RegisterModel, RegisterVie
                 String[] universities = model.getUniversities();
                 view.getUniversityCombo().setModel(new DefaultComboBoxModel<>(universities));
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                Main.logger().add(e, Thread.currentThread());
             }
         }
     }

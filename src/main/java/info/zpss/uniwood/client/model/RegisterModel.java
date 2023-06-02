@@ -55,7 +55,7 @@ public class RegisterModel implements Model {
         if (universities != null)
             return universities;
         new Thread(() -> Main.connection().send(MsgProto.build(Command.UNIV_LIST))).start();
-        Thread.sleep(500);
+        Thread.sleep(200);
         return getUniversities();
     }
 

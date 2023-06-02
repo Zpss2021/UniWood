@@ -1,19 +1,21 @@
 package info.zpss.uniwood.client.view.dialog;
 
+import info.zpss.uniwood.client.entity.User;
+import info.zpss.uniwood.client.view.EditView;
 import info.zpss.uniwood.client.view.RegisterView;
 import info.zpss.uniwood.client.util.Avatar;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class RegisterDialog extends JDialog implements RegisterView {
+public class RegisterOrEditDialog extends JDialog implements RegisterView, EditView {
     private final JPanel contentPanel, formPanel, footerPanel, avatarPane, textPane;
     private final JLabel usernameLbl, passwordLbl, cfmPwdLbl, universityLbl, avatarLbl;
     private final JTextField usernameText, passwordText, pwdConfirmText;
     private final JComboBox<String> universityCombo;
-    private final JButton setAvatarBtn, registerBtn;
+    private final JButton setAvatarBtn, registerOrEditBtn;
 
-    public RegisterDialog(Component owner) {
+    public RegisterOrEditDialog(Component owner) {
         super((Frame) owner, true);
 
         this.setLocation(owner.getX() + owner.getWidth() / 2 - 240,
@@ -37,13 +39,13 @@ public class RegisterDialog extends JDialog implements RegisterView {
 
         this.universityCombo = new JComboBox<>();
         this.setAvatarBtn = new JButton("上传头像");
-        this.registerBtn = new JButton("立即注册");
+        this.registerOrEditBtn = new JButton("立即注册");
 
         avatarLbl.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
                 .getImage().getScaledInstance(96, 96, Image.SCALE_SMOOTH)));
         setAvatarBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/打开.png")
                 .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-        registerBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/注册.png")
+        registerOrEditBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/注册.png")
                 .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 
         this.initWindow();
@@ -100,9 +102,9 @@ public class RegisterDialog extends JDialog implements RegisterView {
 
         this.footerPanel.setPreferredSize(new Dimension(480, 50));
         this.footerPanel.setLayout(null);
-        this.footerPanel.add(registerBtn);
+        this.footerPanel.add(registerOrEditBtn);
 
-        registerBtn.setBounds(80, 0, 320, 35);
+        registerOrEditBtn.setBounds(80, 0, 320, 35);
     }
 
     @Override
@@ -133,8 +135,31 @@ public class RegisterDialog extends JDialog implements RegisterView {
     }
 
     @Override
+    public void setUser(User user) {
+        setTitle(String.format("修改信息-%s", user.getUsername()));
+        Avatar avatar = new Avatar();
+        avatar.fromBase64(user.getAvatar());
+        setAvatar(avatar);
+        passwordLbl.setText("新密码：");
+        cfmPwdLbl.setText("确认新密码：");
+        registerOrEditBtn.setText("立即修改");
+        registerOrEditBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/自定义.png")
+                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        usernameText.setText(user.getUsername());
+        passwordText.setText(null);
+        pwdConfirmText.setText(null);
+        universityCombo.setSelectedItem(user.getUniversity());
+        universityCombo.setEnabled(false);
+    }
+
+    @Override
+    public JButton getEditBtn() {
+        return registerOrEditBtn;
+    }
+
+    @Override
     public JButton getRegisterBtn() {
-        return registerBtn;
+        return registerOrEditBtn;
     }
 
     @Override
@@ -153,7 +178,17 @@ public class RegisterDialog extends JDialog implements RegisterView {
     }
 
     @Override
+    public JPasswordField getNewPasswordText() {
+        return (JPasswordField) passwordText;
+    }
+
+    @Override
     public JPasswordField getPwdConfirmText() {
+        return (JPasswordField) pwdConfirmText;
+    }
+
+    @Override
+    public JPasswordField getNewPwdConfirmText() {
         return (JPasswordField) pwdConfirmText;
     }
 

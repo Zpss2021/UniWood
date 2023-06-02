@@ -5,6 +5,7 @@ import info.zpss.uniwood.server.entity.User;
 import info.zpss.uniwood.server.entity.UserPost;
 import info.zpss.uniwood.server.entity.UserZone;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface UserDao {
@@ -32,7 +33,7 @@ public interface UserDao {
 
 //    void deleteUser(Integer id);  // 不提供删除用户的功能，只提供禁用用户的功能（即将用户状态设置为“已禁用”）
 
-    void updateUser(User user);
+    void updateUser(User user) throws SQLException;
 
     void updateStatus(Integer userID, String status);
 

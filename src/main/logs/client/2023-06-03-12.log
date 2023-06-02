@@ -1,0 +1,39 @@
+[2023-06-03 00:19:06.180][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-06-03 00:19:06.180][main/DEBUG]DEBUG MODE ON!!
+[2023-06-03 00:19:06.188][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-06-03 00:19:06.188][main/INFO]未指定连接重试次数，使用默认值3
+[2023-06-03 00:19:06.200][main/INFO]服务器已连接
+[2023-06-03 00:19:06.202][main/INFO]Hello, UniWood!
+[2023-06-03 00:19:06.784][main/INFO]窗口初始化完成
+[2023-06-03 00:19:06.787][main/INFO]向服务器发送消息：USER_INFO|2
+[2023-06-03 00:19:06.792][Thread-0/INFO]收到服务器消息：USER_INFO|2|test_user_2|清华大学|data:image/png;base64,iVBORw0KGg...
+[2023-06-03 00:19:21.210][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:19:21.211][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:19:21.211][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:19:21.212][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:19:23.205][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:19:23.206][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:19:29.376][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:19:31.928][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:19:32.717][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 00:19:32.718][Thread-0/WARN]服务器localhost/127.0.0.1:60196连接异常，正在尝试重新连接...
+[2023-06-03 00:19:33.322][Thread-0/EXCEPTION]java.net.SocketException: Software caused connection abort: recv failed
+[2023-06-03 00:19:37.283][Thread-0/INFO]服务器已连接
+[2023-06-03 00:19:39.370][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-06-03 00:19:39.381][Thread-1/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-06-03 00:19:39.382][Thread-1/INFO]用户test_user_1登录成功！
+[2023-06-03 00:19:52.043][Thread-2/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:19:53.050][Thread-3/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:19:54.062][Thread-4/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:19:55.066][Thread-5/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:19:56.066][Thread-6/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:19:57.075][Thread-7/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:19:58.084][Thread-8/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:19:59.093][Thread-9/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:20:00.097][Thread-10/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:20:01.109][Thread-11/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:20:02.115][Thread-12/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:20:03.129][Thread-13/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:20:04.142][Thread-14/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:20:05.149][Thread-15/INFO]向服务器发送消息：FOLW_LIST|1
+[2023-06-03 00:20:06.156][Thread-16/INFO]向服务器发送消息：FOLW_LIST|1

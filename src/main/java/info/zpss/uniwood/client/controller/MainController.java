@@ -5,7 +5,6 @@ import info.zpss.uniwood.client.model.MainModel;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.MainView;
 import info.zpss.uniwood.client.view.window.MainWindow;
-import info.zpss.uniwood.client.view.dialog.UserCenterDialog;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.common.MsgProto;
@@ -69,9 +68,10 @@ public class MainController implements Controller<MainModel, MainView> {
         RegisterController.getInstance().getView().showWindow(view.getComponent());
     }
 
-    private void userCenter() { // TODO
-        UserCenterDialog window = new UserCenterDialog(view.getComponent());
-        window.showWindow(view.getComponent());
+    private void userCenter() {
+        UserCenterController.getInstance().setUser(model.getLoginUser());
+        UserCenterController.getInstance().register();
+        UserCenterController.getInstance().getView().showWindow(view.getComponent());
     }
 
     private void userLogout() {

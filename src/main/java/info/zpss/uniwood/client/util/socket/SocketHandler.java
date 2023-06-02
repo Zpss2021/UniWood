@@ -1,10 +1,7 @@
 package info.zpss.uniwood.client.util.socket;
 
 import info.zpss.uniwood.client.Main;
-import info.zpss.uniwood.client.controller.LoginController;
-import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.common.MsgProto;
-import info.zpss.uniwood.client.controller.RegisterController;
 import info.zpss.uniwood.client.util.ClientLogger;
 
 import java.io.*;
@@ -23,7 +20,8 @@ public class SocketHandler extends Thread {
 
     public void send(String message) {
         if (Main.debug())
-            Main.logger().add("向服务器发送消息：" + message, Thread.currentThread());
+            Main.logger().add(String.format("向服务器发送消息：%s",
+                    ((message.length() > 64) ? (message.substring(0, 61) + "...") : message)), Thread.currentThread());
         writer.println(message);
         writer.flush();
     }
@@ -40,25 +38,33 @@ public class SocketHandler extends Thread {
         }
         switch (msg.cmd) {
             case LOGIN_SUCCESS:
-                Main.logger().add(String.format("用户%s登录成功！", msg.args[1]), ClientLogger.Type.INFO, Thread.currentThread());
-                User loginUser = new User();
-                loginUser.update(msg);
-                LoginController.getInstance().loginSuccess(loginUser);
+                new Thread(() -> HandlerMethods.loginSuccess(msg)).start();
                 break;
             case LOGIN_FAILED:
-                Main.logger().add(String.format("用户登录失败：%s", msg.args[0]), ClientLogger.Type.INFO, Thread.currentThread());
-                LoginController.getInstance().loginFailed(msg.args[0]);
-                break;
-            case UNIV_LIST:
-                RegisterController.getInstance().getModel().setUniversities(msg.args);
+                new Thread(() -> HandlerMethods.loginFailed(msg)).start();
                 break;
             case REGISTER_SUCCESS:
-                User registerUser = new User();
-                registerUser.update(msg);
-                RegisterController.getInstance().registerSuccess(registerUser);
+                new Thread(() -> HandlerMethods.registerSuccess(msg)).start();
                 break;
             case REGISTER_FAILED:
-                RegisterController.getInstance().registerFailed(msg.args[0]);
+                new Thread(() -> HandlerMethods.registerFailed(msg)).start();
+                break;
+            case UNIV_LIST:
+                new Thread(() -> HandlerMethods.universityList(msg)).start();
+                break;
+            case USER_INFO:
+                new Thread(() -> HandlerMethods.userInfo(msg)).start();
+                break;
+            case FOLW_LIST:
+            case FANS_LIST:
+            case POST_LIST:
+                new Thread(() -> HandlerMethods.userCenterUpdate(msg)).start();
+                break;
+            case EDIT_SUCCESS:
+                new Thread(HandlerMethods::editSuccess).start();
+                break;
+            case EDIT_FAILED:
+                new Thread(() -> HandlerMethods.editFailed(msg)).start();
                 break;
             default:
                 Main.logger().add(String.format("未知命令：%s", msg.cmd), ClientLogger.Type.WARN, Thread.currentThread());
@@ -85,7 +91,8 @@ public class SocketHandler extends Thread {
         } catch (SocketException e) {
             if (socket.isClosed())
                 return;
-            Main.logger().add(String.format("服务器%s连接异常，正在尝试重新连接...", this), ClientLogger.Type.WARN, Thread.currentThread());
+            Main.logger().add(String.format("服务器%s连接异常，正在尝试重新连接...", this),
+                    ClientLogger.Type.WARN, Thread.currentThread());
             Main.logger().add(e, Thread.currentThread());
             try {   // TODO：重连机制
                 Main.connection().connect();
@@ -95,14 +102,16 @@ public class SocketHandler extends Thread {
                 System.exit(1);
             }
         } catch (IOException e) {
-            Main.logger().add(String.format("服务器%s读取消息流I/O异常！", this), ClientLogger.Type.WARN, Thread.currentThread());
+            Main.logger().add(String.format("服务器%s读取消息流I/O异常！", this),
+                    ClientLogger.Type.WARN, Thread.currentThread());
             Main.logger().add(e, Thread.currentThread());
         } finally {
             try {
                 reader.close();
                 writer.close();
             } catch (IOException ex) {
-                Main.logger().add(String.format("服务器%s关闭消息流I/O异常！", this), ClientLogger.Type.WARN, Thread.currentThread());
+                Main.logger().add(String.format("服务器%s关闭消息流I/O异常！", this),
+                        ClientLogger.Type.WARN, Thread.currentThread());
                 Main.logger().add(ex, Thread.currentThread());
             }
         }

@@ -1,6 +1,9 @@
 package info.zpss.uniwood.client.view.dialog;
 
-import info.zpss.uniwood.client.util.FontBuilder;
+import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.model.UserCenterModel;
+import info.zpss.uniwood.client.util.Avatar;
+import info.zpss.uniwood.client.util.builders.FontBuilder;
 import info.zpss.uniwood.client.view.UserCenterView;
 
 import javax.swing.*;
@@ -11,11 +14,7 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
 
     private final JPanel usernamePane, userInfoPane, followPane, btnPane;
 
-    private final JLabel avatarLbl;
-
-    private final JLabel usernameLbl;
-
-    private final JLabel userIdLbl, universityLbl;
+    private final JLabel avatarLbl, usernameLbl, userIdLbl, universityLbl;
 
     private final JLabel followingLbl, followerLbl;
 
@@ -53,10 +52,9 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
         followOrEditBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/自定义.png")
                 .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 
-
         this.initWindow();
 
-        this.setTitle("用户中心-UniWood");  // TODO：从服务器获取用户名
+        this.setTitle("用户中心");
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(270, 360));
@@ -66,13 +64,22 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
     }
 
     private void initWindow() {
+        favorBtn.setToolTipText("收藏");
+        postBtn.setToolTipText("发帖");
+
+        favorBtn.setFocusable(false);
+        postBtn.setFocusable(false);
+        followOrEditBtn.setFocusable(false);
+
         contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         avatarLbl.setPreferredSize(new Dimension(96, 96));
-        usernameLbl.setFont(new FontBuilder().large().large().bold().build());
-        userIdLbl.setFont(new FontBuilder().build());
-        universityLbl.setFont(new FontBuilder().build());
+        usernameLbl.setFont(new FontBuilder().large().large().large().bold().build());
+        userIdLbl.setFont(new FontBuilder().small().build());
+        universityLbl.setFont(new FontBuilder().small().build());
 
+        followerLbl.setFont(new FontBuilder().large().build());
+        followingLbl.setFont(new FontBuilder().large().build());
         followerLbl.setForeground(Color.BLUE);
         followingLbl.setForeground(Color.BLUE);
 
@@ -129,5 +136,50 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
     @Override
     public Component getComponent() {
         return this;
+    }
+
+    @Override
+    public JLabel getFollowingLabel() {
+        return followingLbl;
+    }
+
+    @Override
+    public JLabel getFollowerLabel() {
+        return followerLbl;
+    }
+
+    @Override
+    public JButton getFavorButton() {
+        return favorBtn;
+    }
+
+    @Override
+    public JButton getPostButton() {
+        return postBtn;
+    }
+
+    @Override
+    public JButton getFollowOrEditButton() {
+        return followOrEditBtn;
+    }
+
+    @Override
+    public void setUser(UserCenterModel model) {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                Avatar avatar = new Avatar();
+                avatar.fromBase64(model.getAvatar());
+                avatarLbl.setIcon(avatar.toIcon(96));
+                usernameLbl.setText(model.getUsername());
+                userIdLbl.setText("ID：" + model.getId());
+                universityLbl.setText("大学：" + model.getUniversity());
+                followingLbl.setText("<html><u>" + model.getFollowings().size() + " 关注</u></html>");
+                followerLbl.setText("<html><u>" + model.getFollowers().size() + " 粉丝</u></html>");
+                setTitle(model.getUsername());
+            } catch (InterruptedException e) {
+                Main.logger().add("用户信息获取失败", Thread.currentThread());
+                Main.logger().add(e, Thread.currentThread());
+            }
+        });
     }
 }

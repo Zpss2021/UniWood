@@ -1,9 +1,11 @@
 package info.zpss.uniwood.client.entity;
 
-import info.zpss.uniwood.common.Command;
+import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.util.builders.UserBuilder;
 import info.zpss.uniwood.common.MsgProto;
 import info.zpss.uniwood.client.util.interfaces.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // TODO 用户
@@ -13,8 +15,8 @@ public class User implements Entity {
     private String university;
     private String avatar;
     private String status;
-    private List<User> followers;
-    private List<User> followings;
+    private List<User> followings;  // 关注
+    private List<User> followers;   // 粉丝
     private List<Zone> zones;
     private List<Post> posts;
 
@@ -48,12 +50,12 @@ public class User implements Entity {
         return status;
     }
 
-    public List<User> getFollowers() {
-        return followers;
-    }
-
     public List<User> getFollowings() {
         return followings;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
     }
 
     public List<Zone> getZones() {
@@ -66,16 +68,38 @@ public class User implements Entity {
 
     @Override
     public void update(MsgProto msg) {
-        if (msg.cmd == Command.LOGIN_SUCCESS) {
-            id = Integer.valueOf(msg.args[0]);
-            username = msg.args[1];
-            university = msg.args[2];
-            avatar = msg.args[3];
-        } else if (msg.cmd == Command.REGISTER_SUCCESS) {
-            id = Integer.valueOf(msg.args[0]);
-            username = msg.args[1];
-            university = msg.args[2];
-            avatar = msg.args[3];
+        try {
+            switch (msg.cmd) {
+                case USER_INFO:
+                case LOGIN_SUCCESS:
+                case REGISTER_SUCCESS:
+                    id = Integer.valueOf(msg.args[0]);
+                    username = msg.args[1];
+                    university = msg.args[2];
+                    avatar = msg.args[3];
+                    break;
+                case FOLW_LIST:
+                    ArrayList<User> folw = new ArrayList<>();
+                    for (String s : msg.args)
+                        folw.add(UserBuilder.getInstance().get(Integer.parseInt(s)));
+                    this.followings = folw;
+                    break;
+                case FANS_LIST:
+                    ArrayList<User> fans = new ArrayList<>();
+                    for (String s : msg.args)
+                        fans.add(UserBuilder.getInstance().get(Integer.parseInt(s)));
+                    this.followers = fans;
+                    break;
+                case POST_LIST:
+                    ArrayList<Post> post = new ArrayList<>();
+                    for (String s : msg.args)   // TODO: PostBuilder
+                        post.add(new Post(Integer.parseInt(s), null, null, null, null));
+                    this.posts = post;
+                    break;
+            }
+        } catch (InterruptedException e) {
+            Main.logger().add(String.format("用户%d信息更新失败", id), Thread.currentThread());
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 }

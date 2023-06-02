@@ -267,7 +267,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public synchronized void updateUser(User user) {
+    public synchronized void updateUser(User user) throws SQLException {
         String sql = "UPDATE tb_user SET username = ?, password = ?, avatar = ?, university = ?, status = ? WHERE id = ?";
         try (Connection conn = Main.database().getConnection()) {
             PreparedStatement preStmt = conn.prepareStatement(sql);
@@ -281,6 +281,7 @@ public class UserDaoImpl implements UserDao {
             preStmt.close();
         } catch (SQLException e) {
             Main.logger().add(e, Thread.currentThread());
+            throw e;
         }
     }
 

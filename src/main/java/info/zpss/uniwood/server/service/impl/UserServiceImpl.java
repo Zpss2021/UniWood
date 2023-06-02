@@ -7,6 +7,9 @@ import info.zpss.uniwood.server.entity.UserZone;
 import info.zpss.uniwood.server.service.UserService;
 import info.zpss.uniwood.server.service.ZoneService;
 
+import java.sql.SQLException;
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
     private static final UserServiceImpl INSTANCE;
     private static final UserDao userDao;
@@ -62,6 +65,42 @@ public class UserServiceImpl implements UserService {
     @Override
     public void disableUser(Integer userId) {
         userDao.updateStatus(userId, "DISABLED");
+    }
+
+    @Override
+    public User getUser(Integer userId) {
+        return userDao.getUser(userId);
+    }
+
+    @Override
+    public List<User> getFollowings(Integer userId) {
+        return userDao.getFollowings(userId);
+    }
+
+    @Override
+    public List<User> getFollowers(Integer userId) {
+        return userDao.getFollowers(userId);
+    }
+
+    @Override
+    public User editUser(Integer userId, String username, String password, String university, String avatarBase64) {
+        User user = userDao.getUser(userId);
+        if (user == null)
+            return null;
+        if (username != null)
+            user.setUsername(username);
+        if (password != null)
+            user.setPassword(password);
+        if (university != null)
+            user.setUniversity(university);
+        if (avatarBase64 != null)
+            user.setAvatar(avatarBase64);
+        try {
+            userDao.updateUser(user);
+        } catch (SQLException e) {
+            return null;
+        }
+        return user;
     }
     // TODO
 }
