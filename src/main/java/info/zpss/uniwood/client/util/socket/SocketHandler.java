@@ -75,6 +75,12 @@ public class SocketHandler extends Thread {
             case ZONE_INFO:
                 new Thread(() -> HandlerMethods.zoneInfo(msg)).start();
                 break;
+            case FLOR_INFO:
+                new Thread(() -> HandlerMethods.floorInfo(msg)).start();
+                break;
+            case ZONE_POST:
+                new Thread(() -> HandlerMethods.zonePost(msg)).start();
+                break;
             default:
                 Main.logger().add(String.format("未知命令：%s", msg.cmd), ClientLogger.Type.WARN, Thread.currentThread());
                 break;

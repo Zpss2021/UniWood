@@ -20,6 +20,8 @@ public enum Command {
     EDIT_FAILED("EDIT_FAILED"),
     POST_INFO("POST_INFO"),
     ZONE_INFO("ZONE_INFO"),
+    FLOR_INFO("FLOR_INFO"),
+    ZONE_POST("ZONE_POST"),
     UNKNOWN("UNKNOWN");
 
     private final String command;

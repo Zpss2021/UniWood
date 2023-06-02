@@ -48,14 +48,12 @@ public class UserBuilder implements Builder<User> {
         users.put(user.getId(), user);
     }
 
-    @Override
     public User get(Integer userId) throws InterruptedException {
         if (users.containsKey(userId))
             return users.get(userId);
         return build(userId);
     }
 
-    @Override
     public User build(Integer userId) throws InterruptedException {
         if (users.containsKey(userId))
             return users.get(userId);

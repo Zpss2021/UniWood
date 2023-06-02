@@ -16,4 +16,6 @@ public interface PostDao {
     Integer addPost(Integer zoneID);    // 传入分区ID，返回新建贴子的ID
 
     void deletePost(Integer postID);
+
+    Integer getFloorCount(Integer postID);
 }

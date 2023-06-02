@@ -140,4 +140,22 @@ public class PostDaoImpl implements PostDao {
             Main.logger().add(e, Thread.currentThread());
         }
     }
+
+    @Override
+    public Integer getFloorCount(Integer postID) {
+        Integer count = null;
+        String sql = "SELECT COUNT(*) FROM tb_floor WHERE post_id = ?";
+        try (Connection conn = Main.database().getConnection()) {
+            PreparedStatement preStmt = conn.prepareStatement(sql);
+            preStmt.setInt(1, postID);
+            ResultSet resultSet = preStmt.executeQuery();
+            if (resultSet.next())
+                count = resultSet.getInt(1);
+            resultSet.close();
+            preStmt.close();
+        } catch (SQLException e) {
+            Main.logger().add(e, Thread.currentThread());
+        }
+        return count;
+    }
 }

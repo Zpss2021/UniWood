@@ -33,4 +33,14 @@ public class PostServiceImpl implements PostService {
         return postDao.getPostsByUserID(userID);
     }
 
+    @Override
+    public Integer getFloorCount(Integer postID) {
+        return postDao.getFloorCount(postID);
+    }
+
+    @Override
+    public List<Post> getPostsByZoneId(Integer zoneID) {
+        return postDao.getPostsByZoneID(zoneID);
+    }
+
 }

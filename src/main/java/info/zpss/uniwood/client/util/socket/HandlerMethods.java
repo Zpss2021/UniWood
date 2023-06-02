@@ -1,7 +1,9 @@
 package info.zpss.uniwood.client.util.socket;
 
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.builder.FloorBuilder;
 import info.zpss.uniwood.client.controller.*;
+import info.zpss.uniwood.client.entity.Floor;
 import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.client.entity.Zone;
@@ -72,5 +74,15 @@ public class HandlerMethods {
         Zone zone = new Zone();
         zone.update(msg);
         ZoneBuilder.getInstance().add(zone);
+    }
+
+    public static void floorInfo(MsgProto msg) {
+        Floor floor = new Floor();
+        floor.update(msg);
+        FloorBuilder.getInstance().add(floor);
+    }
+
+    public static void zonePost(MsgProto msg) {
+        MainController.getInstance().getModel().getLoginUser().update(msg);
     }
 }

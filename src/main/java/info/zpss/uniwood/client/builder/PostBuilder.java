@@ -48,14 +48,12 @@ public class PostBuilder implements Builder<Post> {
         posts.put(post.getId(), post);
     }
 
-    @Override
     public Post get(Integer postId) throws InterruptedException {
         if (posts.containsKey(postId))
             return posts.get(postId);
         return build(postId);
     }
 
-    @Override
     public Post build(Integer postId) throws InterruptedException {
         if (posts.containsKey(postId))
             return posts.get(postId);

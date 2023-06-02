@@ -143,6 +143,11 @@ public class MainWindow extends JFrame implements MainView {
     }
 
     @Override
+    public PostPanel getPostPanel() {
+        return postPane;
+    }
+
+    @Override
     public void initGlobalFont(Font font) {
         FontUIResource fontRes = new FontUIResource(font);
         for (Enumeration<Object> keys = UIManager.getDefaults().keys(); keys.hasMoreElements(); ) {
@@ -322,8 +327,9 @@ public class MainWindow extends JFrame implements MainView {
 
             public void updateAvatar(PostItem item) {
                 int infoLen = 35;
-                Icon avatarIcon = new ImageIcon(new ImageIcon(item.avatar).getImage().getScaledInstance(infoLen,
-                        infoLen, Image.SCALE_SMOOTH));
+                Avatar avatar = new Avatar();
+                avatar.fromBase64(item.avatar);
+                Icon avatarIcon = avatar.toIcon(infoLen);
                 avatarLbl.setIcon(avatarIcon);
                 avatarLbl.setBounds(0, 0, infoLen, infoLen);
                 avatarPane.setOpaque(false);

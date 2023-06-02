@@ -13,4 +13,8 @@ public interface PostService {
     Post getPost(Integer postID);
 
     List<Post> getPostsByUserId(Integer userID);
+
+    Integer getFloorCount(Integer postID);
+
+    List<Post> getPostsByZoneId(Integer zoneID);
 }

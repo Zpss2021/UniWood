@@ -179,11 +179,13 @@ public class SocketHandler extends Thread {
             case POST_INFO:
                 Post post = PostService.getInstance().getPost(Integer.valueOf(msgProto.args[0]));
                 Floor firstFloor = FloorService.getInstance().getFloor(1, post.getId());
+                Integer floorCount = PostService.getInstance().getFloorCount(post.getId());
                 return MsgProto.build(Command.POST_INFO,
                         post.getId().toString(),
                         post.getZoneId().toString(),
                         firstFloor.getAuthorId().toString(),
-                        String.valueOf(firstFloor.getCreateTime().getTime())
+                        String.valueOf(firstFloor.getCreateTime().getTime()),
+                        floorCount.toString()
                 ).toString();
             case ZONE_INFO:
                 Zone zone = ZoneService.getInstance().getZone(Integer.valueOf(msgProto.args[0]));
@@ -193,6 +195,23 @@ public class SocketHandler extends Thread {
                         zone.getDescription(),
                         zone.getIcon()
                 ).toString();
+            case FLOR_INFO:
+                Floor floor = FloorService.getInstance().getFloor(Integer.valueOf(msgProto.args[0]),
+                        Integer.valueOf(msgProto.args[1]));
+                return MsgProto.build(Command.FLOR_INFO,
+                        floor.getId().toString(),
+                        msgProto.args[1],
+                        floor.getAuthorId().toString(),
+                        String.valueOf(floor.getCreateTime().getTime()),
+                        floor.getContent()
+                ).toString();
+            case ZONE_POST:
+                List<Post> zonePostList = PostService.getInstance().getPostsByZoneId(Integer.valueOf(msgProto.args[0]));
+                String[] zonePostListStr = zonePostList
+                        .stream()
+                        .map(item -> item.getId().toString())
+                        .toArray(String[]::new);
+                return MsgProto.build(Command.ZONE_POST, zonePostListStr).toString();
             default:
                 Main.logger().add(String.format("收到客户端%s未知命令：%s", this, msgProto.cmd),
                         ServerLogger.Type.WARN, Thread.currentThread());

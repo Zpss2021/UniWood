@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.model;
 
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.client.entity.Zone;
 import info.zpss.uniwood.client.util.interfaces.Model;
@@ -31,6 +32,15 @@ public class MainModel implements Model {
                 loginUser.getId().toString()))).start();
         Thread.sleep(200);
         return getZones();
+    }
+
+    public List<Post> getPosts(Integer zoneID) throws InterruptedException {
+        if(loginUser.getPosts() != null)
+            return loginUser.getPosts();
+        new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_POST,
+                zoneID.toString()))).start();
+        Thread.sleep(200);
+        return getPosts(zoneID);
     }
 
     @Override

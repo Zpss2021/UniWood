@@ -1,5 +1,6 @@
 package info.zpss.uniwood.client.controller;
 
+import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.client.entity.Zone;
 import info.zpss.uniwood.client.model.MainModel;
@@ -7,12 +8,14 @@ import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.MainView;
 import info.zpss.uniwood.client.view.window.MainWindow;
 import info.zpss.uniwood.client.view.window.MainWindow.ZonePanel.ZoneItem;
+import info.zpss.uniwood.client.view.window.MainWindow.PostPanel.PostItem;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.common.MsgProto;
 
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Vector;
 
 public class MainController implements Controller<MainModel, MainView> {
     private static final MainController INSTANCE;
@@ -84,17 +87,29 @@ public class MainController implements Controller<MainModel, MainView> {
         register();
     }
 
+    private void setZones() throws InterruptedException {
+        List<Zone> zones = model.getZones();
+        ZoneItem[] zoneItems = zones
+                .stream()
+                .map(ZoneItem::new)
+                .toArray(ZoneItem[]::new);
+        view.getZonePanel().setZoneList(zoneItems);
+    }
+
+    private void setPosts() throws InterruptedException {
+        List<Post> posts = model.getPosts(1);
+        Vector<PostItem> postItems = new Vector<>();
+        for (Post post : posts)
+            postItems.add(new PostItem(post));
+        view.getPostPanel().setListData(postItems);
+    }
+
     public void loginSuccess(User loginUser) {
         try {
             model.setLoginUser(loginUser);
             view.getUserPanel().setLogin(loginUser.getAvatar());
-
-            List<Zone> zones = model.getZones();
-            ZoneItem[] zoneItems = zones
-                    .stream()
-                    .map(ZoneItem::new)
-                    .toArray(ZoneItem[]::new);
-            view.getZonePanel().setZoneList(zoneItems);
+            setZones();
+            setPosts();
             register();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

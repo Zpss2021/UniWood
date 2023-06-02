@@ -1,0 +1,26 @@
+[2023-06-03 05:15:49.908][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-06-03 05:15:49.908][main/DEBUG]DEBUG MODE ON!!
+[2023-06-03 05:15:49.908][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-06-03 05:15:49.908][main/INFO]未指定连接重试次数，使用默认值3
+[2023-06-03 05:15:49.908][main/INFO]服务器已连接
+[2023-06-03 05:15:49.908][main/INFO]Hello, UniWood!
+[2023-06-03 05:15:50.435][main/INFO]窗口初始化完成
+[2023-06-03 05:15:50.535][main/EXCEPTION]java.lang.NullPointerException
+[2023-06-03 05:15:50.925][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 05:15:52.071][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-06-03 05:15:52.084][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-06-03 05:15:52.085][Thread-1/INFO]用户test_user_1登录成功！
+[2023-06-03 05:15:52.677][Thread-2/INFO]向服务器发送消息：ZONE_LIST|1
+[2023-06-03 05:15:52.677][Thread-0/INFO]收到服务器消息：ZONE_LIST|1|2
+[2023-06-03 05:15:52.692][Thread-5/INFO]向服务器发送消息：ZONE_INFO|1
+[2023-06-03 05:15:52.696][Thread-0/INFO]收到服务器消息：ZONE_INFO|1|广场|一段对广场的描述|data:image/png;base64,iVBORw0KGgoAAAA...
+[2023-06-03 05:15:52.893][Thread-7/INFO]向服务器发送消息：ZONE_LIST|1
+[2023-06-03 05:15:52.894][Thread-8/INFO]向服务器发送消息：ZONE_INFO|2
+[2023-06-03 05:15:52.897][Thread-0/INFO]收到服务器消息：ZONE_LIST|1|2
+[2023-06-03 05:15:52.898][Thread-10/INFO]向服务器发送消息：ZONE_INFO|2
+[2023-06-03 05:15:52.900][Thread-0/INFO]收到服务器消息：ZONE_INFO|2|河南大学|HENU|data:image/png;base64,iVBORw0KGgoAAAANS...
+[2023-06-03 05:15:52.906][Thread-0/INFO]收到服务器消息：ZONE_INFO|2|河南大学|HENU|data:image/png;base64,iVBORw0KGgoAAAANS...
+[2023-06-03 05:15:53.097][Thread-13/INFO]向服务器发送消息：ZONE_LIST|1
+[2023-06-03 05:15:53.101][Thread-0/INFO]收到服务器消息：ZONE_LIST|1|2
+[2023-06-03 05:15:53.924][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-03 05:15:56.924][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
