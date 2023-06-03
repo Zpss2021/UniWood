@@ -2,17 +2,21 @@ package info.zpss.uniwood.client;
 
 import info.zpss.uniwood.client.controller.MainController;
 import info.zpss.uniwood.client.util.ClientLogger;
+import info.zpss.uniwood.client.util.WaitTime;
 import info.zpss.uniwood.client.util.socket.ServerConnection;
 import info.zpss.uniwood.client.view.window.PostWindow;
 import info.zpss.uniwood.common.Arguable;
 
+import java.io.IOException;
 import java.util.Vector;
+import java.util.concurrent.TimeoutException;
 
 public class Main {
     private static boolean debugMode;
     private static String[] arguments;
     private static ClientLogger logger;
     private static ServerConnection connection;
+    private static WaitTime waitTime;
     public static final String PLATFORM;
     public static final String VERSION;
 
@@ -37,6 +41,27 @@ public class Main {
 
     public static ServerConnection connection() {
         return Main.connection;
+    }
+
+    public static int maxWaitCycle() {
+        return Main.waitTime.getMaxWaitCycle();
+    }
+
+    public static int waitCycleMills(int waitCount) {
+        try {
+            return Main.waitTime.getWaitCycleMills(waitCount);
+        } catch (TimeoutException e) {
+            try {
+                Main.connection().connect();
+            } catch (IOException ex) {
+                logger.add("连接服务器失败！", ClientLogger.Type.ERROR, Thread.currentThread());
+                logger.add(e, Thread.currentThread());
+                System.exit(1);
+            }
+            Main.logger.add("请求超时！", ClientLogger.Type.ERROR, Thread.currentThread());
+            Main.logger.add(e, Thread.currentThread());
+        }
+        return 0;
     }
 
     public static void main(String[] args) {
@@ -64,6 +89,15 @@ public class Main {
             connection.connect();
         } catch (Exception e) {
             logger.add("连接服务器失败！", ClientLogger.Type.ERROR, Thread.currentThread());
+            logger.add(e, Thread.currentThread());
+            System.exit(1);
+        }
+
+        try {
+            waitTime = new WaitTime();
+            waitTime.config(args);
+        } catch (Exception e) {
+            logger.add("初始化等待时间计算器失败！", ClientLogger.Type.ERROR, Thread.currentThread());
             logger.add(e, Thread.currentThread());
             System.exit(1);
         }

@@ -8,6 +8,7 @@ import info.zpss.uniwood.common.MsgProto;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 public class UserBuilder implements Builder<User> {
     private static final UserBuilder INSTANCE;
@@ -48,17 +49,20 @@ public class UserBuilder implements Builder<User> {
         users.put(user.getId(), user);
     }
 
-    public User get(Integer userId) throws InterruptedException {
+    public User get(Integer userId) throws InterruptedException, TimeoutException {
         if (users.containsKey(userId))
             return users.get(userId);
-        return build(userId);
+        return build(userId, 0);
     }
 
-    public User build(Integer userId) throws InterruptedException {
+    public User build(Integer userId, int count) throws InterruptedException, TimeoutException {
         if (users.containsKey(userId))
             return users.get(userId);
-        new Thread(() -> Main.connection().send(MsgProto.build(Command.USER_INFO, userId.toString()))).start();
-        Thread.sleep(200);
-        return build(userId);
+        if (count == 0)
+            new Thread(() -> Main.connection().send(MsgProto.build(Command.USER_INFO, userId.toString()))).start();
+        if (count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return build(userId, count + 1);
     }
 }

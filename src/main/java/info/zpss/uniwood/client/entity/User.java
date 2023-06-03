@@ -9,6 +9,7 @@ import info.zpss.uniwood.client.util.interfaces.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 // TODO 用户
 public class User implements Entity {
@@ -110,7 +111,7 @@ public class User implements Entity {
                         p.add(PostBuilder.getInstance().get(Integer.parseInt(s)));
                     this.posts = p;
             }
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(String.format("用户%d信息更新失败", id), Thread.currentThread());
             Main.logger().add(e, Thread.currentThread());
         }

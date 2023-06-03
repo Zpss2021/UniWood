@@ -8,6 +8,7 @@ import info.zpss.uniwood.common.MsgProto;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 public class FloorBuilder implements Builder<Floor> {
     private static final FloorBuilder INSTANCE;
@@ -54,23 +55,26 @@ public class FloorBuilder implements Builder<Floor> {
         }
     }
 
-    public Floor get(Integer floorId, Integer postId) throws InterruptedException {
+    public Floor get(Integer floorId, Integer postId) throws InterruptedException, TimeoutException {
         if (floors.containsKey(postId) && floors.get(postId).containsKey(floorId))
             return floors.get(postId).get(floorId);
-        return build(floorId, postId);
+        return build(floorId, postId, 0);
     }
 
-    public Floor build(Integer floorId, Integer postId) throws InterruptedException {
+    public Floor build(Integer floorId, Integer postId, int count) throws InterruptedException, TimeoutException {
         if (floors.containsKey(postId) && floors.get(postId).containsKey(floorId))
             return floors.get(postId).get(floorId);
-        new Thread(() -> Main.connection().send(
-                MsgProto.build(
-                        Command.FLOR_INFO,
-                        floorId.toString(),
-                        postId.toString()
-                )
-        )).start();
-        Thread.sleep(200);
-        return build(floorId, postId);
+        if (count == 0)
+            new Thread(() -> Main.connection().send(
+                    MsgProto.build(
+                            Command.FLOR_INFO,
+                            floorId.toString(),
+                            postId.toString()
+                    )
+            )).start();
+        if (count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return build(floorId, postId, count + 1);
     }
 }

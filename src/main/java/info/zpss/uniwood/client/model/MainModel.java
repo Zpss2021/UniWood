@@ -9,6 +9,7 @@ import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 public class MainModel implements Model {
     private User loginUser;
@@ -25,22 +26,28 @@ public class MainModel implements Model {
         this.loginUser = loginUser;
     }
 
-    public List<Zone> getZones() throws InterruptedException {
-        if(loginUser.getZones() != null)
+    public List<Zone> getZones(int count) throws InterruptedException, TimeoutException {
+        if (loginUser.getZones() != null)
             return loginUser.getZones();
-        new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_LIST,
-                loginUser.getId().toString()))).start();
-        Thread.sleep(200);
-        return getZones();
+        if (count == 0)
+            new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_LIST,
+                    loginUser.getId().toString()))).start();
+        if (count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return getZones(count + 1);
     }
 
-    public List<Post> getPosts(Integer zoneID) throws InterruptedException {
-        if(loginUser.getPosts() != null)
+    public List<Post> getPosts(Integer zoneID, int count) throws InterruptedException, TimeoutException {
+        if (loginUser.getPosts() != null)
             return loginUser.getPosts();
-        new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_POST,
-                zoneID.toString()))).start();
-        Thread.sleep(200);
-        return getPosts(zoneID);
+        if (count == 0)
+            new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_POST,
+                    zoneID.toString()))).start();
+        if (count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return getPosts(zoneID, count + 1);
     }
 
     @Override

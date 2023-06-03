@@ -11,6 +11,7 @@ import info.zpss.uniwood.common.MsgProto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 public class Post implements Entity {
     private Integer id;
@@ -68,7 +69,7 @@ public class Post implements Entity {
                 this.floorCount = Integer.valueOf(msg.args[4]);
                 this.floors.add(FloorBuilder.getInstance().get(1, this.id));
             }
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | TimeoutException e) {
             Main.logger().add("贴子信息更新失败", Thread.currentThread());
             Main.logger().add(e, Thread.currentThread());
         }

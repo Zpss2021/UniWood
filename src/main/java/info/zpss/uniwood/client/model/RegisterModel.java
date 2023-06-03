@@ -6,6 +6,7 @@ import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 
 import java.util.Objects;
+import java.util.concurrent.TimeoutException;
 
 public class RegisterModel implements Model {
     private String username;
@@ -51,12 +52,15 @@ public class RegisterModel implements Model {
         this.avatarBase64 = avatarBase64;
     }
 
-    public String[] getUniversities() throws InterruptedException {
+    public String[] getUniversities(int count) throws InterruptedException, TimeoutException {
         if (universities != null)
             return universities;
-        new Thread(() -> Main.connection().send(MsgProto.build(Command.UNIV_LIST))).start();
-        Thread.sleep(200);
-        return getUniversities();
+        if(count == 0)
+            new Thread(() -> Main.connection().send(MsgProto.build(Command.UNIV_LIST))).start();
+        if(count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return getUniversities(count + 1);
     }
 
     public void setUniversities(String[] universities) {

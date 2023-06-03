@@ -6,6 +6,7 @@ import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.util.interfaces.Model;
 
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 
 public class PostModel implements Model {
@@ -16,7 +17,7 @@ public class PostModel implements Model {
         this.init();
     }
 
-    public List<Floor> getFloors() throws InterruptedException {
+    public List<Floor> getFloors() throws InterruptedException, TimeoutException {
         int size = post.getFloors().size();
         if(post.getFloors().size() > size || size == post.getFloorCount())
             return post.getFloors();

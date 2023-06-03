@@ -16,6 +16,7 @@ import info.zpss.uniwood.common.MsgProto;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.TimeoutException;
 
 public class MainController implements Controller<MainModel, MainView> {
     private static final MainController INSTANCE;
@@ -87,8 +88,8 @@ public class MainController implements Controller<MainModel, MainView> {
         register();
     }
 
-    private void setZones() throws InterruptedException {
-        List<Zone> zones = model.getZones();
+    private void setZones() throws InterruptedException, TimeoutException {
+        List<Zone> zones = model.getZones(0);
         ZoneItem[] zoneItems = zones
                 .stream()
                 .map(ZoneItem::new)
@@ -96,8 +97,8 @@ public class MainController implements Controller<MainModel, MainView> {
         view.getZonePanel().setZoneList(zoneItems);
     }
 
-    private void setPosts() throws InterruptedException {
-        List<Post> posts = model.getPosts(1);
+    private void setPosts() throws InterruptedException, TimeoutException {
+        List<Post> posts = model.getPosts(1, 0);
         Vector<PostItem> postItems = new Vector<>();
         for (Post post : posts)
             postItems.add(new PostItem(post));
@@ -111,7 +112,7 @@ public class MainController implements Controller<MainModel, MainView> {
             setZones();
             setPosts();
             register();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | TimeoutException e) {
             throw new RuntimeException(e);
         }
     }

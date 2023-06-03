@@ -9,6 +9,7 @@ import info.zpss.uniwood.common.MsgProto;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 public class ZoneBuilder implements Builder<Zone> {
     private static final ZoneBuilder INSTANCE;
@@ -30,8 +31,8 @@ public class ZoneBuilder implements Builder<Zone> {
                 hold();
                 zones.clear();
                 try {
-                    MainController.getInstance().getModel().getZones();
-                } catch (InterruptedException e) {
+                    MainController.getInstance().getModel().getZones(0);
+                } catch (InterruptedException | TimeoutException e) {
                     Main.logger().add(e, Thread.currentThread());
                 }
             }
@@ -54,17 +55,20 @@ public class ZoneBuilder implements Builder<Zone> {
         zones.put(zone.getId(), zone);
     }
 
-    public Zone get(Integer zoneId) throws InterruptedException {
+    public Zone get(Integer zoneId) throws InterruptedException, TimeoutException {
         if (zones.containsKey(zoneId))
             return zones.get(zoneId);
-        return build(zoneId);
+        return build(zoneId, 0);
     }
 
-    public Zone build(Integer zoneId) throws InterruptedException {
+    public Zone build(Integer zoneId, int count) throws InterruptedException, TimeoutException {
         if (zones.containsKey(zoneId))
             return zones.get(zoneId);
-        new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_INFO, zoneId.toString()))).start();
-        Thread.sleep(200);
-        return build(zoneId);
+        if(count == 0)
+            new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_INFO, zoneId.toString()))).start();
+        if (count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return build(zoneId, count + 1);
     }
 }

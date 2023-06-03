@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.util.Arrays;
+import java.util.concurrent.TimeoutException;
 
 public class EditController implements Controller<EditModel, EditView> {
     private static final EditController INSTANCE;
@@ -53,9 +54,9 @@ public class EditController implements Controller<EditModel, EditView> {
             view.getEditBtn().addActionListener(e -> userEdit());
             view.getSetAvatarBtn().addActionListener(e -> setAvatar());
             try {
-                String[] universities = RegisterController.getInstance().getModel().getUniversities();
+                String[] universities = RegisterController.getInstance().getModel().getUniversities(0);
                 view.getUniversityCombo().setModel(new DefaultComboBoxModel<>(universities));
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | TimeoutException e) {
                 Main.logger().add(e, Thread.currentThread());
             }
         }

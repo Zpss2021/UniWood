@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.util.Arrays;
+import java.util.concurrent.TimeoutException;
 
 public class RegisterController implements Controller<RegisterModel, RegisterView> {
     private static final RegisterController INSTANCE;
@@ -52,9 +53,9 @@ public class RegisterController implements Controller<RegisterModel, RegisterVie
             view.getRegisterBtn().addActionListener(e -> userRegister());
             view.getSetAvatarBtn().addActionListener(e -> setAvatar());
             try {
-                String[] universities = model.getUniversities();
+                String[] universities = model.getUniversities(0);
                 view.getUniversityCombo().setModel(new DefaultComboBoxModel<>(universities));
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | TimeoutException e) {
                 Main.logger().add(e, Thread.currentThread());
             }
         }

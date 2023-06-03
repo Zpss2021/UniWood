@@ -77,6 +77,10 @@ public class ServerConnection implements Arguable {
         handler.send(message.toString());
     }
 
+    public int getTimeout() {
+        return timeout;
+    }
+
     @Override
     public void config(String[] args) throws RuntimeException {
         String host = Arguable.stringInArgs(args, "-H", "--host");

@@ -8,6 +8,7 @@ import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 public class UserCenterModel implements Model {
     private User user;
@@ -32,28 +33,37 @@ public class UserCenterModel implements Model {
         return user.getUniversity();
     }
 
-    public List<User> getFollowings() throws InterruptedException {
+    public List<User> getFollowings(int count) throws InterruptedException, TimeoutException {
         if (user.getFollowings() != null)
             return user.getFollowings();
-        new Thread(() -> Main.connection().send(MsgProto.build(Command.FOLW_LIST, user.getId().toString()))).start();
-        Thread.sleep(200);
-        return getFollowings();
+        if(count == 0)
+            new Thread(() -> Main.connection().send(MsgProto.build(Command.FOLW_LIST, user.getId().toString()))).start();
+        if(count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return getFollowings(count + 1);
     }
 
-    public List<User> getFollowers() throws InterruptedException {
+    public List<User> getFollowers(int count) throws InterruptedException, TimeoutException {
         if (user.getFollowers() != null)
             return user.getFollowers();
-        new Thread(() -> Main.connection().send(MsgProto.build(Command.FANS_LIST, user.getId().toString()))).start();
-        Thread.sleep(200);
-        return getFollowers();
+        if(count == 0)
+            new Thread(() -> Main.connection().send(MsgProto.build(Command.FANS_LIST, user.getId().toString()))).start();
+        if(count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return getFollowers(count + 1);
     }
 
-    public List<Post> getPosts() throws InterruptedException {
+    public List<Post> getPosts(int count) throws InterruptedException, TimeoutException {
         if (user.getPosts() != null)
             return user.getPosts();
-        new Thread(() -> Main.connection().send(MsgProto.build(Command.POST_LIST, user.getId().toString()))).start();
-        Thread.sleep(200);
-        return getPosts();
+        if(count == 0)
+            new Thread(() -> Main.connection().send(MsgProto.build(Command.POST_LIST, user.getId().toString()))).start();
+        if(count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return getPosts(count + 1);
     }
 
     public void update(MsgProto msg) {

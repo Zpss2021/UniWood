@@ -8,6 +8,7 @@ import info.zpss.uniwood.client.view.UserCenterView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.TimeoutException;
 
 public class UserCenterDialog extends JDialog implements UserCenterView {
     private final JPanel contentPanel;
@@ -173,10 +174,10 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
                 usernameLbl.setText(model.getUsername());
                 userIdLbl.setText("ID：" + model.getId());
                 universityLbl.setText("大学：" + model.getUniversity());
-                followingLbl.setText("<html><u>" + model.getFollowings().size() + " 关注</u></html>");
-                followerLbl.setText("<html><u>" + model.getFollowers().size() + " 粉丝</u></html>");
+                followingLbl.setText("<html><u>" + model.getFollowings(0).size() + " 关注</u></html>");
+                followerLbl.setText("<html><u>" + model.getFollowers(0).size() + " 粉丝</u></html>");
                 setTitle(model.getUsername());
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | TimeoutException e) {
                 Main.logger().add("用户信息获取失败", Thread.currentThread());
                 Main.logger().add(e, Thread.currentThread());
             }

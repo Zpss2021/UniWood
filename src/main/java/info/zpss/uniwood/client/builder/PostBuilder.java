@@ -8,6 +8,7 @@ import info.zpss.uniwood.common.MsgProto;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 public class PostBuilder implements Builder<Post> {
     private static final PostBuilder INSTANCE;
@@ -48,17 +49,20 @@ public class PostBuilder implements Builder<Post> {
         posts.put(post.getId(), post);
     }
 
-    public Post get(Integer postId) throws InterruptedException {
+    public Post get(Integer postId) throws InterruptedException, TimeoutException {
         if (posts.containsKey(postId))
             return posts.get(postId);
-        return build(postId);
+        return build(postId, 0);
     }
 
-    public Post build(Integer postId) throws InterruptedException {
+    public Post build(Integer postId, int count) throws InterruptedException, TimeoutException {
         if (posts.containsKey(postId))
             return posts.get(postId);
-        new Thread(() -> Main.connection().send(MsgProto.build(Command.POST_INFO, postId.toString()))).start();
-        Thread.sleep(200);
-        return build(postId);
+        if (count == 0)
+            new Thread(() -> Main.connection().send(MsgProto.build(Command.POST_INFO, postId.toString()))).start();
+        if (count > Main.maxWaitCycle())
+            throw new TimeoutException();
+        Thread.sleep(Main.waitCycleMills(count));
+        return build(postId, count + 1);
     }
 }
