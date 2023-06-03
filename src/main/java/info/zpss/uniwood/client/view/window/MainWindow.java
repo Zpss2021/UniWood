@@ -1,23 +1,25 @@
 package info.zpss.uniwood.client.view.window;
 
 import info.zpss.uniwood.client.Main;
-import info.zpss.uniwood.client.entity.Post;
-import info.zpss.uniwood.client.entity.Zone;
+import info.zpss.uniwood.client.controller.MainController;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.ClientLogger;
 import info.zpss.uniwood.client.util.FontMaker;
+import info.zpss.uniwood.client.util.interfaces.Renderable;
 import info.zpss.uniwood.client.view.MainView;
+import info.zpss.uniwood.client.item.PostItem;
+import info.zpss.uniwood.client.item.ZoneItem;
+import info.zpss.uniwood.client.view.render.PostItemRender;
+import info.zpss.uniwood.client.view.render.ZoneItemRender;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.Vector;
+import java.util.concurrent.TimeoutException;
 
 public class MainWindow extends JFrame implements MainView {
     private final JPanel outerPane, asidePane, mainPane, cfgPane, ctrlPane, cntPane;
@@ -138,13 +140,13 @@ public class MainWindow extends JFrame implements MainView {
     }
 
     @Override
-    public ZonePanel getZonePanel() {
-        return zonePane;
+    public PostPanel getPostPanel() {
+        return postPane;
     }
 
     @Override
-    public PostPanel getPostPanel() {
-        return postPane;
+    public ZonePanel getZonePanel() {
+        return zonePane;
     }
 
     @Override
@@ -193,223 +195,6 @@ public class MainWindow extends JFrame implements MainView {
 
             this.setSize(300, 100);
             this.setBorder(BorderFactory.createTitledBorder("操作"));
-        }
-    }
-
-    public static class PostPanel extends JPanel {
-        private Vector<PostItem> postList;
-        public final JPanel postListPane;
-        public final JScrollPane postListScrollPane;
-
-        public PostPanel() {
-            super();
-            this.postList = new Vector<>();
-            this.postListPane = new JPanel();
-
-            this.postListPane.setLayout(new BoxLayout(postListPane, BoxLayout.Y_AXIS));
-            this.setBorder(BorderFactory.createTitledBorder("广场"));
-
-            this.postListScrollPane = new JScrollPane(postListPane);
-            postListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            postListScrollPane.getVerticalScrollBar().setUnitIncrement(16);
-
-            this.setLayout(new BorderLayout());
-            this.add(postListScrollPane);
-        }
-
-        public void setListData(Vector<PostItem> postList) {
-            this.postList.clear();
-            this.postList = postList;
-            this.clear();
-            for (PostItem item : postList)
-                this.postListPane.add(new PostItemRender(item));
-        }
-
-        public void add(PostItem item) {
-            this.postList.add(item);
-            this.postListPane.add(new PostItemRender(item));
-        }
-
-        public void add(Vector<PostItem> items) {
-            this.postList.addAll(items);
-            for (PostItem item : items)
-                this.postListPane.add(new PostItemRender(item));
-        }
-
-
-
-        public void update(PostItem item) {
-            for (int i = 0; i < this.postList.size(); i++) {
-                if (this.postList.get(i).id == item.id) {
-                    this.postList.set(i, item);
-                    for (Component c : this.postListPane.getComponents())
-                        if (c instanceof PostItemRender) {
-                            PostItemRender p = (PostItemRender) c;
-                            if (p.getItem().id == item.id) {
-                                p.update(item);
-                                this.postListPane.repaint();
-                                break;
-                            }
-                        }
-                    break;
-                }
-            }
-        }
-
-        public void setZoneTitle(String title) {
-            this.setBorder(BorderFactory.createTitledBorder(title));
-        }
-
-        public void clear() {
-            postListPane.removeAll();
-        }
-
-        public static class PostItem {
-            private final int id;
-            private final String avatar;
-            private final String title;
-            private final String content;
-
-            public PostItem(Post post) {
-                String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(post.getTime());
-                String description = post.getFloors().get(0).getContent();
-                this.id = post.getId();
-                this.avatar = post.getAuthor().getAvatar();
-                this.title = String.format("%s %s\n#%d %s",
-                        post.getAuthor().getUsername(), post.getAuthor().getUniversity(), post.getId(), createTime);
-                this.content = (description.length() > 100) ? (description.substring(0, 120) + "...") : description;
-            }
-        }
-
-        private static class PostItemRender extends JPanel {
-            private PostItem item;
-            private final JPanel postItemPanel, headerPanel;
-            private final JPanel avatarPane, favorPane;
-            private final JLabel avatarLbl;
-            private final JTextArea titleText, contentText;
-            private final JButton favorBtn;
-
-            public PostItemRender(PostItem item) {
-                super();
-                this.item = item;
-                postItemPanel = new JPanel(new BorderLayout());
-                headerPanel = new JPanel(new BorderLayout(10, 0));
-                avatarPane = new JPanel();
-                favorPane = new JPanel();
-
-                avatarLbl = new JLabel();
-                titleText = new JTextArea();
-                contentText = new JTextArea();
-                favorBtn = new JButton("收藏");
-
-                initTitleText();
-                initFavorBtn();
-                initContentText();
-
-                updateAvatar(item);
-                updateTitleText(item);
-                updateContentText(item);
-
-                initPanel();
-
-                this.add(postItemPanel, BorderLayout.CENTER);
-                this.setBackground(Color.WHITE);
-            }
-
-            public PostItem getItem() {
-                return item;
-            }
-
-            public void update(PostItem item) {
-                this.item = item;
-                updateAvatar(item);
-                updateTitleText(item);
-                updateContentText(item);
-            }
-
-            public void updateAvatar(PostItem item) {
-                int infoLen = 35;
-                Avatar avatar = new Avatar();
-                avatar.fromBase64(item.avatar);
-                Icon avatarIcon = avatar.toIcon(infoLen);
-                avatarLbl.setIcon(avatarIcon);
-                avatarLbl.setBounds(0, 0, infoLen, infoLen);
-                avatarPane.setOpaque(false);
-                avatarPane.setPreferredSize(new Dimension(infoLen, infoLen));
-                avatarPane.add(avatarLbl);
-            }
-
-            public void updateTitleText(PostItem item) {
-                titleText.setText(item.title);
-            }
-
-            public void updateContentText(PostItem item) {
-                contentText.setText(item.content);
-            }
-
-            private void initTitleText() {
-                titleText.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                titleText.setEditable(false);
-                titleText.setOpaque(false);
-                titleText.setBorder(null);
-                titleText.setLineWrap(true);
-
-                titleText.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        System.out.println("点击了" + titleText.getText() + "标题");
-                    }
-                });
-            }
-
-            private void initFavorBtn() {
-                favorBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                favorBtn.setOpaque(false);
-                favorBtn.setPreferredSize(new Dimension(72, 35));
-                favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png").getImage()
-                        .getScaledInstance(12, 12, Image.SCALE_SMOOTH)));
-
-                favorBtn.addActionListener(e -> System.out.println("收藏了" + titleText.getText()));
-            }
-
-            private void initContentText() {
-                contentText.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                contentText.setEditable(false);
-                contentText.setOpaque(false);
-                contentText.setBorder(null);
-                contentText.setLineWrap(true);
-
-                contentText.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        System.out.println("点击了" + titleText.getText() + "内容");
-                    }
-                });
-            }
-
-            private void initPanel() {
-                favorPane.setOpaque(false);
-                favorPane.add(favorBtn);
-                favorPane.setPreferredSize(new Dimension(72, 35));
-
-                headerPanel.add(avatarPane, BorderLayout.WEST);
-                headerPanel.add(titleText, BorderLayout.CENTER);
-                headerPanel.add(favorPane, BorderLayout.EAST);
-                headerPanel.setOpaque(false);
-                headerPanel.setPreferredSize(new Dimension(640, 50));
-
-                postItemPanel.setOpaque(false);
-                postItemPanel.add(headerPanel, BorderLayout.NORTH);
-                postItemPanel.add(contentText, BorderLayout.CENTER);
-                postItemPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-            }
-
-            @Override
-            public void repaint() {
-                super.repaint();
-                if (postItemPanel != null)
-                    SwingUtilities.updateComponentTreeUI(postItemPanel);
-            }
         }
     }
 
@@ -544,13 +329,94 @@ public class MainWindow extends JFrame implements MainView {
         }
     }
 
-    public static class ZonePanel extends JPanel {
-        public final JList<ZoneItem> zoneList;
+    public static class PostPanel extends JPanel implements Renderable<PostItem> {
+        private Vector<PostItem> listData;
+        public final JPanel postListPane;
+        public final JScrollPane postListScrollPane;
+
+        public PostPanel() {
+            super();
+            this.listData = new Vector<>();
+            this.postListPane = new JPanel();
+
+            this.postListPane.setLayout(new BoxLayout(postListPane, BoxLayout.Y_AXIS));
+            this.setBorder(BorderFactory.createTitledBorder("广场"));
+
+            this.postListScrollPane = new JScrollPane(postListPane);
+            postListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            postListScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+            this.setLayout(new BorderLayout());
+            this.add(postListScrollPane);
+        }
+
+        @Override
+        public void setListData(Vector<PostItem> postList) {
+            this.postListPane.removeAll();
+            this.listData = postList;
+            for (PostItem item : postList)
+                this.postListPane.add(new PostItemRender(item));
+        }
+
+        @Override
+        public void add(PostItem item) {
+            this.listData.add(item);
+            this.postListPane.add(new PostItemRender(item));
+        }
+
+        @Override
+        public void addAll(Vector<PostItem> listData) {
+            this.listData.addAll(listData);
+            for (PostItem item : listData)
+                this.postListPane.add(new PostItemRender(item));
+        }
+
+        @Override
+        public void update(PostItem item) {
+            for (int i = 0; i < this.listData.size(); i++) {
+                if (this.listData.get(i).id == item.id) {
+                    this.listData.set(i, item);
+                    for (Component c : this.postListPane.getComponents())
+                        if (c instanceof PostItemRender) {
+                            PostItemRender p = (PostItemRender) c;
+                            if (p.getItem().id == item.id) {
+                                p.update(item);
+                                this.postListPane.repaint();
+                                break;
+                            }
+                        }
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void clear() {
+            postListPane.removeAll();
+        }
+
+        @Override
+        public void setTitle(String title) {
+            this.setBorder(BorderFactory.createTitledBorder(title));
+        }
+
+        @Override
+        public void register() {
+            for (Component c : this.postListPane.getComponents())
+                if (c instanceof PostItemRender)
+                    ((PostItemRender) c).register();
+        }
+    }
+
+    public static class ZonePanel extends JPanel implements Renderable<ZoneItem> {
         public final JScrollPane zoneListPane;
+        public final JList<ZoneItem> zoneList;
+        private Vector<ZoneItem> listData;
 
         public ZonePanel() {
             super();
             this.zoneList = new JList<>();
+            this.listData = null;
 
             // TODO：为按钮添加事件
 
@@ -563,57 +429,53 @@ public class MainWindow extends JFrame implements MainView {
             this.setBorder(BorderFactory.createTitledBorder("分区"));
         }
 
-        public void setZoneList(ZoneItem[] items) {
-            this.zoneList.setListData(items);
+        @Override
+        public void setListData(Vector<ZoneItem> listData) {
+            this.listData = listData;
+            this.zoneList.setListData(this.listData);
         }
 
-        public static class ZoneItem {
-            private final String icon;
-            private final String name;
-
-            public ZoneItem(Zone zone) {
-                this.icon = zone.getIcon();
-                this.name = zone.getName();
-            }
-
-            @Override
-            public String toString() {
-                return this.name;
-            }
+        @Override
+        public void add(ZoneItem item) {
+            this.listData.add(item);
         }
 
-        private static class ZoneItemRender extends JPanel implements ListCellRenderer<ZoneItem> {
-            private final JLabel iconLabel;
-            private final JLabel nameLabel;
+        @Override
+        public void addAll(Vector<ZoneItem> listData) {
+            this.listData.addAll(listData);
+        }
 
-            public ZoneItemRender() {
-                super();
-                this.iconLabel = new JLabel();
-                this.nameLabel = new JLabel();
-                this.setLayout(new FlowLayout(FlowLayout.LEFT));
-                this.add(iconLabel);
-                this.add(nameLabel);
-            }
+        @Override
+        public void update(ZoneItem item) {
+            int index = this.listData.indexOf(item);
+            this.listData.set(index, item);
+        }
 
-            @Override
-            public Component getListCellRendererComponent(JList<? extends ZoneItem> list, ZoneItem value, int index,
-                                                          boolean isSelected, boolean cellHasFocus) {
-                int len = 48;
-                Avatar icon = new Avatar();
-                icon.fromBase64(value.icon);
-                Icon zoneIcon = icon.toIcon(len);
-                this.iconLabel.setIcon(zoneIcon);
-                this.iconLabel.setSize(len, len);
-                this.nameLabel.setText(value.name);
-                if (isSelected) {
-                    this.setBackground(list.getSelectionBackground());
-                    this.setForeground(list.getSelectionForeground());
-                } else {
-                    this.setBackground(list.getBackground());
-                    this.setForeground(list.getForeground());
+        @Override
+        public void clear() {
+            this.listData.clear();
+        }
+
+        @Override
+        public void setTitle(String title) {
+            this.setBorder(BorderFactory.createTitledBorder(title));
+        }
+
+        @Override
+        public void register() {
+            this.zoneList.addListSelectionListener(e -> {
+                if (!e.getValueIsAdjusting()) {
+                    ZoneItem item = zoneList.getSelectedValue();
+                    if (item != null) {
+                        try {
+                            MainController.getInstance().getModel().getPosts(item.id, 0);
+                            MainController.getInstance().updateZonePosts();
+                        } catch (InterruptedException | TimeoutException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
                 }
-                return this;
-            }
+            });
         }
     }
 }

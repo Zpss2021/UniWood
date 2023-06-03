@@ -83,6 +83,7 @@ public class HandlerMethods {
     }
 
     public static void zonePost(MsgProto msg) {
-        MainController.getInstance().getModel().getLoginUser().update(msg);
+        Post post = new Post();
+        post.update(msg);
     }
 }

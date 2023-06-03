@@ -6,9 +6,9 @@ import info.zpss.uniwood.client.entity.Zone;
 import info.zpss.uniwood.client.model.MainModel;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.MainView;
+import info.zpss.uniwood.client.item.PostItem;
+import info.zpss.uniwood.client.item.ZoneItem;
 import info.zpss.uniwood.client.view.window.MainWindow;
-import info.zpss.uniwood.client.view.window.MainWindow.ZonePanel.ZoneItem;
-import info.zpss.uniwood.client.view.window.MainWindow.PostPanel.PostItem;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.common.MsgProto;
@@ -22,11 +22,13 @@ public class MainController implements Controller<MainModel, MainView> {
     private static final MainController INSTANCE;
     private static final MainModel model;
     private static final MainView view;
+    private static boolean registered;
 
     static {
         model = new MainModel();
         view = new MainWindow();
         INSTANCE = new MainController();
+        registered = false;
     }
 
     private MainController() {
@@ -63,9 +65,14 @@ public class MainController implements Controller<MainModel, MainView> {
             view.getRegisterOrLogoutButton().addActionListener(registerListener);
             view.getLoginOrUserCenterButton().addActionListener(loginListener);
         }
+        if (!registered) {
+            registered = true;
+            view.getZonePanel().register();
+            view.getPostPanel().register();
+        }
     }
 
-    private void userLogin() {
+    public void userLogin() {
         LoginController.getInstance().register();
         LoginController.getInstance().getView().showWindow(view.getComponent());
     }
@@ -90,15 +97,16 @@ public class MainController implements Controller<MainModel, MainView> {
 
     private void setZones() throws InterruptedException, TimeoutException {
         List<Zone> zones = model.getZones(0);
-        ZoneItem[] zoneItems = zones
-                .stream()
-                .map(ZoneItem::new)
-                .toArray(ZoneItem[]::new);
-        view.getZonePanel().setZoneList(zoneItems);
+        Vector<ZoneItem> zoneItems = new Vector<>();
+        for (Zone zone : zones)
+            zoneItems.add(new ZoneItem(zone));
+        view.getZonePanel().setListData(zoneItems);
+        view.getZonePanel().zoneList.setSelectedIndex(0);
     }
 
     private void setPosts() throws InterruptedException, TimeoutException {
-        List<Post> posts = model.getPosts(1, 0);
+        int zoneID = view.getZonePanel().zoneList.getSelectedValue().id;
+        List<Post> posts = model.getPosts(zoneID, 0);
         Vector<PostItem> postItems = new Vector<>();
         for (Post post : posts)
             postItems.add(new PostItem(post));
@@ -113,7 +121,16 @@ public class MainController implements Controller<MainModel, MainView> {
             setPosts();
             register();
         } catch (InterruptedException | TimeoutException e) {
-            throw new RuntimeException(e);
+            Main.logger().add(e, Thread.currentThread());
+        }
+    }
+
+    public void updateZonePosts() {
+        try {
+            view.getPostPanel().setTitle(view.getZonePanel().zoneList.getSelectedValue().name);
+            setPosts();
+        } catch (InterruptedException | TimeoutException e) {
+            Main.logger().add(e, Thread.currentThread());
         }
     }
 }

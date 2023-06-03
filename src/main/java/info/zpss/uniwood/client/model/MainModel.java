@@ -8,11 +8,13 @@ import info.zpss.uniwood.client.util.interfaces.Model;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 public class MainModel implements Model {
     private User loginUser;
+    private List<Post> zonePosts;
 
     public MainModel() {
         this.init();
@@ -24,6 +26,10 @@ public class MainModel implements Model {
 
     public void setLoginUser(User loginUser) {
         this.loginUser = loginUser;
+    }
+
+    public void setZonePosts(List<Post> zonePosts) {
+        this.zonePosts = zonePosts;
     }
 
     public List<Zone> getZones(int count) throws InterruptedException, TimeoutException {
@@ -39,8 +45,14 @@ public class MainModel implements Model {
     }
 
     public List<Post> getPosts(Integer zoneID, int count) throws InterruptedException, TimeoutException {
-        if (loginUser.getPosts() != null)
-            return loginUser.getPosts();
+        if (zonePosts != null)
+            if (zonePosts.size() != 0) {
+                if (zonePosts.get(0).getZone().getId().equals(zoneID))
+                    return zonePosts;
+            } else {
+                zonePosts = null;
+                return new ArrayList<>();
+            }
         if (count == 0)
             new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_POST,
                     zoneID.toString()))).start();
@@ -53,5 +65,6 @@ public class MainModel implements Model {
     @Override
     public void init() {
         loginUser = null;
+        zonePosts = null;
     }
 }

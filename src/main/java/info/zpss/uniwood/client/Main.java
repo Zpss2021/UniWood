@@ -4,11 +4,9 @@ import info.zpss.uniwood.client.controller.MainController;
 import info.zpss.uniwood.client.util.ClientLogger;
 import info.zpss.uniwood.client.util.WaitTime;
 import info.zpss.uniwood.client.util.socket.ServerConnection;
-import info.zpss.uniwood.client.view.window.PostWindow;
 import info.zpss.uniwood.common.Arguable;
 
 import java.io.IOException;
-import java.util.Vector;
 import java.util.concurrent.TimeoutException;
 
 public class Main {
@@ -113,15 +111,8 @@ public class Main {
     }
 
     private static void execute() throws RuntimeException {
-//        // TODO: 从这里开始写代码
         MainController.getInstance().register();
         MainController.getInstance().getView().showWindow(null);
-        PostWindow window = new PostWindow();
-        Vector<PostWindow.FloorPanel.FloorItem> floorItems = new Vector<>();
-//        try {
-//            connection.disconnect();
-//        } catch (IOException e) {
-//            ClientLogger.add(e, Thread.currentThread());
-//        }
+        MainController.getInstance().userLogin();
     }
 }

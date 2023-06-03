@@ -2,8 +2,10 @@ package info.zpss.uniwood.client.entity;
 
 import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.client.builder.FloorBuilder;
+import info.zpss.uniwood.client.builder.PostBuilder;
 import info.zpss.uniwood.client.builder.UserBuilder;
 import info.zpss.uniwood.client.builder.ZoneBuilder;
+import info.zpss.uniwood.client.controller.MainController;
 import info.zpss.uniwood.client.util.interfaces.Entity;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
@@ -19,7 +21,7 @@ public class Post implements Entity {
     private User author;
     private Date time;
     private Integer floorCount;
-    private List<Floor> floors;
+    private final List<Floor> floors;
 
     public Post() {
         this.floors = new ArrayList<>(0);
@@ -68,6 +70,11 @@ public class Post implements Entity {
                 this.time = new Date(Long.parseLong(msg.args[3]));
                 this.floorCount = Integer.valueOf(msg.args[4]);
                 this.floors.add(FloorBuilder.getInstance().get(1, this.id));
+            } else if (msg.cmd.equals(Command.ZONE_POST)) {
+                ArrayList<Post> p = new ArrayList<>();
+                for (String s : msg.args)
+                    p.add(PostBuilder.getInstance().get(Integer.parseInt(s)));
+                MainController.getInstance().getModel().setZonePosts(p);
             }
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add("贴子信息更新失败", Thread.currentThread());

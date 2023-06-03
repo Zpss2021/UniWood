@@ -17,14 +17,22 @@ public class PostModel implements Model {
         this.init();
     }
 
+    public Floor getFloor(int floorID) throws InterruptedException, TimeoutException {
+        for (Floor floor : post.getFloors())
+            if (floor.getId() == floorID)
+                return floor;
+        getFloors();
+        return getFloor(floorID);
+    }
+
     public List<Floor> getFloors() throws InterruptedException, TimeoutException {
         int size = post.getFloors().size();
-        if(post.getFloors().size() > size || size == post.getFloorCount())
+        if (post.getFloors().size() > size || size == post.getFloorCount())
             return post.getFloors();
         for (int i = size, j = 1; i < post.getFloorCount(); i++, j++) {
             Floor floor = FloorBuilder.getInstance().get(post.getId(), i);
             post.getFloors().add(floor);
-            if(j == pageSize)
+            if (j == pageSize)
                 break;
         }
         return getFloors();
