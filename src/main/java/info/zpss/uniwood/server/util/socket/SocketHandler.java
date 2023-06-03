@@ -239,12 +239,6 @@ public class SocketHandler extends Thread {
                     if (Main.debug())
                         Main.logger().add(String.format("向客户端%s发送消息：%s",
                                 this, snd.length() > 64 ? snd.substring(0, 61) + "..." : snd), Thread.currentThread());
-                    try {
-                        if(Main.debug())
-                            Thread.sleep(100);  // 调试模式下，延迟100ms发送消息
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
                     send(snd);
                 }
             }
