@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.Vector;
 
 public class PostWindow extends JFrame implements PostView {
-    private final JPanel outerPane, asidePane, footerPane;
+    private final JPanel outerPane, asidePane, footerPane, centerPane;
     private final JButton shareBtn, favorBtn, replyBtn, refreshBtn, prevBtn, nextBtn;
     private final FloorPanel floorPane;
 
@@ -20,6 +20,7 @@ public class PostWindow extends JFrame implements PostView {
         this.outerPane = new JPanel(new BorderLayout());
         this.asidePane = new JPanel();
         this.footerPane = new JPanel();
+        this.centerPane = new JPanel(new BorderLayout());
         this.floorPane = new FloorPanel();
 
         this.shareBtn = new JButton();
@@ -59,7 +60,7 @@ public class PostWindow extends JFrame implements PostView {
 
         this.initWindow();
 
-        this.setTitle("贴子标题_贴子分区_UniWood");  // TODO：从贴子对象获取标题
+        this.setTitle("贴子标题_贴子分区_UniWood");
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(outerPane);
         this.setPreferredSize(new Dimension(840, 640));
@@ -82,14 +83,18 @@ public class PostWindow extends JFrame implements PostView {
         footerPane.add(refreshBtn);
         footerPane.add(nextBtn);
 
-        floorPane.setPreferredSize(new Dimension(640, 480));
-
         JPanel emptyPane = new JPanel();
         emptyPane.setPreferredSize(new Dimension(72, 640));
         outerPane.add(emptyPane, BorderLayout.WEST);
         outerPane.add(asidePane, BorderLayout.EAST);
-        outerPane.add(floorPane, BorderLayout.CENTER);
+        outerPane.add(centerPane, BorderLayout.CENTER);
         outerPane.add(footerPane, BorderLayout.SOUTH);
+
+        JPanel blankPane = new JPanel();
+        blankPane.setBackground(Color.WHITE);
+        centerPane.add(blankPane, BorderLayout.CENTER);
+        centerPane.add(floorPane, BorderLayout.NORTH);
+        centerPane.setBorder(BorderFactory.createTitledBorder("楼层"));
     }
 
     @Override
@@ -160,21 +165,20 @@ public class PostWindow extends JFrame implements PostView {
             this.floorListPane = new JPanel();
 
             this.floorListPane.setLayout(new BoxLayout(floorListPane, BoxLayout.Y_AXIS));
-            this.setBorder(BorderFactory.createTitledBorder("楼层"));
 
             this.floorListScrollPane = new JScrollPane(floorListPane);
             floorListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             floorListScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
+            this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
             this.setLayout(new BorderLayout());
             this.add(floorListScrollPane, BorderLayout.CENTER);
         }
 
         @Override
         public void setListData(Vector<FloorItem> floorList) {
-            this.listData.clear();
+            this.floorListPane.removeAll();
             this.listData = floorList;
-            this.clear();
             for (FloorItem item : floorList)
                 this.floorListPane.add(new FloorItemRender(item));
         }
@@ -214,18 +218,19 @@ public class PostWindow extends JFrame implements PostView {
         @Override
         public void clear() {
             this.floorListPane.removeAll();
+            this.floorListPane.repaint();
+            this.listData.clear();
         }
 
         @Override
-        public void setTitle(String title) {
-            this.setBorder(BorderFactory.createTitledBorder(title));
-        }
-
-        @Override
-        public void register() {
-            for (Component c : this.floorListPane.getComponents())
-                if (c instanceof FloorItemRender)
-                    ((FloorItemRender) c).register();
+        public void repaint() {
+            super.repaint();
+            if(floorListScrollPane != null) {
+                SwingUtilities.invokeLater(() -> {
+                    floorListScrollPane.setPreferredSize(new Dimension(0, floorListPane.getPreferredSize().height));
+                    updateUI();
+                });
+            }
         }
     }
 }

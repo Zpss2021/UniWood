@@ -8,6 +8,4 @@ public interface Renderable<T extends Item> {
     void addAll(Vector<T> listData);
     void update(T item);
     void clear();
-    void setTitle(String title);
-    void register();
 }

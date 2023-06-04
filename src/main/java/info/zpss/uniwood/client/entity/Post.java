@@ -81,4 +81,16 @@ public class Post implements Entity {
             Main.logger().add(e, Thread.currentThread());
         }
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", zone=" + zone +
+                ", author=" + author +
+                ", time=" + time +
+                ", floorCount=" + floorCount +
+                ", floors=" + floors +
+                '}';
+    }
 }

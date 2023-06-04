@@ -5,6 +5,8 @@ import info.zpss.uniwood.client.view.LoginView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class LoginDialog extends JDialog implements LoginView {
     private final JPanel contentPanel, bgPane, formPane, footerPane;
@@ -50,7 +52,17 @@ public class LoginDialog extends JDialog implements LoginView {
         this.setPreferredSize(new Dimension(480, 320));
         this.setAlwaysOnTop(true);
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // TODO
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int option = JOptionPane.showOptionDialog(LoginDialog.this, "确定要退出吗？", "退出",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                        null, new String[]{"确定", "取消"}, "取消");
+                if (option == JOptionPane.YES_OPTION)
+                    System.exit(0);
+            }
+        });
     }
 
     private void initWindow() {

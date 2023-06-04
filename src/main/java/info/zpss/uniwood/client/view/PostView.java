@@ -14,4 +14,5 @@ public interface PostView extends View {
     JButton getRefreshBtn();
     JButton getPrevBtn();
     JButton getNextBtn();
+    void setTitle(String s);
 }

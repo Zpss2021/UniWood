@@ -45,7 +45,7 @@ public class MainModel implements Model {
     }
 
     public List<Post> getPosts(Integer zoneID, int count) throws InterruptedException, TimeoutException {
-        if (zonePosts != null)
+        if (zonePosts != null)  // TODO: 分页
             if (zonePosts.size() != 0) {
                 if (zonePosts.get(0).getZone().getId().equals(zoneID))
                     return zonePosts;

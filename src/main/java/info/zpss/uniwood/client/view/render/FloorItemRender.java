@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.view.render;
 
 import info.zpss.uniwood.client.item.FloorItem;
+import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.interfaces.Render;
 
 import javax.swing.*;
@@ -53,9 +54,9 @@ public class FloorItemRender extends JPanel implements Render {
 
     public void updateUser(FloorItem item) {
         int avatarLen = 32;
-        Icon avatarIcon = new ImageIcon(new ImageIcon(item.avatar).getImage().getScaledInstance(avatarLen,
-                avatarLen, Image.SCALE_FAST));
-        avatarLbl.setIcon(avatarIcon);
+        Avatar avatar = new Avatar();
+        avatar.fromBase64(item.avatar);
+        avatarLbl.setIcon(avatar.toIcon(avatarLen));
         avatarLbl.setBounds(0, 0, avatarLen, avatarLen);
 
         usernameLbl.setText(item.username);
@@ -110,8 +111,10 @@ public class FloorItemRender extends JPanel implements Render {
     public void repaint() {
         super.repaint();
         if (floorItemPanel != null)
-            SwingUtilities.invokeLater(() -> floorItemPanel.setPreferredSize(new Dimension(0,
-                    floorItemPanel.getPreferredSize().height)));
+            SwingUtilities.invokeLater(() -> {
+                floorItemPanel.setPreferredSize(new Dimension(0, floorItemPanel.getPreferredSize().height));
+                SwingUtilities.updateComponentTreeUI(floorItemPanel);
+            });
     }
 
     @Override

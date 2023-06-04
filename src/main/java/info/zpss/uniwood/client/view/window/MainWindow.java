@@ -331,15 +331,16 @@ public class MainWindow extends JFrame implements MainView {
 
     public static class PostPanel extends JPanel implements Renderable<PostItem> {
         private Vector<PostItem> listData;
-        public final JPanel postListPane;
+        public final JPanel postListPane, centerPane;
         public final JScrollPane postListScrollPane;
 
         public PostPanel() {
             super();
             this.listData = new Vector<>();
             this.postListPane = new JPanel();
+            this.centerPane = new JPanel(new BorderLayout());
 
-            this.postListPane.setLayout(new BoxLayout(postListPane, BoxLayout.Y_AXIS));
+            this.postListPane.setLayout(new GridLayout(0, 1));
             this.setBorder(BorderFactory.createTitledBorder("广场"));
 
             this.postListScrollPane = new JScrollPane(postListPane);
@@ -347,7 +348,12 @@ public class MainWindow extends JFrame implements MainView {
             postListScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
             this.setLayout(new BorderLayout());
-            this.add(postListScrollPane);
+            this.add(centerPane, BorderLayout.CENTER);
+
+            JPanel blankPanel = new JPanel();
+            blankPanel.setBackground(Color.WHITE);
+            centerPane.add(blankPanel, BorderLayout.CENTER);
+            centerPane.add(postListScrollPane, BorderLayout.NORTH);
         }
 
         @Override
@@ -393,18 +399,22 @@ public class MainWindow extends JFrame implements MainView {
         @Override
         public void clear() {
             postListPane.removeAll();
+            postListPane.repaint();
+            listData.clear();
         }
 
         @Override
+        public void repaint() {
+            super.repaint();
+            if (postListScrollPane != null)
+                SwingUtilities.invokeLater(() -> {
+                    postListScrollPane.setPreferredSize(new Dimension(0, postListPane.getPreferredSize().height));
+                    updateUI();
+                });
+        }
+
         public void setTitle(String title) {
             this.setBorder(BorderFactory.createTitledBorder(title));
-        }
-
-        @Override
-        public void register() {
-            for (Component c : this.postListPane.getComponents())
-                if (c instanceof PostItemRender)
-                    ((PostItemRender) c).register();
         }
     }
 
@@ -417,8 +427,6 @@ public class MainWindow extends JFrame implements MainView {
             super();
             this.zoneList = new JList<>();
             this.listData = null;
-
-            // TODO：为按钮添加事件
 
             this.zoneList.setCellRenderer(new ZoneItemRender());
             this.zoneList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -453,15 +461,11 @@ public class MainWindow extends JFrame implements MainView {
 
         @Override
         public void clear() {
+            this.zoneList.removeAll();
+            this.zoneList.repaint();
             this.listData.clear();
         }
 
-        @Override
-        public void setTitle(String title) {
-            this.setBorder(BorderFactory.createTitledBorder(title));
-        }
-
-        @Override
         public void register() {
             this.zoneList.addListSelectionListener(e -> {
                 if (!e.getValueIsAdjusting()) {

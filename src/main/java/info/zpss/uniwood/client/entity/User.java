@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-// TODO 用户
 public class User implements Entity {
     private Integer id;
     private String username;

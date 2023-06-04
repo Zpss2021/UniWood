@@ -1,11 +1,15 @@
 package info.zpss.uniwood.client.controller;
 
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.entity.Floor;
+import info.zpss.uniwood.client.item.FloorItem;
 import info.zpss.uniwood.client.model.PostModel;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.PostView;
 import info.zpss.uniwood.client.view.window.PostWindow;
 
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.TimeoutException;
 
 public class PostController implements Controller<PostModel, PostView> {
@@ -38,10 +42,9 @@ public class PostController implements Controller<PostModel, PostView> {
 
     @Override
     public void register() {
-
         try {
-            view.getFloorPanel().register();
-            view.getFloorPanel().setTitle(model.getFloor(1).getContent().substring(0, 16));
+            String title = model.getFloor(1).getContent();
+            view.setTitle(title.length() > 16 ? title.substring(0, 16) + "..." : title);
             view.getShareBtn().addActionListener(e -> sharePost());
             view.getFavorBtn().addActionListener(e -> favorPost());
             view.getReplyBtn().addActionListener(e -> replyPost());
@@ -69,6 +72,14 @@ public class PostController implements Controller<PostModel, PostView> {
     }
 
     private void nextPost() {
+    }
+
+    public void setFloors() throws InterruptedException, TimeoutException {
+        List<Floor> floors = model.getFloors();
+        Vector<FloorItem> floorItems = new Vector<>();
+        for (Floor floor : floors)
+            floorItems.add(new FloorItem(floor));
+        view.getFloorPanel().setListData(floorItems);
     }
 
 }

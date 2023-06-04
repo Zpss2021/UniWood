@@ -5,7 +5,6 @@ import info.zpss.uniwood.client.util.interfaces.Model;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 
-import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
 public class RegisterModel implements Model {
@@ -45,7 +44,9 @@ public class RegisterModel implements Model {
 
     public String getAvatarBase64() {
         // 在数据库中由触发器实现插入默认头像Base64
-        return Objects.requireNonNullElse(avatarBase64, "DEFAULT");
+        if(avatarBase64 != null)
+            return avatarBase64;
+        return "DEFAULT";
     }
 
     public void setAvatarBase64(String avatarBase64) {

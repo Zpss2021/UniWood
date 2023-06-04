@@ -6,6 +6,7 @@ import info.zpss.uniwood.common.Logger;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class WaitTime implements Arguable {
@@ -52,6 +53,6 @@ public class WaitTime implements Arguable {
                 Main.logger().add(String.format("平均等待周期：%f", averageWaitCycle),
                         Logger.Type.INFO, Thread.currentThread());
             this.baseWaitCycle = (int) averageWaitCycle;
-        }, 1, 1, java.util.concurrent.TimeUnit.SECONDS);
+        }, 1, 1, TimeUnit.SECONDS);
     }
 }

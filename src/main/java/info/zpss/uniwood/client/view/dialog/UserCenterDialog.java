@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.view.dialog;
 
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.controller.UserCenterController;
 import info.zpss.uniwood.client.model.UserCenterModel;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.FontMaker;
@@ -120,6 +121,7 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
     @Override
     public void showWindow(Component parent) {
         SwingUtilities.invokeLater(() -> {
+            UserCenterController.getInstance().register();
             this.pack();
             this.setVisible(true);
             this.validate();

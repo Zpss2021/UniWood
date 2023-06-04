@@ -17,6 +17,14 @@ public class PostModel implements Model {
         this.init();
     }
 
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
     public Floor getFloor(int floorID) throws InterruptedException, TimeoutException {
         for (Floor floor : post.getFloors())
             if (floor.getId() == floorID)
@@ -30,7 +38,7 @@ public class PostModel implements Model {
         if (post.getFloors().size() > size || size == post.getFloorCount())
             return post.getFloors();
         for (int i = size, j = 1; i < post.getFloorCount(); i++, j++) {
-            Floor floor = FloorBuilder.getInstance().get(post.getId(), i);
+            Floor floor = FloorBuilder.getInstance().get(i, post.getId());
             post.getFloors().add(floor);
             if (j == pageSize)
                 break;

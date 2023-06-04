@@ -1,21 +1,20 @@
 package info.zpss.uniwood.client.view.render;
 
+import info.zpss.uniwood.client.controller.MainController;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.item.PostItem;
 import info.zpss.uniwood.client.util.interfaces.Render;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class PostItemRender extends JPanel implements Render {
     private PostItem item;
-    private final JPanel postItemPanel, headerPanel;
-    private final JPanel avatarPane, favorPane;
-    private final JLabel avatarLbl;
-    private final JTextArea titleText, contentText;
-    private final JButton favorBtn;
+    public final JPanel postItemPanel, headerPanel;
+    public final JPanel avatarPane, favorPane;
+    public final JLabel avatarLbl;
+    public final JTextArea titleText, contentText;
+    public final JButton favorBtn;
 
     public PostItemRender(PostItem item) {
         super();
@@ -42,6 +41,7 @@ public class PostItemRender extends JPanel implements Render {
 
         this.add(postItemPanel, BorderLayout.CENTER);
         this.setBackground(Color.WHITE);
+        this.register();
     }
 
     public PostItem getItem() {
@@ -120,23 +120,14 @@ public class PostItemRender extends JPanel implements Render {
     public void repaint() {
         super.repaint();
         if (postItemPanel != null)
-            SwingUtilities.invokeLater(() -> SwingUtilities.updateComponentTreeUI(postItemPanel));
+            SwingUtilities.invokeLater(() -> {
+                SwingUtilities.updateComponentTreeUI(postItemPanel);
+                updateUI();
+            });
     }
 
     @Override
     public void register() {
-        titleText.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("点击了" + titleText.getText() + "标题");
-            }
-        });
-        favorBtn.addActionListener(e -> System.out.println("收藏了" + titleText.getText()));
-        contentText.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("点击了" + titleText.getText() + "内容");
-            }
-        });
+        MainController.getInstance().regPostItem(this);
     }
 }
