@@ -13,6 +13,7 @@ import info.zpss.uniwood.common.MsgProto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
 public class Post implements Entity {
@@ -60,6 +61,13 @@ public class Post implements Entity {
         return floors;
     }
 
+    public void appendFloor(Floor floor) {
+        for (Floor f : this.floors)
+            if (Objects.equals(f.getId(), floor.getId()))
+                return;
+        this.floors.add(floor);
+    }
+
     @Override
     public void update(MsgProto msg) {
         try {
@@ -80,17 +88,5 @@ public class Post implements Entity {
             Main.logger().add("贴子信息更新失败", Thread.currentThread());
             Main.logger().add(e, Thread.currentThread());
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", zone=" + zone +
-                ", author=" + author +
-                ", time=" + time +
-                ", floorCount=" + floorCount +
-                ", floors=" + floors +
-                '}';
     }
 }

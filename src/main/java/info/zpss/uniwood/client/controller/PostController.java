@@ -75,7 +75,7 @@ public class PostController implements Controller<PostModel, PostView> {
     }
 
     public void setFloors() throws InterruptedException, TimeoutException {
-        List<Floor> floors = model.getFloors();
+        List<Floor> floors = model.getNextPageFloors();
         Vector<FloorItem> floorItems = new Vector<>();
         for (Floor floor : floors)
             floorItems.add(new FloorItem(floor));

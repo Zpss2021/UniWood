@@ -32,7 +32,7 @@ public class WaitTime implements Arguable {
         int waitMills = this.baseCycleMillis + (waitCount + baseWaitCycle) * 10;
         if (waitMills > Main.connection().getTimeout())
             throw new TimeoutException();
-        averageWaitCycle = averageWaitCycle * 0.6 + waitCount * 0.4;
+        averageWaitCycle = averageWaitCycle * 0.8 + waitCount * 0.2;
         return waitMills;
     }
 
