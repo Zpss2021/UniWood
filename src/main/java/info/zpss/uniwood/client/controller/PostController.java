@@ -8,6 +8,7 @@ import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.PostView;
 import info.zpss.uniwood.client.view.window.PostWindow;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeoutException;
@@ -49,8 +50,8 @@ public class PostController implements Controller<PostModel, PostView> {
             view.getFavorBtn().addActionListener(e -> favorPost());
             view.getReplyBtn().addActionListener(e -> replyPost());
             view.getRefreshBtn().addActionListener(e -> refreshPost());
-            view.getPrevBtn().addActionListener(e -> prevPost());
-            view.getNextBtn().addActionListener(e -> nextPost());
+            view.getPrevBtn().addActionListener(e -> prevPage());
+            view.getNextBtn().addActionListener(e -> nextPage());
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
         }
@@ -68,10 +69,32 @@ public class PostController implements Controller<PostModel, PostView> {
     private void refreshPost() {
     }
 
-    private void prevPost() {
+    private void prevPage() {
+        try {
+            List<Floor> floors = model.getPrevPageFloors();
+            Vector<FloorItem> floorItems = new Vector<>();
+            for (Floor floor : floors)
+                floorItems.add(new FloorItem(floor));
+            view.getFloorPanel().setListData(floorItems);
+        } catch (InterruptedException | TimeoutException e) {
+            Main.logger().add(e, Thread.currentThread());
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
+                    "错误", JOptionPane.ERROR_MESSAGE));
+        }
     }
 
-    private void nextPost() {
+    private void nextPage() {
+        try {
+            List<Floor> floors = model.getNextPageFloors();
+            Vector<FloorItem> floorItems = new Vector<>();
+            for (Floor floor : floors)
+                floorItems.add(new FloorItem(floor));
+            view.getFloorPanel().setListData(floorItems);
+        } catch (InterruptedException | TimeoutException e) {
+            Main.logger().add(e, Thread.currentThread());
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
+                    "错误", JOptionPane.ERROR_MESSAGE));
+        }
     }
 
     public void setFloors() throws InterruptedException, TimeoutException {

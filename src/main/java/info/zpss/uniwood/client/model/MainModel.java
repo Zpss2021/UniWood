@@ -17,7 +17,7 @@ import java.util.concurrent.TimeoutException;
 public class MainModel implements Model {
     private User loginUser;
     private List<Post> zonePosts;
-    private static final int pageSize = 2;
+    private static final int pageSize = 5;
     private int fromPostCount;
 
     public MainModel() {

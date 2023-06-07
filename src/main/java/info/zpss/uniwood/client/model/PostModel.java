@@ -1,17 +1,19 @@
 package info.zpss.uniwood.client.model;
 
 import info.zpss.uniwood.client.builder.FloorBuilder;
+import info.zpss.uniwood.client.controller.PostController;
 import info.zpss.uniwood.client.entity.Floor;
 import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.util.interfaces.Model;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 
 public class PostModel implements Model {
     private Post post;
-    private static final int pageSize = 10;
+    private static final int pageSize = 5;
     private int fromFloor;
 
     public PostModel() {
@@ -35,6 +37,15 @@ public class PostModel implements Model {
 
     public List<Floor> getNextPageFloors() throws InterruptedException, TimeoutException {
         post.getFloors().clear();
+        if (fromFloor != 0)
+            fromFloor += pageSize;
+        else
+            fromFloor = 1;
+        if (fromFloor > post.getFloorCount()) {
+            fromFloor = 1;
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(PostController.getInstance()
+                    .getView().getComponent(), "已到达最后一页！"));
+        }
         int to = fromFloor + pageSize - 1;
         to = to > post.getFloorCount() ? post.getFloorCount() : to;
         return getPageFloors(to);
@@ -46,10 +57,13 @@ public class PostModel implements Model {
         if (to < pageSize) {
             fromFloor = 1;
             to = fromFloor + pageSize - 1;
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(PostController.getInstance()
+                    .getView().getComponent(), "已到达第一页！"));
         } else {
             fromFloor = to - pageSize + 1;
             fromFloor = Math.max(fromFloor, 1);
         }
+        to = to > post.getFloorCount() ? post.getFloorCount() : to;
         return getPageFloors(to);
     }
 
@@ -68,6 +82,6 @@ public class PostModel implements Model {
     @Override
     public void init() {
         post = new Post();
-        fromFloor = 1;
+        fromFloor = 0;
     }
 }

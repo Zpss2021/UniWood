@@ -1,0 +1,25 @@
+[2023-06-07 10:05:50.046][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
+[2023-06-07 10:05:50.046][main/DEBUG]DEBUG MODE ON!!
+[2023-06-07 10:05:50.066][main/INFO]未指定连接超时时间，使用默认值1000
+[2023-06-07 10:05:50.066][main/INFO]未指定连接重试次数，使用默认值3
+[2023-06-07 10:05:50.082][main/INFO]服务器已连接
+[2023-06-07 10:05:50.082][main/INFO]未指定请求消息周期等待时间，使用默认值20
+[2023-06-07 10:05:50.082][main/INFO]未指定请求消息最大等待周期，使用默认值150
+[2023-06-07 10:05:50.082][main/INFO]Hello, UniWood!
+[2023-06-07 10:05:50.505][main/INFO]窗口初始化完成
+[2023-06-07 10:05:51.083][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-07 10:05:51.099][pool-2-thread-1/INFO]平均等待周期：1.000000
+[2023-06-07 10:05:51.281][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
+[2023-06-07 10:05:51.313][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
+[2023-06-07 10:05:51.313][Thread-3/INFO]用户test_user_1登录成功！
+[2023-06-07 10:05:51.948][Thread-5/INFO]向服务器发送消息：ZONE_LIST|1
+[2023-06-07 10:05:51.956][Thread-0/INFO]收到服务器消息：ZONE_LIST|1|2
+[2023-06-07 10:05:51.956][Thread-8/INFO]向服务器发送消息：ZONE_INFO|1
+[2023-06-07 10:05:51.972][Thread-0/INFO]收到服务器消息：ZONE_INFO|1|广场|一段对广场的描述|data:image/png;base64,iVBORw0KGgoAAAA...
+[2023-06-07 10:05:51.987][Thread-10/INFO]向服务器发送消息：ZONE_INFO|2
+[2023-06-07 10:05:51.987][Thread-0/INFO]收到服务器消息：ZONE_INFO|2|河南大学|HENU|data:image/png;base64,iVBORw0KGgoAAAANS...
+[2023-06-07 10:05:52.097][pool-2-thread-1/INFO]平均等待周期：0.569600
+[2023-06-07 10:05:53.087][pool-2-thread-1/INFO]平均等待周期：0.569600
+[2023-06-07 10:05:54.083][pool-1-thread-1/INFO]向服务器发送消息：HEARTBEAT
+[2023-06-07 10:05:54.098][pool-2-thread-1/INFO]平均等待周期：0.569600
+[2023-06-07 10:05:55.098][pool-2-thread-1/INFO]平均等待周期：0.569600
