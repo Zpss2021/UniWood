@@ -17,11 +17,20 @@ public class ServerConnection implements Arguable {
     private SocketAddress serverHost;
     private SocketHandler handler;
     private Socket serverSocketConn;
-    private final ScheduledExecutorService executor;
+    private ScheduledExecutorService executor;
     private int timeout;
     private int retry;
 
     public ServerConnection() {
+        serverHost = null;
+        handler = null;
+        serverSocketConn = null;
+        executor = null;
+        timeout = 0;
+        retry = 0;
+    }
+
+    private void startHeartbeat() {
         executor = Executors.newSingleThreadScheduledExecutor();
         executor.scheduleAtFixedRate(() -> {
             try {
@@ -44,6 +53,7 @@ public class ServerConnection implements Arguable {
                 serverSocketConn = new Socket();
                 serverSocketConn.connect(serverHost, timeout);
                 Main.logger().add("服务器已连接", ClientLogger.Type.INFO, Thread.currentThread());
+                startHeartbeat();
                 break;
             } catch (IOException e) {
                 if (i < retry) {

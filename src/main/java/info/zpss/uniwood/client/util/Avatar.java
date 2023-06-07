@@ -1,5 +1,7 @@
 package info.zpss.uniwood.client.util;
 
+import info.zpss.uniwood.client.Main;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -28,10 +30,6 @@ public class Avatar {
         this.avatarIcon = standardized(new ImageIcon(new File(srcFilePath).getAbsolutePath()), 64);
     }
 
-    public ImageIcon toIcon() {
-        return avatarIcon;
-    }
-
     public ImageIcon toIcon(int length) {
         return new ImageIcon(avatarIcon.getImage().getScaledInstance(length, length, Image.SCALE_SMOOTH));
     }
@@ -50,13 +48,13 @@ public class Avatar {
             byte[] imageBytes = outputStream.toByteArray();
             return String.format("data:image/png;base64,%s", Base64.getEncoder().encodeToString(imageBytes));
         } catch (IOException e) {
-            e.printStackTrace();    // TODO
+            Main.logger().add(e, Thread.currentThread());
         } finally {
             try {
                 outputStream.close();
                 bufferedImage.flush();
             } catch (IOException ex) {
-                ex.printStackTrace();   // TODO
+                Main.logger().add(ex, Thread.currentThread());
             }
         }
         return null;
@@ -74,7 +72,7 @@ public class Avatar {
         try {
             ImageIO.write(bufferedImage, "png", dstFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.logger().add(e, Thread.currentThread());
         } finally {
             bufferedImage.flush();
         }
@@ -88,7 +86,7 @@ public class Avatar {
             BufferedImage bufferedImage = ImageIO.read(inputStream);
             return new ImageIcon(bufferedImage);
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.logger().add(e, Thread.currentThread());
         }
         return null;
     }

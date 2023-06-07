@@ -193,9 +193,6 @@ public class MainWindow extends JFrame implements MainView {
             nextPageBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/下一页.png")
                     .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 
-            // TODO：字体
-            // TODO：为按钮添加事件
-
             this.setLayout(new GridLayout(2, 2, 5, 5));
 
             this.add(newPostBtn);
@@ -263,9 +260,6 @@ public class MainWindow extends JFrame implements MainView {
             radioPane.setPreferredSize(new Dimension(60, 60));
             searchBtn.setPreferredSize(new Dimension(80, 60));
 
-
-            // TODO：字体
-            // TODO：为按钮和搜索框添加事件
 
             searchPanel.add(searchField, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER,
                     GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));

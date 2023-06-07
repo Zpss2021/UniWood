@@ -16,7 +16,6 @@ import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.common.MsgProto;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -129,6 +128,7 @@ public class MainController implements Controller<MainModel, MainView> {
 
     private void setFloors(int postID) throws InterruptedException, TimeoutException {
         Post post = PostBuilder.getInstance().get(postID);
+        PostController.getInstance().getModel().init();
         PostController.getInstance().getModel().setPost(post);
         PostController.getInstance().setFloors();
         PostController.getInstance().register();

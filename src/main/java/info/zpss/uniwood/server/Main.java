@@ -96,7 +96,7 @@ public class Main {
     }
 
     private static void execute() throws RuntimeException {
-        // TODO：数据库连接后，服务器开始监听前运行的代码
+        // 数据库连接后，服务器开始监听前运行的代码
         UserService.getInstance().offlineAll(); // 重置所有在线用户状态为离线
     }
 }

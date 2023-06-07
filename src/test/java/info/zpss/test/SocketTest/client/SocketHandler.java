@@ -15,13 +15,13 @@ public class SocketHandler extends Thread {
     }
 
     public void send(String message) {
-        System.out.println("向服务器发送消息：" + message);  // TODO:DEBUG
+        System.out.println("向服务器发送消息：" + message);
         writer.println(message);
         writer.flush();
     }
 
     private void handleMessage(String message) {
-        System.out.println("收到服务器消息：" + message);  // TODO:DEBUG
+        System.out.println("收到服务器消息：" + message);
     }
 
     @Override

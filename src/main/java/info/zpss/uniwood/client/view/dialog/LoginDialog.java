@@ -40,9 +40,7 @@ public class LoginDialog extends JDialog implements LoginView {
         this.loginBtn = new JButton("登录");
 
         bgLbl.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(480, 105, Image.SCALE_FAST)));  // TODO
-
-        // TODO: 头图
+                .getImage().getScaledInstance(480, 105, Image.SCALE_SMOOTH)));  // TODO: 头图
 
         this.initWindow();
 

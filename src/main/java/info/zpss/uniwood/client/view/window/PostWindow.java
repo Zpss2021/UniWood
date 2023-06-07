@@ -225,10 +225,11 @@ public class PostWindow extends JFrame implements PostView {
         @Override
         public void repaint() {
             super.repaint();
-            if(floorListScrollPane != null) {
+            if (floorListScrollPane != null) {
                 SwingUtilities.invokeLater(() -> {
                     int height = floorListPane.getPreferredSize().height;
-                    int maxHeight = this.getParent().getHeight() - 25;
+                    Container parent = this.getParent();
+                    int maxHeight = (parent != null) ? (parent.getHeight() - 25) : height;
                     floorListScrollPane.setPreferredSize(new Dimension(0, Math.min(height, maxHeight)));
                     updateUI();
                 });

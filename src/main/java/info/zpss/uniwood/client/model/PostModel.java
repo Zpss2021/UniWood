@@ -37,14 +37,15 @@ public class PostModel implements Model {
 
     public List<Floor> getNextPageFloors() throws InterruptedException, TimeoutException {
         post.getFloors().clear();
-        if (fromFloor != 0)
+        if (fromFloor == 0)
+            fromFloor = 1;
+        else {
             fromFloor += pageSize;
-        else
-            fromFloor = 1;
-        if (fromFloor > post.getFloorCount()) {
-            fromFloor = 1;
-            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(PostController.getInstance()
-                    .getView().getComponent(), "已到达最后一页！"));
+            if (fromFloor > post.getFloorCount()) {
+                fromFloor = 1;
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(PostController.getInstance()
+                        .getView().getComponent(), "已到达最后一页！"));
+            }
         }
         int to = fromFloor + pageSize - 1;
         to = to > post.getFloorCount() ? post.getFloorCount() : to;

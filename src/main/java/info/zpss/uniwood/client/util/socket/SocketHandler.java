@@ -1,9 +1,12 @@
 package info.zpss.uniwood.client.util.socket;
 
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.controller.*;
+import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 import info.zpss.uniwood.client.util.ClientLogger;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -31,7 +34,7 @@ public class SocketHandler extends Thread {
             Main.logger().add(String.format("收到服务器消息：%s",
                     ((message.length() > 64) ? (message.substring(0, 61) + "...") : message)), Thread.currentThread());
         MsgProto msg = MsgProto.parse(message);
-        if (msg.cmd == null) {
+        if (msg.cmd.equals(Command.UNKNOWN)) {
             Main.logger().add("服务器消息解析失败！", ClientLogger.Type.WARN, Thread.currentThread());
             Main.logger().add(String.format("未知信息：%s", message), ClientLogger.Type.WARN, Thread.currentThread());
             return;
@@ -106,16 +109,28 @@ public class SocketHandler extends Thread {
         } catch (SocketException e) {
             if (socket.isClosed())
                 return;
+            LoginController.getInstance().getView().hideWindow();
+            PostController.getInstance().getView().hideWindow();
+            RegisterController.getInstance().getView().hideWindow();
+            EditController.getInstance().getView().hideWindow();
+            UserCenterController.getInstance().getView().hideWindow();
             Main.logger().add(String.format("服务器%s连接异常，正在尝试重新连接...", this),
                     ClientLogger.Type.WARN, Thread.currentThread());
             Main.logger().add(e, Thread.currentThread());
-            try {   // TODO：重连机制
+            SwingUtilities.invokeLater(() ->
+                    JOptionPane.showMessageDialog(MainController.getInstance().getView().getComponent(),
+                            "与服务器的连接已断开，正在尝试重新连接...", "警告", JOptionPane.WARNING_MESSAGE));
+            try {
                 Main.connection().connect();
             } catch (IOException ex) {
+                JOptionPane.showMessageDialog(MainController.getInstance().getView().getComponent(),
+                        "连接服务器失败，请检查网络连接！", "错误", JOptionPane.ERROR_MESSAGE);
                 Main.logger().add("连接服务器失败！", ClientLogger.Type.ERROR, Thread.currentThread());
                 Main.logger().add(e, Thread.currentThread());
-                System.exit(1);
+                System.exit(-1);
             }
+            JOptionPane.showMessageDialog(MainController.getInstance().getView().getComponent(),
+                    "与服务器的连接已恢复！", "提示", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
             Main.logger().add(String.format("服务器%s读取消息流I/O异常！", this),
                     ClientLogger.Type.WARN, Thread.currentThread());

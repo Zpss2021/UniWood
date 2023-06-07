@@ -17,11 +17,13 @@ public class PostController implements Controller<PostModel, PostView> {
     private static final PostController INSTANCE;
     private static final PostModel model;
     private static final PostView view;
+    private static boolean registered;
 
     static {
         model = new PostModel();
         view = new PostWindow();
         INSTANCE = new PostController();
+        registered = false;
     }
 
     private PostController() {
@@ -43,17 +45,20 @@ public class PostController implements Controller<PostModel, PostView> {
 
     @Override
     public void register() {
-        try {
-            String title = model.getFloor(1).getContent();
-            view.setTitle(title.length() > 16 ? title.substring(0, 16) + "..." : title);
-            view.getShareBtn().addActionListener(e -> sharePost());
-            view.getFavorBtn().addActionListener(e -> favorPost());
-            view.getReplyBtn().addActionListener(e -> replyPost());
-            view.getRefreshBtn().addActionListener(e -> refreshPost());
-            view.getPrevBtn().addActionListener(e -> prevPage());
-            view.getNextBtn().addActionListener(e -> nextPage());
-        } catch (InterruptedException | TimeoutException e) {
-            Main.logger().add(e, Thread.currentThread());
+        if (!registered) {
+            registered = true;
+            try {
+                String title = model.getFloor(1).getContent();
+                view.setTitle(title.length() > 16 ? title.substring(0, 16) + "..." : title);
+                view.getShareBtn().addActionListener(e -> sharePost());
+                view.getFavorBtn().addActionListener(e -> favorPost());
+                view.getReplyBtn().addActionListener(e -> replyPost());
+                view.getRefreshBtn().addActionListener(e -> refreshPost());
+                view.getPrevBtn().addActionListener(e -> prevPage());
+                view.getNextBtn().addActionListener(e -> nextPage());
+            } catch (InterruptedException | TimeoutException e) {
+                Main.logger().add(e, Thread.currentThread());
+            }
         }
     }
 

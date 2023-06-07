@@ -38,13 +38,13 @@ public class Avatar {
             byte[] imageBytes = outputStream.toByteArray();
             return String.format("data:image/png;base64,%s", Base64.getEncoder().encodeToString(imageBytes));
         } catch (IOException e) {
-            e.printStackTrace();    // TODO
+            e.printStackTrace();
         } finally {
             try {
                 outputStream.close();
                 bufferedImage.flush();
             } catch (IOException ex) {
-                ex.printStackTrace();   // TODO
+                ex.printStackTrace();
             }
         }
         return null;
