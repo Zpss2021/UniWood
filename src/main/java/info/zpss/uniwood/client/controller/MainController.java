@@ -27,11 +27,13 @@ public class MainController implements Controller<MainModel, MainView> {
     private static final MainController INSTANCE;
     private static final MainModel model;
     private static final MainView view;
+    private static boolean registered;
 
     static {
         model = new MainModel();
         view = new MainWindow();
         INSTANCE = new MainController();
+        registered = false;
     }
 
     private MainController() {
@@ -68,11 +70,11 @@ public class MainController implements Controller<MainModel, MainView> {
             view.getRegisterOrLogoutButton().addActionListener(registerListener);
             view.getLoginOrUserCenterButton().addActionListener(loginListener);
         }
-        view.getButtonPanel().newPostBtn.addActionListener(e -> newPost());
-        view.getButtonPanel().refreshBtn.addActionListener(e -> refresh());
-        view.getButtonPanel().prevPageBtn.addActionListener(e -> prevPage());
-        view.getButtonPanel().nextPageBtn.addActionListener(e -> nextPage());
         regZoneItem();
+        if (!registered) {
+            registered = true;
+            regButtonPanel();
+        }
     }
 
     public void userLogin() {
@@ -113,13 +115,14 @@ public class MainController implements Controller<MainModel, MainView> {
         view.getZonePanel().zoneList.setSelectedIndex(0);
     }
 
-    public void setPosts() throws InterruptedException, TimeoutException {
+    public void setZonePosts() throws InterruptedException, TimeoutException {
         model.setFromPostCount(0);
         List<Post> posts = model.getPosts(0);
         Vector<PostItem> postItems = new Vector<>();
         for (Post post : posts)
             postItems.add(new PostItem(post));
         view.getPostPanel().setListData(postItems);
+        view.getPostPanel().setTitle(view.getZonePanel().zoneList.getSelectedValue().name);
     }
 
     public int getZoneID() {
@@ -140,24 +143,13 @@ public class MainController implements Controller<MainModel, MainView> {
             model.setLoginUser(loginUser);
             view.getUserPanel().setLogin(loginUser.getAvatar());
             setZones();
-            setPosts();
+            setZonePosts();
             register();
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
             JOptionPane.showMessageDialog(view.getComponent(), "加载资源失败，请检查网络连接！",
                     "错误", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
-        }
-    }
-
-    public void updateZonePosts() {
-        try {
-            view.getPostPanel().setTitle(view.getZonePanel().zoneList.getSelectedValue().name);
-            setPosts();
-        } catch (InterruptedException | TimeoutException e) {
-            Main.logger().add(e, Thread.currentThread());
-            JOptionPane.showMessageDialog(view.getComponent(), "加载贴子列表失败，请稍后刷新重试",
-                    "错误", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -189,13 +181,28 @@ public class MainController implements Controller<MainModel, MainView> {
         });
     }
 
-    private void nextPage() {
+    private void regButtonPanel() {
+        view.getButtonPanel().newPostBtn.addActionListener(e -> newPost());
+        view.getButtonPanel().refreshBtn.addActionListener(e -> refresh());
+        view.getButtonPanel().prevPageBtn.addActionListener(e -> prevPage());
+        view.getButtonPanel().nextPageBtn.addActionListener(e -> nextPage());
+    }
+
+    public void nextPage() {
         try {
             List<Post> posts = model.getNextPagePosts();
-            Vector<PostItem> postItems = new Vector<>();
-            for (Post post : posts)
-                postItems.add(new PostItem(post));
-            view.getPostPanel().setListData(postItems);
+            if (posts.size() == 0)
+                return;
+            if (!posts.get(0).getId().equals(-1)) {
+                Vector<PostItem> postItems = new Vector<>();
+                for (Post post : posts)
+                    postItems.add(new PostItem(post));
+                view.getPostPanel().setListData(postItems);
+            } else {
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(MainController.getInstance()
+                        .getView().getComponent(), "已到达最后一页！"));
+                refresh();
+            }
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
@@ -203,7 +210,7 @@ public class MainController implements Controller<MainModel, MainView> {
         }
     }
 
-    private void prevPage() {
+    public void prevPage() {
         try {
             List<Post> posts = model.getPrevPagePosts();
             Vector<PostItem> postItems = new Vector<>();
@@ -217,9 +224,9 @@ public class MainController implements Controller<MainModel, MainView> {
         }
     }
 
-    private void refresh() {
+    public void refresh() {
         try {
-            setPosts();
+            setZonePosts();
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
@@ -227,7 +234,7 @@ public class MainController implements Controller<MainModel, MainView> {
         }
     }
 
-    private void newPost() {
+    public void newPost() {
 // TODO:发贴界面
     }
 }

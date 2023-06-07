@@ -203,6 +203,13 @@ public class MainWindow extends JFrame implements MainView {
             this.setSize(300, 100);
             this.setBorder(BorderFactory.createTitledBorder("操作"));
         }
+
+        public void register() {
+            newPostBtn.addActionListener(e -> MainController.getInstance().newPost());
+            refreshBtn.addActionListener(e -> MainController.getInstance().refresh());
+            prevPageBtn.addActionListener(e -> MainController.getInstance().prevPage());
+            nextPageBtn.addActionListener(e -> MainController.getInstance().nextPage());
+        }
     }
 
     public static class SearchPanel extends JPanel {
@@ -476,10 +483,12 @@ public class MainWindow extends JFrame implements MainView {
                     ZoneItem item = zoneList.getSelectedValue();
                     if (item != null) {
                         try {
-                            MainController.getInstance().setPosts();
-                            MainController.getInstance().updateZonePosts();
+                            MainController.getInstance().setZonePosts();
                         } catch (InterruptedException | TimeoutException ex) {
-                            throw new RuntimeException(ex);
+                            Main.logger().add(ex, Thread.currentThread());
+                            JOptionPane.showMessageDialog(MainController.getInstance().getView().getComponent(),
+                                    "加载贴子列表失败，请稍后刷新重试", "错误", JOptionPane.ERROR_MESSAGE);
+                            zoneList.clearSelection();
                         }
                     }
                 }

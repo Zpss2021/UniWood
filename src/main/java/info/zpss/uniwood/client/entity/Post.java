@@ -80,8 +80,10 @@ public class Post implements Entity {
                 this.floors.add(FloorBuilder.getInstance().get(1, this.id));
             } else if (msg.cmd.equals(Command.ZONE_POST)) {
                 if (msg.args.length == 0) {
-                    List<Post> posts = MainController.getInstance().getModel().pageEnd();
-                    MainController.getInstance().getModel().setZonePosts(posts);
+                    ArrayList<Post> p = new ArrayList<>();
+                    p.add(new Post(-1, null, null, null, null));
+                    MainController.getInstance().getModel().setZonePosts(p);
+                    return;
                 }
                 ArrayList<Post> p = new ArrayList<>();
                 for (String s : msg.args)

@@ -33,6 +33,8 @@ public class WaitTime implements Arguable {
         if (waitMills > Main.connection().getTimeout())
             throw new TimeoutException();
         averageWaitCycle = averageWaitCycle * 0.8 + waitCount * 0.2;
+        if (averageWaitCycle < Double.MIN_VALUE)
+            averageWaitCycle = Double.MIN_VALUE;
         return waitMills;
     }
 

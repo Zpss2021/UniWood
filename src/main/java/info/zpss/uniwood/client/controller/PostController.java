@@ -63,15 +63,19 @@ public class PostController implements Controller<PostModel, PostView> {
     }
 
     private void sharePost() {
+        // TODO
     }
 
     private void favorPost() {
+        // TODO
     }
 
     private void replyPost() {
+        // TODO
     }
 
     private void refreshPost() {
+        // TODO
     }
 
     private void prevPage() {

@@ -52,20 +52,14 @@ public class MainModel implements Model {
         return getZones(count + 1);
     }
 
-    public List<Post> pageEnd() throws InterruptedException, TimeoutException {
-        fromPostCount = 0;
-        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(MainController.getInstance()
-                .getView().getComponent(), "已到达最后一页！"));
-        return getPosts(0);
-    }
-
     public List<Post> getNextPagePosts() throws InterruptedException, TimeoutException {
         if (zonePosts != null)
             zonePosts.clear();
         if (fromPostCount == 0)
             fromPostCount = pageSize;
         List<Post> posts = getPosts(0);
-        fromPostCount += posts.size();
+        if (posts.size() > 0 && !posts.get(0).getId().equals(-1))
+            fromPostCount += posts.size();
         return posts;
     }
 
@@ -83,14 +77,20 @@ public class MainModel implements Model {
 
     public List<Post> getPosts(int count) throws InterruptedException, TimeoutException {
         int zoneID = MainController.getInstance().getZoneID();
-        if (zonePosts != null)
-            if (zonePosts.size() != 0) {
-                if (zonePosts.get(0).getZone().getId().equals(zoneID))
-                    return zonePosts;
-            } else {
+        if (zonePosts != null && zonePosts.size() > 0) {
+            if (zonePosts.get(0).getId().equals(-1)) {
+                ArrayList<Post> posts = new ArrayList<>(1);
+                posts.add(zonePosts.get(0));
+                zonePosts = null;
+                return posts;
+            }
+            if (zonePosts.get(0).getZone().getId().equals(zoneID))
+                return zonePosts;
+            else {
                 zonePosts = null;
                 return new ArrayList<>();
             }
+        }
         if (count == 0)
             new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_POST,
                     Integer.toString(zoneID),
