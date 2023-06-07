@@ -12,6 +12,7 @@ public class FloorItem implements Item {
     public final String university;
     public final String time;
     public final String content;
+    private final Floor floor;
 
     public FloorItem(Floor floor) {
         this.id = floor.getId();
@@ -20,5 +21,10 @@ public class FloorItem implements Item {
         this.university = floor.getAuthor().getUniversity();
         this.time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(floor.getTime());
         this.content = floor.getContent();
+        this.floor = floor;
+    }
+
+    public Floor getFloor() {
+        return this.floor;
     }
 }

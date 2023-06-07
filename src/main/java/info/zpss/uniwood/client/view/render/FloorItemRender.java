@@ -1,7 +1,9 @@
 package info.zpss.uniwood.client.view.render;
 
+import info.zpss.uniwood.client.controller.PostController;
 import info.zpss.uniwood.client.item.FloorItem;
 import info.zpss.uniwood.client.util.Avatar;
+import info.zpss.uniwood.client.util.FontMaker;
 import info.zpss.uniwood.client.util.interfaces.Render;
 
 import javax.swing.*;
@@ -27,6 +29,18 @@ public class FloorItemRender extends JPanel implements Render {
         this.infoLbl = new JLabel();
         this.contentText = new JTextArea();
 
+        userPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        usernameLbl.setFont(new FontMaker().bold().build());
+        univLbl.setFont(new FontMaker().bold().build());
+        infoLbl.setFont(new FontMaker().build());
+        contentText.setFont(new FontMaker().large().build());
+
+        usernameLbl.setForeground(new Color(80, 80, 150));
+        univLbl.setForeground(new Color(80, 80, 150));
+        infoLbl.setForeground(Color.DARK_GRAY);
+        contentText.setForeground(Color.BLACK);
+
         updateUser(item);
         updateContent(item);
         updateInfo(item);
@@ -39,6 +53,7 @@ public class FloorItemRender extends JPanel implements Render {
         this.setLayout(new BorderLayout());
         this.add(floorItemPanel, BorderLayout.CENTER);
         this.setBackground(Color.WHITE);
+        this.register();
     }
 
     public FloorItem getItem() {
@@ -77,6 +92,9 @@ public class FloorItemRender extends JPanel implements Render {
         userPanel.add(avatarLbl);
         userPanel.add(usernameLbl);
         userPanel.add(univLbl);
+        avatarLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        usernameLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        univLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
     private void initContentPanel() {
@@ -119,6 +137,6 @@ public class FloorItemRender extends JPanel implements Render {
 
     @Override
     public void register() {
-        // TODO
+        PostController.getInstance().regFloorItem(this);
     }
 }

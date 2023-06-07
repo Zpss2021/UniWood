@@ -6,9 +6,13 @@ import info.zpss.uniwood.client.item.FloorItem;
 import info.zpss.uniwood.client.model.PostModel;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.PostView;
+import info.zpss.uniwood.client.view.render.FloorItemRender;
 import info.zpss.uniwood.client.view.window.PostWindow;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeoutException;
@@ -114,4 +118,27 @@ public class PostController implements Controller<PostModel, PostView> {
         view.getFloorPanel().setListData(floorItems);
     }
 
+    // 注册楼层列表项，FloorItemRender.register()调用
+    public void regFloorItem(FloorItemRender item) {
+        item.userPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                UserCenterController.getInstance().setUser(item.getItem().getFloor().getAuthor());
+                UserCenterController.getInstance().register();
+                UserCenterController.getInstance().getView().showWindow(view.getComponent());
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                item.usernameLbl.setForeground(Color.BLUE);
+                item.univLbl.setForeground(Color.BLUE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                item.usernameLbl.setForeground(new Color(80, 80, 150));
+                item.univLbl.setForeground(new Color(80, 80, 150));
+            }
+        });
+    }
 }

@@ -16,6 +16,7 @@ import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.common.MsgProto;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -160,13 +161,21 @@ public class MainController implements Controller<MainModel, MainView> {
 
     // 注册贴子列表项，PostItemRender.register()调用
     public void regPostItem(PostItemRender item) {
-        item.titleText.addMouseListener(new MouseAdapter() {
+        item.userText.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 userCenter(item.getItem().getAuthor());
             }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                item.userText.setForeground(Color.BLUE);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                item.userText.setForeground(new Color(80, 80, 150));
+            }
         });
-        item.favorBtn.addActionListener(e -> System.out.println("收藏了" + item.titleText.getText()));
+        item.favorBtn.addActionListener(e -> System.out.println("收藏了" + item.userText.getText()));  // TODO
         item.contentText.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -177,6 +186,16 @@ public class MainController implements Controller<MainModel, MainView> {
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
                             "加载失败，请检查网络连接！", "错误", JOptionPane.ERROR_MESSAGE));
                 }
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                item.contentText.setForeground(Color.BLACK);
+//                item.contentText.setFont(new FontMaker().large().bold().build());
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                item.contentText.setForeground(Color.DARK_GRAY);
+//                item.contentText.setFont(new FontMaker().large().build());
             }
         });
     }

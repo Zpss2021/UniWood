@@ -2,6 +2,7 @@ package info.zpss.uniwood.client.view.render;
 
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.item.ZoneItem;
+import info.zpss.uniwood.client.util.FontMaker;
 import info.zpss.uniwood.client.util.interfaces.Render;
 
 import javax.swing.*;
@@ -15,7 +16,8 @@ public class ZoneItemRender extends JPanel implements ListCellRenderer<ZoneItem>
         super();
         this.iconLabel = new JLabel();
         this.nameLabel = new JLabel();
-        this.setLayout(new FlowLayout(FlowLayout.LEFT));
+        nameLabel.setFont(new FontMaker().bold().large().large().large().build());
+        this.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
         this.add(iconLabel);
         this.add(nameLabel);
     }

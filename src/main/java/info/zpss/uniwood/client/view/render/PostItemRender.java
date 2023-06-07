@@ -3,6 +3,7 @@ package info.zpss.uniwood.client.view.render;
 import info.zpss.uniwood.client.controller.MainController;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.item.PostItem;
+import info.zpss.uniwood.client.util.FontMaker;
 import info.zpss.uniwood.client.util.interfaces.Render;
 
 import javax.swing.*;
@@ -11,9 +12,9 @@ import java.awt.*;
 public class PostItemRender extends JPanel implements Render {
     private PostItem item;
     public final JPanel postItemPanel, headerPanel;
-    public final JPanel avatarPane, favorPane;
+    public final JPanel avatarPane, favorPane, titlePane;
     public final JLabel avatarLbl;
-    public final JTextArea titleText, contentText;
+    public final JTextArea userText, infoText, contentText;
     public final JButton favorBtn;
 
     public PostItemRender(PostItem item) {
@@ -23,11 +24,22 @@ public class PostItemRender extends JPanel implements Render {
         headerPanel = new JPanel(new BorderLayout(10, 0));
         avatarPane = new JPanel();
         favorPane = new JPanel();
+        titlePane = new JPanel();
 
         avatarLbl = new JLabel();
-        titleText = new JTextArea();
+        userText = new JTextArea();
+        infoText = new JTextArea();
         contentText = new JTextArea();
         favorBtn = new JButton("收藏");
+
+        userText.setFont(new FontMaker().bold().build());
+        infoText.setFont(new FontMaker().small().build());
+        contentText.setFont(new FontMaker().large().build());
+
+
+        userText.setForeground(new Color(80, 80, 150));
+        infoText.setForeground(Color.DARK_GRAY);
+        contentText.setForeground(Color.DARK_GRAY);
 
         initTitleText();
         initFavorBtn();
@@ -68,7 +80,8 @@ public class PostItemRender extends JPanel implements Render {
     }
 
     public void updateTitleText(PostItem item) {
-        titleText.setText(item.title);
+        userText.setText(item.user);
+        infoText.setText(item.info);
     }
 
     public void updateContentText(PostItem item) {
@@ -76,11 +89,15 @@ public class PostItemRender extends JPanel implements Render {
     }
 
     private void initTitleText() {
-        titleText.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        titleText.setEditable(false);
-        titleText.setOpaque(false);
-        titleText.setBorder(null);
-        titleText.setLineWrap(true);
+        userText.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        userText.setEditable(false);
+        userText.setOpaque(false);
+        userText.setBorder(null);
+        userText.setLineWrap(true);
+        infoText.setEditable(false);
+        infoText.setOpaque(false);
+        infoText.setBorder(null);
+        infoText.setLineWrap(true);
     }
 
     private void initFavorBtn() {
@@ -104,8 +121,13 @@ public class PostItemRender extends JPanel implements Render {
         favorPane.add(favorBtn);
         favorPane.setPreferredSize(new Dimension(72, 35));
 
+        titlePane.setOpaque(false);
+        titlePane.setLayout(new BoxLayout(titlePane, BoxLayout.Y_AXIS));
+        titlePane.add(userText);
+        titlePane.add(infoText);
+
         headerPanel.add(avatarPane, BorderLayout.WEST);
-        headerPanel.add(titleText, BorderLayout.CENTER);
+        headerPanel.add(titlePane, BorderLayout.CENTER);
         headerPanel.add(favorPane, BorderLayout.EAST);
         headerPanel.setOpaque(false);
         headerPanel.setPreferredSize(new Dimension(640, 50));
