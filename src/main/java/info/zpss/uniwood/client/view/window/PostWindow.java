@@ -227,7 +227,9 @@ public class PostWindow extends JFrame implements PostView {
             super.repaint();
             if(floorListScrollPane != null) {
                 SwingUtilities.invokeLater(() -> {
-                    floorListScrollPane.setPreferredSize(new Dimension(0, floorListPane.getPreferredSize().height));
+                    int height = floorListPane.getPreferredSize().height;
+                    int maxHeight = this.getParent().getHeight() - 25;
+                    floorListScrollPane.setPreferredSize(new Dimension(0, Math.min(height, maxHeight)));
                     updateUI();
                 });
             }

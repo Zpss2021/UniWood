@@ -23,7 +23,7 @@
 - 获取贴子信息：`POST_INFO | 帖子ID`
 - 获取分区信息：`ZONE_INFO | 分区ID`
 - 获取楼层信息：`FLOR_INFO | 楼层ID | 贴子ID`
-- 获取分区贴子：`ZONE_POST | 分区ID`
+- 获取分区贴子：`ZONE_POST | 分区ID | 开始贴子计数 | 每页贴子数`
 
 ### 2.2 服务器端发出
 

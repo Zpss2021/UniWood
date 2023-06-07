@@ -145,6 +145,16 @@ public class MainWindow extends JFrame implements MainView {
     }
 
     @Override
+    public BtnPanel getButtonPanel() {
+        return btnPane;
+    }
+
+    @Override
+    public SearchPanel getSearchPanel() {
+        return searchPane;
+    }
+
+    @Override
     public ZonePanel getZonePanel() {
         return zonePane;
     }
@@ -331,14 +341,13 @@ public class MainWindow extends JFrame implements MainView {
 
     public static class PostPanel extends JPanel implements Renderable<PostItem> {
         private Vector<PostItem> listData;
-        public final JPanel postListPane, centerPane;
+        public final JPanel postListPane;
         public final JScrollPane postListScrollPane;
 
         public PostPanel() {
             super();
             this.listData = new Vector<>();
             this.postListPane = new JPanel();
-            this.centerPane = new JPanel(new BorderLayout());
 
             this.postListPane.setLayout(new GridLayout(0, 1));
             this.setBorder(BorderFactory.createTitledBorder("广场"));
@@ -348,12 +357,11 @@ public class MainWindow extends JFrame implements MainView {
             postListScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
             this.setLayout(new BorderLayout());
-            this.add(centerPane, BorderLayout.CENTER);
 
             JPanel blankPanel = new JPanel();
             blankPanel.setBackground(Color.WHITE);
-            centerPane.add(blankPanel, BorderLayout.CENTER);
-            centerPane.add(postListScrollPane, BorderLayout.NORTH);
+            this.add(postListScrollPane, BorderLayout.NORTH);
+            this.add(blankPanel, BorderLayout.CENTER);
         }
 
         @Override
@@ -408,7 +416,9 @@ public class MainWindow extends JFrame implements MainView {
             super.repaint();
             if (postListScrollPane != null)
                 SwingUtilities.invokeLater(() -> {
-                    postListScrollPane.setPreferredSize(new Dimension(0, postListPane.getPreferredSize().height));
+                    int height = postListPane.getPreferredSize().height;
+                    int maxHeight = getParent().getHeight() - 25;
+                    postListScrollPane.setPreferredSize(new Dimension(0, Math.min(height, maxHeight)));
                     updateUI();
                 });
         }
@@ -472,7 +482,7 @@ public class MainWindow extends JFrame implements MainView {
                     ZoneItem item = zoneList.getSelectedValue();
                     if (item != null) {
                         try {
-                            MainController.getInstance().getModel().getPosts(item.id, 0);
+                            MainController.getInstance().setPosts();
                             MainController.getInstance().updateZonePosts();
                         } catch (InterruptedException | TimeoutException ex) {
                             throw new RuntimeException(ex);

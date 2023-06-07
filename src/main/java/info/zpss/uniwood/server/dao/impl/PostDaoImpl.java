@@ -42,49 +42,6 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public synchronized List<Post> getPosts() {
-        List<Post> posts = new ArrayList<>();
-        String sql = "SELECT * FROM tb_post";
-        try (Connection conn = Main.database().getConnection()) {
-            PreparedStatement preStmt = conn.prepareStatement(sql);
-            ResultSet resultSet = preStmt.executeQuery();
-            while (resultSet.next()) {
-                Post post = new Post();
-                post.setId(resultSet.getInt("id"));
-                post.setZoneId(resultSet.getInt("zone_id"));
-                posts.add(post);
-            }
-            resultSet.close();
-            preStmt.close();
-        } catch (SQLException e) {
-            Main.logger().add(e, Thread.currentThread());
-        }
-        return posts;
-    }
-
-    @Override
-    public synchronized List<Post> getPostsByZoneID(Integer zoneID) {
-        List<Post> posts = new ArrayList<>();
-        String sql = "SELECT * FROM tb_post WHERE zone_id = ?";
-        try (Connection conn = Main.database().getConnection()) {
-            PreparedStatement preStmt = conn.prepareStatement(sql);
-            preStmt.setInt(1, zoneID);
-            ResultSet resultSet = preStmt.executeQuery();
-            while (resultSet.next()) {
-                Post post = new Post();
-                post.setId(resultSet.getInt("id"));
-                post.setZoneId(resultSet.getInt("zone_id"));
-                posts.add(post);
-            }
-            resultSet.close();
-            preStmt.close();
-        } catch (SQLException e) {
-            Main.logger().add(e, Thread.currentThread());
-        }
-        return posts;
-    }
-
-    @Override
     public synchronized List<Post> getPostsByUserID(Integer userID) {
         List<Post> posts = new ArrayList<>();
         String sql = "SELECT * FROM tb_post WHERE id IN (SELECT post_id FROM tb_user_post WHERE user_id = ?)";
@@ -157,5 +114,30 @@ public class PostDaoImpl implements PostDao {
             Main.logger().add(e, Thread.currentThread());
         }
         return count;
+    }
+
+    @Override
+    public List<Post> getLimitPostsByZoneID(Integer zoneID, Integer from, Integer pageSize) {
+        List<Post> posts = new ArrayList<>();
+        String sql = "SELECT * FROM tb_post WHERE zone_id = ? " +
+                "ORDER BY FROM_UNIXTIME(UNIX_TIMESTAMP(create_time)) DESC LIMIT ?, ?";
+        try (Connection conn = Main.database().getConnection()) {
+            PreparedStatement preStmt = conn.prepareStatement(sql);
+            preStmt.setInt(1, zoneID);
+            preStmt.setInt(2, from);
+            preStmt.setInt(3, pageSize);
+            ResultSet resultSet = preStmt.executeQuery();
+            while (resultSet.next()) {
+                Post post = new Post();
+                post.setId(resultSet.getInt("id"));
+                post.setZoneId(resultSet.getInt("zone_id"));
+                posts.add(post);
+            }
+            resultSet.close();
+            preStmt.close();
+        } catch (SQLException e) {
+            Main.logger().add(e, Thread.currentThread());
+        }
+        return posts;
     }
 }

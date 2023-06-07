@@ -206,7 +206,12 @@ public class SocketHandler extends Thread {
                         floor.getContent()
                 ).toString();
             case ZONE_POST:
-                List<Post> zonePostList = PostService.getInstance().getPostsByZoneId(Integer.valueOf(msgProto.args[0]));
+                List<Post> zonePostList = PostService
+                        .getInstance()
+                        .getLimitPostsByZoneId(
+                                Integer.valueOf(msgProto.args[0]),
+                                Integer.valueOf(msgProto.args[1]),
+                                Integer.valueOf(msgProto.args[2]));
                 String[] zonePostListStr = zonePostList
                         .stream()
                         .map(item -> item.getId().toString())

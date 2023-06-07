@@ -16,5 +16,5 @@ public interface PostService {
 
     Integer getFloorCount(Integer postID);
 
-    List<Post> getPostsByZoneId(Integer zoneID);
+    List<Post> getLimitPostsByZoneId(Integer zoneID, Integer from, Integer pageSize);
 }

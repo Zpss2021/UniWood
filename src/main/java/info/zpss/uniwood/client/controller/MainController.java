@@ -69,6 +69,10 @@ public class MainController implements Controller<MainModel, MainView> {
             view.getRegisterOrLogoutButton().addActionListener(registerListener);
             view.getLoginOrUserCenterButton().addActionListener(loginListener);
         }
+        view.getButtonPanel().newPostBtn.addActionListener(e -> newPost());
+        view.getButtonPanel().refreshBtn.addActionListener(e -> refresh());
+        view.getButtonPanel().prevPageBtn.addActionListener(e -> prevPage());
+        view.getButtonPanel().nextPageBtn.addActionListener(e -> nextPage());
         regZoneItem();
     }
 
@@ -110,13 +114,17 @@ public class MainController implements Controller<MainModel, MainView> {
         view.getZonePanel().zoneList.setSelectedIndex(0);
     }
 
-    private void setPosts() throws InterruptedException, TimeoutException {
-        int zoneID = view.getZonePanel().zoneList.getSelectedValue().id;
-        List<Post> posts = model.getPosts(zoneID, 0);
+    public void setPosts() throws InterruptedException, TimeoutException {
+        model.setFromPostCount(0);
+        List<Post> posts = model.getPosts(0);
         Vector<PostItem> postItems = new Vector<>();
         for (Post post : posts)
             postItems.add(new PostItem(post));
         view.getPostPanel().setListData(postItems);
+    }
+
+    public int getZoneID() {
+        return view.getZonePanel().zoneList.getSelectedValue().id;
     }
 
     private void setFloors(int postID) throws InterruptedException, TimeoutException {
@@ -136,6 +144,9 @@ public class MainController implements Controller<MainModel, MainView> {
             register();
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
+            JOptionPane.showMessageDialog(view.getComponent(), "加载资源失败，请检查网络连接！",
+                    "错误", JOptionPane.ERROR_MESSAGE);
+            System.exit(-1);
         }
     }
 
@@ -145,6 +156,8 @@ public class MainController implements Controller<MainModel, MainView> {
             setPosts();
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
+            JOptionPane.showMessageDialog(view.getComponent(), "加载贴子列表失败，请稍后刷新重试",
+                    "错误", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -168,9 +181,53 @@ public class MainController implements Controller<MainModel, MainView> {
                 try {
                     setFloors(item.getItem().id);
                 } catch (InterruptedException | TimeoutException ex) {
-                    throw new RuntimeException(ex);
+                    Main.logger().add(ex, Thread.currentThread());
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
+                            "加载失败，请检查网络连接！", "错误", JOptionPane.ERROR_MESSAGE));
                 }
             }
         });
+    }
+
+    private void nextPage() {
+        try {
+            List<Post> posts = model.getNextPagePosts();
+            Vector<PostItem> postItems = new Vector<>();
+            for (Post post : posts)
+                postItems.add(new PostItem(post));
+            view.getPostPanel().setListData(postItems);
+        } catch (InterruptedException | TimeoutException e) {
+            Main.logger().add(e, Thread.currentThread());
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
+                    "错误", JOptionPane.ERROR_MESSAGE));
+        }
+    }
+
+    private void prevPage() {
+        try {
+            List<Post> posts = model.getPrevPagePosts();
+            Vector<PostItem> postItems = new Vector<>();
+            for (Post post : posts)
+                postItems.add(new PostItem(post));
+            view.getPostPanel().setListData(postItems);
+        } catch (InterruptedException | TimeoutException e) {
+            Main.logger().add(e, Thread.currentThread());
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
+                    "错误", JOptionPane.ERROR_MESSAGE));
+        }
+    }
+
+    private void refresh() {
+        try {
+            setPosts();
+        } catch (InterruptedException | TimeoutException e) {
+            Main.logger().add(e, Thread.currentThread());
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
+                    "错误", JOptionPane.ERROR_MESSAGE));
+        }
+    }
+
+    private void newPost() {
+// TODO:发贴界面
     }
 }

@@ -18,4 +18,8 @@ public interface MainView extends View {
     ZonePanel getZonePanel();
 
     PostPanel getPostPanel();
+
+    BtnPanel getButtonPanel();
+
+    SearchPanel getSearchPanel();
 }

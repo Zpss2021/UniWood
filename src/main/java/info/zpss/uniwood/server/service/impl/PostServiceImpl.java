@@ -39,8 +39,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getPostsByZoneId(Integer zoneID) {
-        return postDao.getPostsByZoneID(zoneID);
+    public List<Post> getLimitPostsByZoneId(Integer zoneID, Integer from, Integer pageSize) {
+        return postDao.getLimitPostsByZoneID(zoneID, from, pageSize);
     }
 
 }
