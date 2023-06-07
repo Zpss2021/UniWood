@@ -1,9 +1,0 @@
-[2023-05-22 10:17:07.945][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
-[2023-05-22 10:17:07.946][main/DEBUG]DEBUG MODE ON!!
-[2023-05-22 10:17:07.946][main/INFO]未指定连接超时时间，使用默认值1000
-[2023-05-22 10:17:07.947][main/INFO]未指定连接重试次数，使用默认值3
-[2023-05-22 10:17:07.954][main/INFO]Hello, UniWood!
-[2023-05-22 10:17:08.563][main/INFO]窗口初始化完成
-[2023-05-22 10:17:26.903][AWT-EventQueue-0/INFO]向服务器发送消息：LOGIN|test_user_1|123456
-[2023-05-22 10:17:26.913][Thread-0/INFO]收到服务器消息：LOGIN_SUCCESS|1|test_user_1|河南大学|data:image/png;base64,iVBORw...
-[2023-05-22 10:17:26.914][Thread-0/INFO]用户test_user_1登录成功！

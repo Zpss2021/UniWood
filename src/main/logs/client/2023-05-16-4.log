@@ -1,5 +1,0 @@
-[2023-05-16 13:08:31.260][main/INFO]UniWood-DESKTOP-CLIENT-1.0.0
-[2023-05-16 13:08:31.260][main/DEBUG]DEBUG MODE ON!!
-[2023-05-16 13:08:31.260][main/INFO]Hello, UniWood!
-[2023-05-16 13:08:33.290][main/ERROR]连接服务器失败！
-[2023-05-16 13:08:33.290][main/EXCEPTION]java.net.ConnectException: Connection refused: connect
