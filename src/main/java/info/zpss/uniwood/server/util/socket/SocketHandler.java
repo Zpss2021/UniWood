@@ -57,6 +57,7 @@ public class SocketHandler extends Thread {
                     }
                     Main.logger().add(String.format("客户端%s超时未响应，断开连接！", this),
                             ServerLogger.Type.WARN, Thread.currentThread());
+                    userId = null;
                     socket.close();
                 }
             } catch (InterruptedException e) {
@@ -104,6 +105,11 @@ public class SocketHandler extends Thread {
                 break;
             case HEARTBEAT:
                 onConn = true;
+                if (msgProto.args.length > 0)
+                    if (userId == null || userId.equals(Integer.valueOf(msgProto.args[0]))) {
+                        userId = Integer.valueOf(msgProto.args[0]);
+                        UserService.getInstance().onlineUser(userId);
+                    }
                 break;
             case REGISTER:
                 User registerUser = UserService.getInstance().register(msgProto.args[0], msgProto.args[1],

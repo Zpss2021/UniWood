@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.util.socket;
 
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.controller.MainController;
 import info.zpss.uniwood.common.Arguable;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
@@ -38,7 +39,11 @@ public class ServerConnection implements Arguable {
                     Main.logger().add("服务器连接已断开，正在重连...", ClientLogger.Type.WARN, Thread.currentThread());
                     connect();
                 }
-                send(MsgProto.build(Command.HEARTBEAT).toString());
+                if (MainController.getInstance().getModel().getLoginUser() != null)
+                    send(MsgProto.build(Command.HEARTBEAT,
+                            MainController.getInstance().getModel().getLoginUser().getId().toString()).toString());
+                else
+                    send(MsgProto.build(Command.HEARTBEAT).toString());
             } catch (IOException e) {
                 Main.logger().add("服务器连接异常！", ClientLogger.Type.WARN, Thread.currentThread());
             }

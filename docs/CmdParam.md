@@ -26,7 +26,7 @@
 - `-t 或 --timeout <timeout mills>` 设置连接超时时间，单位为毫秒，未设定则默认为`3000`
 - `-r 或 --retry <retry>` 设置重试次数，未设定则默认为`3`
 - `-w 或 --wait <base waitmills>` 设置请求消息周期等待时间，单位为毫秒，未设定则默认为`20`
-- `-c 或 --count <count>` 设置请求消息最大等待周期，未设定则默认为`150`
+- `-c 或 --count <count>` 设置请求消息最大等待周期，未设定则默认为`100`
 
 例如，要将日志文件保存到 "dat/logs" 文件夹中，可以使用以下命令启动服务端：
 `java -jar xxx.jar -l "dat/logs"`

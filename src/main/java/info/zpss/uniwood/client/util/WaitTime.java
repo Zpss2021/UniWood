@@ -18,7 +18,7 @@ public class WaitTime implements Arguable {
 
     public WaitTime() {
         this.baseCycleMillis = 20;
-        this.maxWaitCycle = 150;
+        this.maxWaitCycle = 100;
         this.baseWaitCycle = 1;
         this.averageWaitCycle = 1;
         this.executor = Executors.newSingleThreadScheduledExecutor();

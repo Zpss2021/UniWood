@@ -11,7 +11,7 @@
 
 - 用户登录：`LOGIN | 用户名 | 密码`
 - 用户下线：`LOGOUT`
-- 心跳：`HEARTBEAT`
+- 心跳：`HEARTBEAT | [用户ID]`
 - 用户注册：`REGISTER | 用户名 | 密码 | 大学 | 头像base64`
 - 获取大学列表：`UNIV_LIST`
 - 获取用户信息：`USER_INFO | 用户ID`
