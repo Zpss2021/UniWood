@@ -50,6 +50,8 @@ public class PublishDialog extends JDialog implements PublishView {
         zoneText.setPreferredSize(new Dimension(400, 24));
         contentText.setLineWrap(true);
         contentText.setWrapStyleWord(true);
+        contentText.setForeground(Color.GRAY);
+        contentText.setText("按 Enter 键换行\nCtrl + Enter 发表");
 
         this.contentPanel.setLayout(new BorderLayout());
         this.contentPanel.add(northPane, BorderLayout.NORTH);

@@ -16,7 +16,6 @@ public class User implements Entity {
     private String username;
     private String university;
     private String avatar;
-    private String status;
     private List<User> followings;  // 关注
     private List<User> followers;   // 粉丝
     private List<Zone> zones;
@@ -48,10 +47,6 @@ public class User implements Entity {
         return university;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
     public List<User> getFollowings() {
         return followings;
     }
@@ -66,6 +61,10 @@ public class User implements Entity {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    public void clearPosts() {
+        posts = null;
     }
 
     @Override

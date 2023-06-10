@@ -90,11 +90,15 @@ public class UserCenterController implements Controller<UserCenterModel, UserCen
     }
 
     private void toFavor() {
-//        FavorController.getInstance().show(); TODO:收藏列表
+        UserFavorListController.getInstance().register();
+        UserFavorListController.getInstance().setFavors();
+        UserFavorListController.getInstance().getView().showWindow(view.getComponent());
     }
 
     private void toPost() {
-//        PostController.getInstance().show(); TODO:贴子列表
+        UserPostListController.getInstance().register();
+        UserPostListController.getInstance().setPosts();
+        UserPostListController.getInstance().getView().showWindow(view.getComponent());
     }
 
     private void toEdit() {

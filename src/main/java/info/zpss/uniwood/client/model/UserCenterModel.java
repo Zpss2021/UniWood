@@ -74,6 +74,10 @@ public class UserCenterModel implements Model {
         this.user = user;
     }
 
+    public void clearPosts() {
+        user.clearPosts();
+    }
+
     @Override
     public void init() {
         this.user = null;

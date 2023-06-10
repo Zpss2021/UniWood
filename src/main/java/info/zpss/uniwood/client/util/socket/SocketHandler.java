@@ -67,6 +67,9 @@ public class SocketHandler extends Thread {
             case ZONE_LIST:
                 new Thread(() -> HandlerMethods.loginUserUpdate(msg)).start();
                 break;
+            case FAVOR_LIST:
+                new Thread(() -> HandlerMethods.favorList(msg)).start();
+                break;
             case EDIT_SUCCESS:
                 new Thread(HandlerMethods::editSuccess).start();
                 break;

@@ -67,6 +67,7 @@ public class PostWindow extends JFrame implements PostView {
         this.setMinimumSize(new Dimension(720, 560));
         this.setAlwaysOnTop(true);
         this.setResizable(true);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -103,7 +104,6 @@ public class PostWindow extends JFrame implements PostView {
             this.pack();
             this.setVisible(true);
             this.validate();
-            this.setLocationRelativeTo(parent);
         });
     }
 

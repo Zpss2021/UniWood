@@ -6,6 +6,7 @@ import info.zpss.uniwood.client.builder.PostBuilder;
 import info.zpss.uniwood.client.builder.UserBuilder;
 import info.zpss.uniwood.client.builder.ZoneBuilder;
 import info.zpss.uniwood.client.controller.MainController;
+import info.zpss.uniwood.client.controller.UserFavorListController;
 import info.zpss.uniwood.client.util.interfaces.Entity;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
@@ -13,7 +14,6 @@ import info.zpss.uniwood.common.MsgProto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
 public class Post implements Entity {
@@ -61,13 +61,6 @@ public class Post implements Entity {
         return floors;
     }
 
-    public void appendFloor(Floor floor) {
-        for (Floor f : this.floors)
-            if (Objects.equals(f.getId(), floor.getId()))
-                return;
-        this.floors.add(floor);
-    }
-
     @Override
     public void update(MsgProto msg) {
         try {
@@ -89,6 +82,11 @@ public class Post implements Entity {
                 for (String s : msg.args)
                     p.add(PostBuilder.getInstance().get(Integer.parseInt(s)));
                 MainController.getInstance().getModel().setZonePosts(p);
+            } else if (msg.cmd.equals(Command.FAVOR_LIST)) {
+                ArrayList<Post> f = new ArrayList<>();
+                for (String s : msg.args)
+                    f.add(PostBuilder.getInstance().get(Integer.parseInt(s)));
+                UserFavorListController.getInstance().getModel().setFavors(f);
             }
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add("贴子信息更新失败", Thread.currentThread());

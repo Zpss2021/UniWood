@@ -49,20 +49,20 @@ public class PostController implements Controller<PostModel, PostView> {
 
     @Override
     public void register() {
+        try {
+            String title = model.getFloor(1).getContent();
+            view.setTitle(title.length() > 16 ? title.substring(0, 16) + "..." : title);
+        } catch (InterruptedException | TimeoutException e) {
+            Main.logger().add(e, Thread.currentThread());
+        }
         if (!registered) {
             registered = true;
-            try {
-                String title = model.getFloor(1).getContent();
-                view.setTitle(title.length() > 16 ? title.substring(0, 16) + "..." : title);
-                view.getShareBtn().addActionListener(e -> sharePost());
-                view.getFavorBtn().addActionListener(e -> favorPost());
-                view.getReplyBtn().addActionListener(e -> replyPost());
-                view.getRefreshBtn().addActionListener(e -> refreshPost());
-                view.getPrevBtn().addActionListener(e -> prevPage());
-                view.getNextBtn().addActionListener(e -> nextPage());
-            } catch (InterruptedException | TimeoutException e) {
-                Main.logger().add(e, Thread.currentThread());
-            }
+            view.getShareBtn().addActionListener(e -> sharePost());
+            view.getFavorBtn().addActionListener(e -> favorPost());
+            view.getReplyBtn().addActionListener(e -> replyPost());
+            view.getRefreshBtn().addActionListener(e -> refreshPost());
+            view.getPrevBtn().addActionListener(e -> prevPage());
+            view.getNextBtn().addActionListener(e -> nextPage());
         }
     }
 
@@ -79,7 +79,14 @@ public class PostController implements Controller<PostModel, PostView> {
     }
 
     private void refreshPost() {
-        // TODO
+        try {
+            model.setFromFloor(0);
+            setFloors();
+        } catch (InterruptedException | TimeoutException e) {
+            Main.logger().add(e, Thread.currentThread());
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
+                    "错误", JOptionPane.ERROR_MESSAGE));
+        }
     }
 
     private void prevPage() {

@@ -1,9 +1,6 @@
 package info.zpss.uniwood.server.dao;
 
-import info.zpss.uniwood.server.entity.Follow;
-import info.zpss.uniwood.server.entity.User;
-import info.zpss.uniwood.server.entity.UserPost;
-import info.zpss.uniwood.server.entity.UserZone;
+import info.zpss.uniwood.server.entity.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -38,4 +35,6 @@ public interface UserDao {
     void updateStatus(Integer userID, String status);
 
     void offlineAll();
+
+    void removeUserPost(UserPost userPost);
 }

@@ -1,6 +1,6 @@
 package info.zpss.uniwood.server.entity;
 
-// 用户发布的贴子
+// 用户收藏的贴子
 public class UserPost {
     private Integer userId;
     private Integer postId;

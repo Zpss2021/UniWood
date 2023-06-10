@@ -86,4 +86,9 @@ public class HandlerMethods {
         Post post = new Post();
         post.update(msg);
     }
+
+    public static void favorList(MsgProto msg) {
+        Post post = new Post();
+        post.update(msg);
+    }
 }

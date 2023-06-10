@@ -35,6 +35,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> getFavorsByUserId(Integer userID) {
+        return postDao.getFavorsByUserID(userID);
+    }
+
+    @Override
     public Integer getFloorCount(Integer postID) {
         return postDao.getFloorCount(postID);
     }
@@ -48,6 +53,11 @@ public class PostServiceImpl implements PostService {
     public void addPost(Integer zoneID, Integer userID, String content) {
         Integer postID = postDao.addPost(zoneID);
         FloorService.getInstance().addFloor(postID, userID, content);
+    }
+
+    @Override
+    public void delPost(Integer postID) {
+        postDao.deletePost(postID);
     }
 
 }

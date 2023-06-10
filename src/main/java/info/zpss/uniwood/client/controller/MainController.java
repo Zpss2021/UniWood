@@ -131,7 +131,7 @@ public class MainController implements Controller<MainModel, MainView> {
         return view.getZonePanel().zoneList.getSelectedValue().id;
     }
 
-    private void setFloors(int postID) throws InterruptedException, TimeoutException {
+    public void setFloors(int postID) throws InterruptedException, TimeoutException {
         Post post = PostBuilder.getInstance().get(postID);
         PostController.getInstance().getModel().init();
         PostController.getInstance().getModel().setPost(post);
@@ -167,16 +167,18 @@ public class MainController implements Controller<MainModel, MainView> {
             public void mouseClicked(MouseEvent e) {
                 userCenter(item.getItem().getAuthor());
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 item.userText.setForeground(Color.BLUE);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 item.userText.setForeground(new Color(80, 80, 150));
             }
         });
-        item.favorBtn.addActionListener(e -> System.out.println("收藏了" + item.userText.getText()));  // TODO
+        item.favorBtn.addActionListener(e -> favorPost(item));
         item.contentText.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -188,10 +190,12 @@ public class MainController implements Controller<MainModel, MainView> {
                             "加载失败，请检查网络连接！", "错误", JOptionPane.ERROR_MESSAGE));
                 }
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 item.contentText.setForeground(Color.BLACK);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 item.contentText.setForeground(Color.DARK_GRAY);
@@ -259,5 +263,25 @@ public class MainController implements Controller<MainModel, MainView> {
     public void newPost() {
         PublishController.getInstance().register();
         PublishController.getInstance().getView().showWindow(view.getComponent());
+    }
+
+    private void favorPost(PostItemRender item) {
+        if (item.toggleFavor()) {
+            Main.connection().send(MsgProto.build(
+                    Command.FAVOR,
+                    model.getLoginUser().getId().toString(),
+                    String.valueOf(item.getItem().id)
+            ));
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
+                    String.format("贴子#%d收藏成功！", item.getItem().id), "收藏贴子", JOptionPane.INFORMATION_MESSAGE));
+        } else {
+            Main.connection().send(MsgProto.build(
+                    Command.UNFAVOR,
+                    model.getLoginUser().getId().toString(),
+                    String.valueOf(item.getItem().id)
+            ));
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
+                    String.format("贴子#%d取消收藏成功！", item.getItem().id), "收藏贴子", JOptionPane.INFORMATION_MESSAGE));
+        }
     }
 }

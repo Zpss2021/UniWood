@@ -10,8 +10,8 @@ import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
 
 import javax.swing.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.concurrent.TimeoutException;
 
 public class PublishController implements Controller<PublishModel, PublishView> {
@@ -49,12 +49,35 @@ public class PublishController implements Controller<PublishModel, PublishView> 
         if (!registered) {
             registered = true;
             view.getPublishButton().addActionListener(e -> publish());
+            view.getContentArea().addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (view.getContentArea().getForeground().equals(Color.GRAY)) {
+                        view.getContentArea().setText("");
+                        view.getContentArea().setForeground(Color.BLACK);
+                    }
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (view.getContentArea().getText().isEmpty()) {
+                        view.getContentArea().setText("按 Enter 键换行\nCtrl + Enter 发表");
+                        view.getContentArea().setForeground(Color.GRAY);
+                    }
+                }
+            });
             view.getContentArea().addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
-                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
                         e.consume();
-                        view.getContentArea().append("\n");
+                        publish();
+                    } else if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                        e.consume();
+                        view.getContentArea().insert("    ", view.getContentArea().getCaretPosition());
+                    } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        e.consume();
+                        view.getContentArea().insert("\n", view.getContentArea().getCaretPosition());
                     }
                 }
             });

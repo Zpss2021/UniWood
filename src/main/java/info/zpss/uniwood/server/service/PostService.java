@@ -14,9 +14,13 @@ public interface PostService {
 
     List<Post> getPostsByUserId(Integer userID);
 
+    List<Post> getFavorsByUserId(Integer userID);
+
     Integer getFloorCount(Integer postID);
 
     List<Post> getLimitPostsByZoneId(Integer zoneID, Integer from, Integer pageSize);
 
     void addPost(Integer zoneID, Integer userID, String content);
+
+    void delPost(Integer postID);
 }

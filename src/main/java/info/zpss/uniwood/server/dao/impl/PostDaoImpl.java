@@ -42,7 +42,29 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public synchronized List<Post> getPostsByUserID(Integer userID) {
+    public List<Post> getPostsByUserID(Integer userID) {
+        List<Post> posts = new ArrayList<>();
+        String sql = "SELECT * FROM tb_post WHERE id IN (SELECT post_id FROM tb_floor WHERE author_id = ? AND id = 1)";
+        try (Connection conn = Main.database().getConnection()) {
+            PreparedStatement preStmt = conn.prepareStatement(sql);
+            preStmt.setInt(1, userID);
+            ResultSet resultSet = preStmt.executeQuery();
+            while (resultSet.next()) {
+                Post post = new Post();
+                post.setId(resultSet.getInt("id"));
+                post.setZoneId(resultSet.getInt("zone_id"));
+                posts.add(post);
+            }
+            resultSet.close();
+            preStmt.close();
+        } catch (SQLException e) {
+            Main.logger().add(e, Thread.currentThread());
+        }
+        return posts;
+    }
+
+    @Override
+    public synchronized List<Post> getFavorsByUserID(Integer userID) {
         List<Post> posts = new ArrayList<>();
         String sql = "SELECT * FROM tb_post WHERE id IN (SELECT post_id FROM tb_user_post WHERE user_id = ?)";
         try (Connection conn = Main.database().getConnection()) {
@@ -87,12 +109,22 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public synchronized void deletePost(Integer postID) {
-        String sql = "DELETE FROM tb_post WHERE id = ?";
+        String sql_1 = "DELETE FROM tb_floor WHERE post_id = ?";
+        String sql_2 = "DELETE FROM tb_user_post WHERE post_id = ?";
+        String sql_3 = "DELETE FROM tb_post WHERE id = ?";
         try (Connection conn = Main.database().getConnection()) {
-            PreparedStatement preStmt = conn.prepareStatement(sql);
-            preStmt.setInt(1, postID);
-            preStmt.executeUpdate();
-            preStmt.close();
+            PreparedStatement preStmt1 = conn.prepareStatement(sql_1);
+            preStmt1.setInt(1, postID);
+            preStmt1.executeUpdate();
+            preStmt1.close();
+            PreparedStatement preStmt2 = conn.prepareStatement(sql_2);
+            preStmt2.setInt(1, postID);
+            preStmt2.executeUpdate();
+            preStmt2.close();
+            PreparedStatement preStmt3 = conn.prepareStatement(sql_3);
+            preStmt3.setInt(1, postID);
+            preStmt3.executeUpdate();
+            preStmt3.close();
         } catch (SQLException e) {
             Main.logger().add(e, Thread.currentThread());
         }

@@ -28,6 +28,10 @@ public class PostModel implements Model {
         this.post = post;
     }
 
+    public void setFromFloor(int fromFloor) {
+        this.fromFloor = fromFloor;
+    }
+
     public Floor getFloor(int floorID) throws InterruptedException, TimeoutException {
         for (Floor floor : post.getFloors())
             if (floor.getId() == floorID)

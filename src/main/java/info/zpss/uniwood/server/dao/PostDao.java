@@ -7,7 +7,9 @@ import java.util.List;
 public interface PostDao {
     Post getPost(Integer postID);
 
-    List<Post> getPostsByUserID(Integer userID);
+    List<Post> getPostsByUserID(Integer userID);    // 用户发表的贴子
+
+    List<Post> getFavorsByUserID(Integer userID);    // 用户收藏的贴子
 
     Integer addPost(Integer zoneID);    // 传入分区ID，返回新建贴子的ID
 

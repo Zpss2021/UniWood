@@ -59,10 +59,10 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
         this.setTitle("用户中心");
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(contentPanel);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setPreferredSize(new Dimension(270, 360));
         this.setAlwaysOnTop(true);
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void initWindow() {

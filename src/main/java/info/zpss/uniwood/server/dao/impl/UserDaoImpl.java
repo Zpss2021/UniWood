@@ -310,4 +310,18 @@ public class UserDaoImpl implements UserDao {
             Main.logger().add(e, Thread.currentThread());
         }
     }
+
+    @Override
+    public void removeUserPost(UserPost userPost) {
+        String sql = "DELETE FROM tb_user_post WHERE user_id = ? AND post_id = ? LIMIT 1";
+        try (Connection conn = Main.database().getConnection()) {
+            PreparedStatement preStmt = conn.prepareStatement(sql);
+            preStmt.setInt(1, userPost.getUserId());
+            preStmt.setInt(2, userPost.getPostId());
+            preStmt.executeUpdate();
+            preStmt.close();
+        } catch (SQLException e) {
+            Main.logger().add(e, Thread.currentThread());
+        }
+    }
 }

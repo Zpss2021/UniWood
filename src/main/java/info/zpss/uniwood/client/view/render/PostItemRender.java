@@ -16,6 +16,7 @@ public class PostItemRender extends JPanel implements Render {
     public final JLabel avatarLbl;
     public final JTextArea userText, infoText, contentText;
     public final JButton favorBtn;
+    private boolean favor;
 
     public PostItemRender(PostItem item) {
         super();
@@ -151,5 +152,20 @@ public class PostItemRender extends JPanel implements Render {
     @Override
     public void register() {
         MainController.getInstance().regPostItem(this);
+        favor = false;
+    }
+
+    // 返回操作后收藏状态
+    public boolean toggleFavor() {
+        if (favor) {
+            favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png").getImage()
+                    .getScaledInstance(12, 12, Image.SCALE_SMOOTH)));
+            favor = false;
+        } else {
+            favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-实心.png").getImage()
+                    .getScaledInstance(12, 12, Image.SCALE_SMOOTH)));
+            favor = true;
+        }
+        return favor;
     }
 }

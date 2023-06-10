@@ -15,6 +15,7 @@ public enum Command {
     FANS_LIST("FANS_LIST"),
     POST_LIST("POST_LIST"),
     ZONE_LIST("ZONE_LIST"),
+    FAVOR_LIST("FAVOR_LIST"),
     EDIT_INFO("EDIT_INFO"),
     EDIT_SUCCESS("EDIT_SUCCESS"),
     EDIT_FAILED("EDIT_FAILED"),
@@ -23,6 +24,9 @@ public enum Command {
     FLOR_INFO("FLOR_INFO"),
     ZONE_POST("ZONE_POST"),
     PUBLISH("PUBLISH"),
+    FAVOR("FAVOR"),
+    UNFAVOR("UNFAVOR"),
+    DEL_POST("DEL_POST"),
     UNKNOWN("UNKNOWN");
 
     private final String command;

@@ -170,9 +170,16 @@ public class SocketHandler extends Thread {
                         .map(item -> item.getId().toString())
                         .toArray(String[]::new);
                 return MsgProto.build(Command.ZONE_LIST, zoneListStr);
+            case FAVOR_LIST:
+                List<Post> favorList = PostService.getInstance().getFavorsByUserId(Integer.valueOf(msgProto.args[0]));
+                String[] favorListStr = favorList
+                        .stream()
+                        .map(item -> item.getId().toString())
+                        .toArray(String[]::new);
+                return MsgProto.build(Command.FAVOR_LIST, favorListStr);
             case EDIT_INFO:
                 if (!msgProto.args[0].equals(userId.toString()) || msgProto.args.length != 5)
-                    return null;
+                    break;
                 User editUser = UserService.getInstance().editUser(Integer.valueOf(msgProto.args[0]), msgProto.args[1],
                         msgProto.args[2], msgProto.args[3], msgProto.args[4]);
                 if (editUser != null) {
@@ -231,6 +238,17 @@ public class SocketHandler extends Thread {
                 PostService.getInstance().addPost(Integer.valueOf(msgProto.args[0]),
                         Integer.valueOf(msgProto.args[1]),
                         msgProto.args[2]);
+                break;
+            case FAVOR:
+                UserService.getInstance().addFavor(Integer.valueOf(msgProto.args[0]),
+                        Integer.valueOf(msgProto.args[1]));
+                break;
+            case UNFAVOR:
+                UserService.getInstance().removeFavor(Integer.valueOf(msgProto.args[0]),
+                        Integer.valueOf(msgProto.args[1]));
+                break;
+            case DEL_POST:
+                PostService.getInstance().delPost(Integer.valueOf(msgProto.args[0]));
                 break;
             default:
                 Main.logger().add(String.format("收到客户端%s未知命令：%s", this, msgProto.cmd),
