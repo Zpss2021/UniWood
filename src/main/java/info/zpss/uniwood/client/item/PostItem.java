@@ -2,6 +2,7 @@ package info.zpss.uniwood.client.item;
 
 import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.entity.User;
+import info.zpss.uniwood.client.util.TimeDesc;
 import info.zpss.uniwood.client.util.interfaces.Item;
 
 import java.text.SimpleDateFormat;
@@ -20,8 +21,9 @@ public class PostItem implements Item {
         this.id = post.getId();
         this.avatar = post.getAuthor().getAvatar();
         this.user = String.format("%s %s", post.getAuthor().getUsername(), post.getAuthor().getUniversity());
-        this.info = String.format("#%d %s", post.getId(), createTime);
-        this.content = (description.length() > 100) ? (description.substring(0, 120) + "...") : description;
+        this.info = String.format("#%d %s %s", post.getId(), createTime,
+                TimeDesc.getTimeDesc(post.getTime().getTime()));
+        this.content = (description.length() > 240) ? (description.substring(0, 237) + "...") : description;
         this.author = post.getAuthor();
     }
 

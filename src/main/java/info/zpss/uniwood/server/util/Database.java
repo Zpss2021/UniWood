@@ -32,7 +32,7 @@ public class Database implements Arguable {
         dbPassword = Arguable.stringInArgs(args, "-p", "--password");
         if (dbUrl == null) {
             dbUrl = "jdbc:mysql://localhost:3306/uniwood" +
-                    "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useServerPrepStmts=true";
+                    "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8&useServerPrepStmts=true";
             Main.logger().add("未指定数据库URL，使用默认URL", ServerLogger.Type.INFO, Thread.currentThread());
         }
         if (dbUsername == null) {

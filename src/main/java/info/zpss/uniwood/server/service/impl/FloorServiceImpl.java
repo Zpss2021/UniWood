@@ -25,4 +25,9 @@ public class FloorServiceImpl implements FloorService {
     public Floor getFloor(Integer floorID, Integer postID) {
         return floorDao.getFloor(floorID, postID);
     }
+
+    @Override
+    public void addFloor(Integer postID, Integer authorID, String content) {
+        floorDao.addFloor(postID, authorID, content);
+    }
 }

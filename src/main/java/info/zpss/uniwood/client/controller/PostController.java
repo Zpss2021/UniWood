@@ -89,6 +89,7 @@ public class PostController implements Controller<PostModel, PostView> {
             for (Floor floor : floors)
                 floorItems.add(new FloorItem(floor));
             view.getFloorPanel().setListData(floorItems);
+            view.rollToTop();
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
@@ -103,6 +104,7 @@ public class PostController implements Controller<PostModel, PostView> {
             for (Floor floor : floors)
                 floorItems.add(new FloorItem(floor));
             view.getFloorPanel().setListData(floorItems);
+            view.rollToTop();
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
@@ -116,6 +118,7 @@ public class PostController implements Controller<PostModel, PostView> {
         for (Floor floor : floors)
             floorItems.add(new FloorItem(floor));
         view.getFloorPanel().setListData(floorItems);
+        view.rollToTop();
     }
 
     // 注册楼层列表项，FloorItemRender.register()调用

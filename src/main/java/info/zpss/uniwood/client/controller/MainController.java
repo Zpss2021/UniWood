@@ -124,6 +124,7 @@ public class MainController implements Controller<MainModel, MainView> {
             postItems.add(new PostItem(post));
         view.getPostPanel().setListData(postItems);
         view.getPostPanel().setTitle(view.getZonePanel().zoneList.getSelectedValue().name);
+        view.getPostPanel().rollToTop();
     }
 
     public int getZoneID() {
@@ -190,12 +191,10 @@ public class MainController implements Controller<MainModel, MainView> {
             @Override
             public void mouseEntered(MouseEvent e) {
                 item.contentText.setForeground(Color.BLACK);
-//                item.contentText.setFont(new FontMaker().large().bold().build());
             }
             @Override
             public void mouseExited(MouseEvent e) {
                 item.contentText.setForeground(Color.DARK_GRAY);
-//                item.contentText.setFont(new FontMaker().large().build());
             }
         });
     }
@@ -217,6 +216,7 @@ public class MainController implements Controller<MainModel, MainView> {
                 for (Post post : posts)
                     postItems.add(new PostItem(post));
                 view.getPostPanel().setListData(postItems);
+                view.getPostPanel().rollToTop();
             } else {
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(MainController.getInstance()
                         .getView().getComponent(), "已到达最后一页！"));
@@ -236,6 +236,7 @@ public class MainController implements Controller<MainModel, MainView> {
             for (Post post : posts)
                 postItems.add(new PostItem(post));
             view.getPostPanel().setListData(postItems);
+            view.getPostPanel().rollToTop();
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
@@ -245,7 +246,9 @@ public class MainController implements Controller<MainModel, MainView> {
 
     public void refresh() {
         try {
+            model.setZonePosts(null);
             setZonePosts();
+            view.getPostPanel().rollToTop();
         } catch (InterruptedException | TimeoutException e) {
             Main.logger().add(e, Thread.currentThread());
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(), "加载失败，请检查网络连接！",
@@ -254,6 +257,7 @@ public class MainController implements Controller<MainModel, MainView> {
     }
 
     public void newPost() {
-// TODO:发贴界面
+        PublishController.getInstance().register();
+        PublishController.getInstance().getView().showWindow(view.getComponent());
     }
 }

@@ -17,4 +17,6 @@ public interface PostService {
     Integer getFloorCount(Integer postID);
 
     List<Post> getLimitPostsByZoneId(Integer zoneID, Integer from, Integer pageSize);
+
+    void addPost(Integer zoneID, Integer userID, String content);
 }

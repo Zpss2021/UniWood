@@ -29,4 +29,34 @@ public class MsgProto {
             return cmd.toString();
         return String.format("%s|%s", cmd, String.join("|", args));
     }
+
+    public static String linebreakToChar(String str) {
+        StringBuilder builder = new StringBuilder();
+        char[] chars = str.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '\\' && i + 1 < chars.length && chars[i + 1] == 'n') {
+                builder.append('\n');
+                i++;
+            } else
+                builder.append(chars[i]);
+        }
+        return builder.toString();
+    }
+
+    public static String charToLinebreak(MsgProto msg) {
+        return charToLinebreak(msg.toString());
+    }
+
+    private static String charToLinebreak(String str) {
+        StringBuilder builder = new StringBuilder();
+        char[] chars = str.toCharArray();
+        for (char c : chars) {
+            if (c == '\n') {
+                builder.append('\\');
+                builder.append('n');
+            } else
+                builder.append(c);
+        }
+        return builder.toString();
+    }
 }

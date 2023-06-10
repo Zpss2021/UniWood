@@ -112,8 +112,8 @@ public class PostItemRender extends JPanel implements Render {
         contentText.setCursor(new Cursor(Cursor.HAND_CURSOR));
         contentText.setEditable(false);
         contentText.setOpaque(false);
-        contentText.setBorder(null);
         contentText.setLineWrap(true);
+        contentText.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
     }
 
     private void initPanel() {
@@ -143,8 +143,8 @@ public class PostItemRender extends JPanel implements Render {
         super.repaint();
         if (postItemPanel != null)
             SwingUtilities.invokeLater(() -> {
+                postItemPanel.setPreferredSize(new Dimension(640, postItemPanel.getPreferredSize().height));
                 SwingUtilities.updateComponentTreeUI(postItemPanel);
-                updateUI();
             });
     }
 

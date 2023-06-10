@@ -15,4 +15,5 @@ public interface PostView extends View {
     JButton getPrevBtn();
     JButton getNextBtn();
     void setTitle(String s);
+    void rollToTop();
 }

@@ -3,6 +3,7 @@ package info.zpss.uniwood.server.service.impl;
 import info.zpss.uniwood.server.dao.PostDao;
 import info.zpss.uniwood.server.dao.impl.PostDaoImpl;
 import info.zpss.uniwood.server.entity.Post;
+import info.zpss.uniwood.server.service.FloorService;
 import info.zpss.uniwood.server.service.PostService;
 
 import java.util.List;
@@ -41,6 +42,12 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> getLimitPostsByZoneId(Integer zoneID, Integer from, Integer pageSize) {
         return postDao.getLimitPostsByZoneID(zoneID, from, pageSize);
+    }
+
+    @Override
+    public void addPost(Integer zoneID, Integer userID, String content) {
+        Integer postID = postDao.addPost(zoneID);
+        FloorService.getInstance().addFloor(postID, userID, content);
     }
 
 }

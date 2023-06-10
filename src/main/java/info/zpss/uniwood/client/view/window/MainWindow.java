@@ -350,7 +350,7 @@ public class MainWindow extends JFrame implements MainView {
             this.listData = new Vector<>();
             this.postListPane = new JPanel();
 
-            this.postListPane.setLayout(new GridLayout(0, 1));
+            this.postListPane.setLayout(new BoxLayout(postListPane, BoxLayout.Y_AXIS));
             this.setBorder(BorderFactory.createTitledBorder("广场"));
 
             this.postListScrollPane = new JScrollPane(postListPane);
@@ -426,6 +426,10 @@ public class MainWindow extends JFrame implements MainView {
 
         public void setTitle(String title) {
             this.setBorder(BorderFactory.createTitledBorder(title));
+        }
+
+        public void rollToTop() {
+            SwingUtilities.invokeLater(() -> postListScrollPane.getVerticalScrollBar().setValue(0));
         }
     }
 

@@ -41,8 +41,12 @@ public class SocketHandler extends Thread {
         this.onConn = true;
     }
 
-    public void send(String message) {
-        writer.println(message);
+    public void send(MsgProto msg) {
+        String snd = MsgProto.charToLinebreak(msg);
+        if (Main.debug())
+            Main.logger().add(String.format("向客户端%s发送消息：%s", this,
+                    (snd.length() > 64) ? snd.substring(0, 61) + "..." : snd), Thread.currentThread());
+        writer.println(snd);
         writer.flush();
     }
 
@@ -71,7 +75,7 @@ public class SocketHandler extends Thread {
         }, 10, 10, TimeUnit.SECONDS);
     }
 
-    private String handleMessage(String message) {
+    private MsgProto handleMessage(String message) {
         if (Main.debug())
             Main.logger().add(String.format("收到客户端%s消息：%s", this,
                     message.length() > 64 ? message.substring(0, 61) + "..." : message), Thread.currentThread());
@@ -79,14 +83,14 @@ public class SocketHandler extends Thread {
         if (msgProto.cmd == null) {
             Main.logger().add(String.format("客户端%s消息解析失败！", this), ServerLogger.Type.WARN, Thread.currentThread());
             Main.logger().add(String.format("未知信息：%s", message), ServerLogger.Type.WARN, Thread.currentThread());
-            return MsgProto.build(Command.UNKNOWN).toString();
+            return MsgProto.build(Command.UNKNOWN);
         }
         switch (msgProto.cmd) {
             case LOGIN:
                 User loginUser = UserService.getInstance().login(msgProto.args[0], msgProto.args[1]);
                 if (loginUser != null) {
                     if (loginUser.getStatus().equals("DISABLED"))
-                        return MsgProto.build(Command.LOGIN_FAILED, "该用户已被禁用！").toString();
+                        return MsgProto.build(Command.LOGIN_FAILED, "该用户已被禁用！");
                     Main.logger().add(String.format("用户%s登录成功！", loginUser.getUsername()),
                             ServerLogger.Type.INFO, Thread.currentThread());
                     userId = loginUser.getId();
@@ -95,9 +99,9 @@ public class SocketHandler extends Thread {
                             loginUser.getUsername(),
                             loginUser.getUniversity(),
                             loginUser.getAvatar()
-                    ).toString();
+                    );
                 }
-                return MsgProto.build(Command.LOGIN_FAILED, "登录失败，请检查用户名和密码后重试！").toString();
+                return MsgProto.build(Command.LOGIN_FAILED, "登录失败，请检查用户名和密码后重试！");
             case LOGOUT:
                 Main.logger().add(String.format("用户%s已登出！", userId), Thread.currentThread());
                 UserService.getInstance().offlineUser(userId);
@@ -124,12 +128,12 @@ public class SocketHandler extends Thread {
                             registerUser.getUsername(),
                             registerUser.getUniversity(),
                             registerUser.getAvatar()
-                    ).toString();
+                    );
                 }
-                return MsgProto.build(Command.REGISTER_FAILED, "注册失败，请检查用户名和密码后重试！").toString();
+                return MsgProto.build(Command.REGISTER_FAILED, "注册失败，请检查用户名和密码后重试！");
             case UNIV_LIST:
                 String[] universities = ZoneService.getInstance().getUniversities();
-                return MsgProto.build(Command.UNIV_LIST, universities).toString();
+                return MsgProto.build(Command.UNIV_LIST, universities);
             case USER_INFO:
                 User user = UserService.getInstance().getUser(Integer.valueOf(msgProto.args[0]));
                 return MsgProto.build(Command.USER_INFO,
@@ -137,35 +141,35 @@ public class SocketHandler extends Thread {
                         user.getUsername(),
                         user.getUniversity(),
                         user.getAvatar()
-                ).toString();
+                );
             case FOLW_LIST:
                 List<User> followList = UserService.getInstance().getFollowings(Integer.valueOf(msgProto.args[0]));
                 String[] followListStr = followList
                         .stream()
                         .map(item -> item.getId().toString())
                         .toArray(String[]::new);
-                return MsgProto.build(Command.FOLW_LIST, followListStr).toString();
+                return MsgProto.build(Command.FOLW_LIST, followListStr);
             case FANS_LIST:
                 List<User> fansList = UserService.getInstance().getFollowers(Integer.valueOf(msgProto.args[0]));
                 String[] fansListStr = fansList
                         .stream()
                         .map(item -> item.getId().toString())
                         .toArray(String[]::new);
-                return MsgProto.build(Command.FANS_LIST, fansListStr).toString();
+                return MsgProto.build(Command.FANS_LIST, fansListStr);
             case POST_LIST:
                 List<Post> postList = PostService.getInstance().getPostsByUserId(Integer.valueOf(msgProto.args[0]));
                 String[] postListStr = postList
                         .stream()
                         .map(item -> item.getId().toString())
                         .toArray(String[]::new);
-                return MsgProto.build(Command.POST_LIST, postListStr).toString();
+                return MsgProto.build(Command.POST_LIST, postListStr);
             case ZONE_LIST:
                 List<Zone> zoneList = ZoneService.getInstance().getZonesByUserId(Integer.valueOf(msgProto.args[0]));
                 String[] zoneListStr = zoneList
                         .stream()
                         .map(item -> item.getId().toString())
                         .toArray(String[]::new);
-                return MsgProto.build(Command.ZONE_LIST, zoneListStr).toString();
+                return MsgProto.build(Command.ZONE_LIST, zoneListStr);
             case EDIT_INFO:
                 if (!msgProto.args[0].equals(userId.toString()) || msgProto.args.length != 5)
                     return null;
@@ -179,9 +183,9 @@ public class SocketHandler extends Thread {
                             editUser.getUsername(),
                             editUser.getUniversity(),
                             editUser.getAvatar()
-                    ).toString();
+                    );
                 }
-                return MsgProto.build(Command.EDIT_FAILED, "修改信息失败，请检查后重试！").toString();
+                return MsgProto.build(Command.EDIT_FAILED, "修改信息失败，请检查后重试！");
             case POST_INFO:
                 Post post = PostService.getInstance().getPost(Integer.valueOf(msgProto.args[0]));
                 Floor firstFloor = FloorService.getInstance().getFloor(1, post.getId());
@@ -192,7 +196,7 @@ public class SocketHandler extends Thread {
                         firstFloor.getAuthorId().toString(),
                         String.valueOf(firstFloor.getCreateTime().getTime()),
                         floorCount.toString()
-                ).toString();
+                );
             case ZONE_INFO:
                 Zone zone = ZoneService.getInstance().getZone(Integer.valueOf(msgProto.args[0]));
                 return MsgProto.build(Command.ZONE_INFO,
@@ -200,7 +204,7 @@ public class SocketHandler extends Thread {
                         zone.getName(),
                         zone.getDescription(),
                         zone.getIcon()
-                ).toString();
+                );
             case FLOR_INFO:
                 Floor floor = FloorService.getInstance().getFloor(Integer.valueOf(msgProto.args[0]),
                         Integer.valueOf(msgProto.args[1]));
@@ -210,7 +214,7 @@ public class SocketHandler extends Thread {
                         floor.getAuthorId().toString(),
                         String.valueOf(floor.getCreateTime().getTime()),
                         floor.getContent()
-                ).toString();
+                );
             case ZONE_POST:
                 List<Post> zonePostList = PostService
                         .getInstance()
@@ -222,7 +226,12 @@ public class SocketHandler extends Thread {
                         .stream()
                         .map(item -> item.getId().toString())
                         .toArray(String[]::new);
-                return MsgProto.build(Command.ZONE_POST, zonePostListStr).toString();
+                return MsgProto.build(Command.ZONE_POST, zonePostListStr);
+            case PUBLISH:
+                PostService.getInstance().addPost(Integer.valueOf(msgProto.args[0]),
+                        Integer.valueOf(msgProto.args[1]),
+                        msgProto.args[2]);
+                break;
             default:
                 Main.logger().add(String.format("收到客户端%s未知命令：%s", this, msgProto.cmd),
                         ServerLogger.Type.WARN, Thread.currentThread());
@@ -243,15 +252,11 @@ public class SocketHandler extends Thread {
             writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),
                     StandardCharsets.UTF_8)));
             initSchedule();
-            String rec, snd;
+            String rec;
             while (!socket.isClosed() && ((rec = reader.readLine()) != null)) {
-                snd = handleMessage(rec);
-                if (snd != null) {
-                    if (Main.debug())
-                        Main.logger().add(String.format("向客户端%s发送消息：%s",
-                                this, snd.length() > 64 ? snd.substring(0, 61) + "..." : snd), Thread.currentThread());
+                MsgProto snd = handleMessage(rec);
+                if (snd != null)
                     send(snd);
-                }
             }
         } catch (SocketException e) {
             if (!socket.isClosed()) {

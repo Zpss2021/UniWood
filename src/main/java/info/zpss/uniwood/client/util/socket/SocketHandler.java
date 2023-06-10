@@ -21,11 +21,12 @@ public class SocketHandler extends Thread {
         this.socket = socket;
     }
 
-    public void send(String message) {
+    public void send(MsgProto msg) {
+        String snd = MsgProto.charToLinebreak(msg);
         if (Main.debug())
-            Main.logger().add(String.format("向服务器发送消息：%s",
-                    ((message.length() > 64) ? (message.substring(0, 61) + "...") : message)), Thread.currentThread());
-        writer.println(message);
+            Main.logger().add(String.format("向服务器发送消息：%s", ((snd.length() > 64) ?
+                    (snd.substring(0, 61) + "...") : snd)), Thread.currentThread());
+        writer.println(snd);
         writer.flush();
     }
 

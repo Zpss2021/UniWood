@@ -63,7 +63,7 @@ public class PostWindow extends JFrame implements PostView {
         this.setTitle("贴子标题_贴子分区_UniWood");
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(outerPane);
-        this.setPreferredSize(new Dimension(840, 640));
+        this.setPreferredSize(new Dimension(720, 560));
         this.setMinimumSize(new Dimension(720, 560));
         this.setAlwaysOnTop(true);
         this.setResizable(true);
@@ -153,6 +153,11 @@ public class PostWindow extends JFrame implements PostView {
     @Override
     public JButton getNextBtn() {
         return nextBtn;
+    }
+
+    @Override
+    public void rollToTop() {
+        SwingUtilities.invokeLater(() -> floorPane.floorListScrollPane.getVerticalScrollBar().setValue(0));
     }
 
     public static class FloorPanel extends JPanel implements Renderable<FloorItem> {

@@ -41,9 +41,9 @@ public class ServerConnection implements Arguable {
                 }
                 if (MainController.getInstance().getModel().getLoginUser() != null)
                     send(MsgProto.build(Command.HEARTBEAT,
-                            MainController.getInstance().getModel().getLoginUser().getId().toString()).toString());
+                            MainController.getInstance().getModel().getLoginUser().getId().toString()));
                 else
-                    send(MsgProto.build(Command.HEARTBEAT).toString());
+                    send(MsgProto.build(Command.HEARTBEAT));
             } catch (IOException e) {
                 Main.logger().add("服务器连接异常！", ClientLogger.Type.WARN, Thread.currentThread());
             }
@@ -84,12 +84,8 @@ public class ServerConnection implements Arguable {
         }
     }
 
-    public void send(String message) {
-        handler.send(message);
-    }
-
-    public void send(MsgProto message) {
-        handler.send(message.toString());
+    public void send(MsgProto msg) {
+        handler.send(msg);
     }
 
     public int getTimeout() {

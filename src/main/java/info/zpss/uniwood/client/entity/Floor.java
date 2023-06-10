@@ -53,7 +53,7 @@ public class Floor implements Entity {
                 this.postId = Integer.valueOf(msg.args[1]);
                 this.author = UserBuilder.getInstance().get(Integer.valueOf(msg.args[2]));
                 this.time = new Date(Long.parseLong(msg.args[3]));
-                this.content = msg.args[4];
+                this.content = MsgProto.linebreakToChar(msg.args[4]);
             }
         } catch (Exception e) {
             e.printStackTrace();

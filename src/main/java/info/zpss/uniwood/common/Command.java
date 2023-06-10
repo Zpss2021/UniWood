@@ -22,6 +22,7 @@ public enum Command {
     ZONE_INFO("ZONE_INFO"),
     FLOR_INFO("FLOR_INFO"),
     ZONE_POST("ZONE_POST"),
+    PUBLISH("PUBLISH"),
     UNKNOWN("UNKNOWN");
 
     private final String command;
