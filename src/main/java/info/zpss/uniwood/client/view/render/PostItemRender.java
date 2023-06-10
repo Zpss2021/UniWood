@@ -31,7 +31,9 @@ public class PostItemRender extends JPanel implements Render {
         userText = new JTextArea();
         infoText = new JTextArea();
         contentText = new JTextArea();
-        favorBtn = new JButton("收藏");
+        favorBtn = new JButton();
+
+        favorBtn.setToolTipText("收藏");
 
         userText.setFont(new FontMaker().bold().build());
         infoText.setFont(new FontMaker().small().build());
@@ -104,9 +106,12 @@ public class PostItemRender extends JPanel implements Render {
     private void initFavorBtn() {
         favorBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         favorBtn.setOpaque(false);
-        favorBtn.setPreferredSize(new Dimension(72, 35));
+        favorBtn.setBorder(null);
+        favorBtn.setContentAreaFilled(false);
+        favorBtn.setFocusPainted(false);
+        favorBtn.setPreferredSize(new Dimension(35, 35));
         favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png").getImage()
-                .getScaledInstance(12, 12, Image.SCALE_SMOOTH)));
+                .getScaledInstance(28, 28, Image.SCALE_SMOOTH)));
     }
 
     private void initContentText() {
@@ -159,11 +164,11 @@ public class PostItemRender extends JPanel implements Render {
     public boolean toggleFavor() {
         if (favor) {
             favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png").getImage()
-                    .getScaledInstance(12, 12, Image.SCALE_SMOOTH)));
+                    .getScaledInstance(28, 28, Image.SCALE_SMOOTH)));
             favor = false;
         } else {
             favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-实心.png").getImage()
-                    .getScaledInstance(12, 12, Image.SCALE_SMOOTH)));
+                    .getScaledInstance(28, 28, Image.SCALE_SMOOTH)));
             favor = true;
         }
         return favor;
