@@ -235,9 +235,11 @@ public class SocketHandler extends Thread {
                         .toArray(String[]::new);
                 return MsgProto.build(Command.ZONE_POST, zonePostListStr);
             case PUBLISH:
-                PostService.getInstance().addPost(Integer.valueOf(msgProto.args[0]),
+                PostService.getInstance().addPost(
+                        Integer.valueOf(msgProto.args[0]),
                         Integer.valueOf(msgProto.args[1]),
-                        msgProto.args[2]);
+                        MsgProto.linebreakToChar(msgProto.args[2])
+                );
                 break;
             case FAVOR:
                 UserService.getInstance().addFavor(Integer.valueOf(msgProto.args[0]),
@@ -249,6 +251,13 @@ public class SocketHandler extends Thread {
                 break;
             case DEL_POST:
                 PostService.getInstance().delPost(Integer.valueOf(msgProto.args[0]));
+                break;
+            case REPLY:
+                FloorService.getInstance().addFloor(
+                        Integer.valueOf(msgProto.args[0]),
+                        Integer.valueOf(msgProto.args[1]),
+                        MsgProto.linebreakToChar(msgProto.args[2])
+                );
                 break;
             default:
                 Main.logger().add(String.format("收到客户端%s未知命令：%s", this, msgProto.cmd),

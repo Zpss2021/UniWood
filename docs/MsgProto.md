@@ -29,6 +29,7 @@
 - 收藏贴子：`FAVOR | 用户ID | 贴子ID`
 - 取消收藏：`UNFAVOR | 用户ID | 贴子ID`
 - 删除贴子：`DEL_POST | 贴子ID`
+- 回复贴子：`REPLY | 层主ID | 贴子ID | 回复内容`
 
 ### 2.2 服务器端发出
 

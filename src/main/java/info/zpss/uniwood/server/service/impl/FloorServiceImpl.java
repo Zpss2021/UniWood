@@ -27,7 +27,7 @@ public class FloorServiceImpl implements FloorService {
     }
 
     @Override
-    public void addFloor(Integer postID, Integer authorID, String content) {
+    public void addFloor(Integer authorID, Integer postID, String content) {
         floorDao.addFloor(postID, authorID, content);
     }
 }

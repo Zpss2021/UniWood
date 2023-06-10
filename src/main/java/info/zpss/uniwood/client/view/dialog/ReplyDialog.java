@@ -1,20 +1,20 @@
 package info.zpss.uniwood.client.view.dialog;
 
 import info.zpss.uniwood.client.util.FontMaker;
-import info.zpss.uniwood.client.view.PublishView;
+import info.zpss.uniwood.client.view.ReplyView;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PublishDialog extends JDialog implements PublishView {
-    private final JPanel contentPanel, northPane, southPane;
+public class ReplyDialog extends JDialog implements ReplyView {
+    private final JPanel contentPanel, southPane, northPane;
     private final JScrollPane centerPane;
-    private final JLabel zoneLbl;
-    private final JTextField zoneText;
+    private final JLabel titleLbl;
+    private final JTextField titleText;
     private final JTextArea contentText;
-    private final JButton publishBtn;
+    private final JButton replyBtn;
 
-    public PublishDialog(Component owner) {
+    public ReplyDialog(Component owner) {
         super((Frame) owner, true);
 
         this.setLocation(owner.getX() + owner.getWidth() / 2 - 240,
@@ -24,19 +24,18 @@ public class PublishDialog extends JDialog implements PublishView {
         this.northPane = new JPanel();
         this.centerPane = new JScrollPane();
         this.southPane = new JPanel();
-        this.zoneLbl = new JLabel("发布到：");
-        this.zoneText = new JTextField();
+        this.titleLbl = new JLabel("贴子：");
+        this.titleText = new JTextField();
         this.contentText = new JTextArea();
-        this.publishBtn = new JButton("发表");
+        this.replyBtn = new JButton("回复");
 
-        publishBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发布.png")
+        replyBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发送.png")
                 .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-        zoneText.setFont(new FontMaker().bold().build());
         contentText.setFont(new FontMaker().large().build());
 
         this.initWindow();
 
-        this.setTitle("UniWood 发表新贴子");
+        this.setTitle("UniWood 回复贴子");
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(480, 320));
@@ -46,30 +45,28 @@ public class PublishDialog extends JDialog implements PublishView {
     }
 
     private void initWindow() {
-        zoneText.setEditable(false);
-        zoneText.setPreferredSize(new Dimension(400, 24));
+        titleText.setEditable(false);
+        titleText.setPreferredSize(new Dimension(400, 24));
         contentText.setLineWrap(true);
         contentText.setWrapStyleWord(true);
         contentText.setForeground(Color.GRAY);
-        contentText.setText("按 Enter 键换行\nCtrl + Enter 发表");
+        contentText.setText("按 Enter 键换行\nCtrl + Enter 回复");
 
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(northPane, BorderLayout.NORTH);
         contentPanel.add(centerPane, BorderLayout.CENTER);
         contentPanel.add(southPane, BorderLayout.SOUTH);
 
-        northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
-        northPane.add(zoneLbl);
-        northPane.add(zoneText);
-
-        centerPane.setBorder(BorderFactory.createTitledBorder("内容"));
-        centerPane.add(contentText);
-
         centerPane.setViewportView(contentText);
         centerPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        centerPane.setBorder(BorderFactory.createTitledBorder("内容"));
 
         southPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        southPane.add(publishBtn);
+        southPane.add(replyBtn);
+
+        northPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+        northPane.add(titleLbl);
+        northPane.add(titleText);
     }
 
     @Override
@@ -95,17 +92,17 @@ public class PublishDialog extends JDialog implements PublishView {
     }
 
     @Override
-    public JTextField getZoneField() {
-        return zoneText;
-    }
-
-    @Override
-    public JTextArea getContentArea() {
+    public JTextArea getReplyArea() {
         return contentText;
     }
 
     @Override
-    public JButton getPublishButton() {
-        return publishBtn;
+    public JButton getReplyButton() {
+        return replyBtn;
+    }
+
+    @Override
+    public JTextField getTitleText() {
+        return titleText;
     }
 }

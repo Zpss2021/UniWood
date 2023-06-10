@@ -65,4 +65,8 @@ public class PostBuilder implements Builder<Post> {
         Thread.sleep(Main.waitCycleMills(count));
         return build(postId, count + 1);
     }
+
+    public void remove(Integer postId) {
+        posts.remove(postId);
+    }
 }

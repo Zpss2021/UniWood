@@ -27,6 +27,7 @@ public enum Command {
     FAVOR("FAVOR"),
     UNFAVOR("UNFAVOR"),
     DEL_POST("DEL_POST"),
+    REPLY("REPLY"),
     UNKNOWN("UNKNOWN");
 
     private final String command;

@@ -1,7 +1,9 @@
 package info.zpss.uniwood.client.controller;
 
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.builder.PostBuilder;
 import info.zpss.uniwood.client.entity.Floor;
+import info.zpss.uniwood.client.entity.Post;
 import info.zpss.uniwood.client.item.FloorItem;
 import info.zpss.uniwood.client.model.PostModel;
 import info.zpss.uniwood.client.util.interfaces.Controller;
@@ -95,11 +97,17 @@ public class PostController implements Controller<PostModel, PostView> {
     }
 
     private void replyPost() {
-        // TODO
+        ReplyController.getInstance().register();
+        ReplyController.getInstance().getView().showWindow(view.getComponent());
     }
 
-    private void refreshPost() {
+    public void refreshPost() {
         try {
+            int postId = model.getPost().getId();
+            PostBuilder.getInstance().remove(postId);
+            Post post = PostBuilder.getInstance().get(postId);
+            PostController.getInstance().getModel().init();
+            PostController.getInstance().getModel().setPost(post);
             model.setFromFloor(0);
             setFloors();
         } catch (InterruptedException | TimeoutException e) {

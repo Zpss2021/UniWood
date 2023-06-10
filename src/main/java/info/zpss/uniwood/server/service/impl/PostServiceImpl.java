@@ -52,7 +52,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void addPost(Integer zoneID, Integer userID, String content) {
         Integer postID = postDao.addPost(zoneID);
-        FloorService.getInstance().addFloor(postID, userID, content);
+        FloorService.getInstance().addFloor(userID, postID, content);
     }
 
     @Override

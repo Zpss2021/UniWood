@@ -83,6 +83,7 @@ public class FloorDaoImpl implements FloorDao {
             preStmtAdd.executeUpdate();
             preStmtAdd.close();
             PreparedStatement preStmtGet = conn.prepareStatement(sql_get);
+            preStmtGet.setInt(1, postID);
             ResultSet resultSet = preStmtGet.executeQuery();
             if (resultSet.next())
                 id = resultSet.getInt(1);

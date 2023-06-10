@@ -10,5 +10,5 @@ public interface FloorService {
 
     Floor getFloor(Integer floorID, Integer postID);
 
-    void addFloor(Integer postID, Integer userID, String content);
+    void addFloor(Integer userID, Integer postID, String content);
 }
