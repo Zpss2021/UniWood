@@ -7,12 +7,15 @@ import info.zpss.uniwood.client.view.render.FloorItemRender;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Vector;
 
 public class PostWindow extends JFrame implements PostView {
     private final JPanel outerPane, asidePane, footerPane, centerPane;
     private final JButton shareBtn, favorBtn, replyBtn, refreshBtn, prevBtn, nextBtn;
     private final FloorPanel floorPane;
+    private boolean favor;
 
     public PostWindow() {
         super();
@@ -60,6 +63,7 @@ public class PostWindow extends JFrame implements PostView {
 
         this.initWindow();
 
+        this.favor = false;
         this.setTitle("贴子标题_贴子分区_UniWood");
         this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
         this.setContentPane(outerPane);
@@ -69,6 +73,13 @@ public class PostWindow extends JFrame implements PostView {
         this.setResizable(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                favor = true;
+                toggleFavor();
+            }
+        });
     }
 
     private void initWindow() {
@@ -158,6 +169,20 @@ public class PostWindow extends JFrame implements PostView {
     @Override
     public void rollToTop() {
         SwingUtilities.invokeLater(() -> floorPane.floorListScrollPane.getVerticalScrollBar().setValue(0));
+    }
+
+    @Override
+    public boolean toggleFavor() {
+        if (favor) {
+            favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png")
+                    .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+            favor = false;
+        } else {
+            favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-实心.png")
+                    .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+            favor = true;
+        }
+        return favor;
     }
 
     public static class FloorPanel extends JPanel implements Renderable<FloorItem> {

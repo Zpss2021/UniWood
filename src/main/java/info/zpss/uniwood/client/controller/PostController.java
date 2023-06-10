@@ -8,6 +8,8 @@ import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.PostView;
 import info.zpss.uniwood.client.view.render.FloorItemRender;
 import info.zpss.uniwood.client.view.window.PostWindow;
+import info.zpss.uniwood.common.Command;
+import info.zpss.uniwood.common.MsgProto;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,7 +73,25 @@ public class PostController implements Controller<PostModel, PostView> {
     }
 
     private void favorPost() {
-        // TODO
+        if (view.toggleFavor()) {
+            Main.connection().send(MsgProto.build(
+                    Command.FAVOR,
+                    MainController.getInstance().getModel().getLoginUser().getId().toString(),
+                    model.getPost().getId().toString()
+            ));
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
+                    String.format("贴子#%d收藏成功！", model.getPost().getId()), "收藏贴子",
+                    JOptionPane.INFORMATION_MESSAGE));
+        } else {
+            Main.connection().send(MsgProto.build(
+                    Command.UNFAVOR,
+                    MainController.getInstance().getModel().getLoginUser().getId().toString(),
+                    model.getPost().getId().toString()
+            ));
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
+                    String.format("贴子#%d取消收藏成功！", model.getPost().getId()),
+                    "收藏贴子", JOptionPane.INFORMATION_MESSAGE));
+        }
     }
 
     private void replyPost() {

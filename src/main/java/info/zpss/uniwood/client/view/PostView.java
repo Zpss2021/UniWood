@@ -16,4 +16,6 @@ public interface PostView extends View {
     JButton getNextBtn();
     void setTitle(String s);
     void rollToTop();
+
+    boolean toggleFavor();
 }
