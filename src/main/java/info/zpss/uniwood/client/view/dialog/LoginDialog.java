@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.view.dialog;
 
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.view.LoginView;
 
 import javax.swing.*;
@@ -39,13 +40,12 @@ public class LoginDialog extends JDialog implements LoginView {
 
         this.loginBtn = new JButton("登录");
 
-        bgLbl.setIcon(new ImageIcon(new ImageIcon("src/main/resources/bg.jpg")
-                .getImage().getScaledInstance(480, 105, Image.SCALE_SMOOTH)));  // TODO: 头图
+        bgLbl.setIcon(ImageLoader.load("images/bg.jpg", 480, 105));
 
         this.initWindow();
 
         this.setTitle("UniWood 登录");
-        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
+        this.setIconImage(ImageLoader.load("images/icon.png").getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(480, 320));
         this.setAlwaysOnTop(true);

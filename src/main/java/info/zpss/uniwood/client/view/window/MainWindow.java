@@ -7,6 +7,7 @@ import info.zpss.uniwood.client.item.ZoneItem;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.ClientLogger;
 import info.zpss.uniwood.client.util.FontMaker;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.util.interfaces.Renderable;
 import info.zpss.uniwood.client.view.MainView;
 import info.zpss.uniwood.client.view.render.PostItemRender;
@@ -51,7 +52,7 @@ public class MainWindow extends JFrame implements MainView {
         Dimension windowSize = new Dimension(960, 640);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("UniWood - 桌面端");
-        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
+        this.setIconImage(ImageLoader.load("images/icon.png").getImage());
         this.setContentPane(outerPane);
         this.setBounds((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2,
                 windowSize.width, windowSize.height);
@@ -184,14 +185,10 @@ public class MainWindow extends JFrame implements MainView {
             this.prevPageBtn = new JButton("上一页");
             this.nextPageBtn = new JButton("下一页");
 
-            newPostBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发布.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-            refreshBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/刷新.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-            prevPageBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/上一页.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-            nextPageBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/下一页.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+            newPostBtn.setIcon(ImageLoader.load("images/发布.png", 16, 16));
+            refreshBtn.setIcon(ImageLoader.load("images/刷新.png", 16, 16));
+            prevPageBtn.setIcon(ImageLoader.load("images/上一页.png", 16, 16));
+            nextPageBtn.setIcon(ImageLoader.load("images/下一页.png", 16, 16));
 
             this.setLayout(new GridLayout(2, 2, 5, 5));
 
@@ -234,8 +231,7 @@ public class MainWindow extends JFrame implements MainView {
             this.zoneRadio = new JRadioButton("分区");
             this.userRadio = new JRadioButton("用户");
 
-            searchBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/搜索.png")
-                    .getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+            searchBtn.setIcon(ImageLoader.load("images/搜索.png", 20, 20));
 
             radioPane.add(postRadio);
             radioPane.add(zoneRadio);
@@ -248,7 +244,7 @@ public class MainWindow extends JFrame implements MainView {
             searchField.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent evt) {
-                    if (searchField.getText().equals("输入关键词搜索贴子/分区/用户")) {
+                    if (searchField.getForeground().equals(Color.GRAY)) {
                         searchField.setText("");
                         searchField.setForeground(Color.BLACK);
                     }
@@ -256,7 +252,7 @@ public class MainWindow extends JFrame implements MainView {
 
                 @Override
                 public void focusLost(FocusEvent evt) {
-                    if (searchField.getText().equals("")) {
+                    if (searchField.getText().isEmpty()) {
                         searchField.setText("输入关键词搜索贴子/分区/用户");
                         searchField.setForeground(Color.GRAY);
                     }
@@ -294,13 +290,10 @@ public class MainWindow extends JFrame implements MainView {
             loginOrUserCenterBtn = new JButton("登录");
             registerOrLogoutBtn = new JButton("注册");
 
-            Icon avatarIcon = new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(avatarLen, avatarLen, Image.SCALE_SMOOTH));
+            Icon avatarIcon = ImageLoader.load("images/default_avatar.jpg", avatarLen, avatarLen);
             avatarLbl.setIcon(avatarIcon);
-            loginOrUserCenterBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/登录.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-            registerOrLogoutBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/注册.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+            loginOrUserCenterBtn.setIcon(ImageLoader.load("images/登录.png", 16, 16));
+            registerOrLogoutBtn.setIcon(ImageLoader.load("images/注册.png", 16, 16));
             avatarLbl.setSize(avatarLen, avatarLen);
             loginOrUserCenterBtn.setSize(85, 30);
             registerOrLogoutBtn.setSize(85, 30);
@@ -325,18 +318,15 @@ public class MainWindow extends JFrame implements MainView {
             avatarLbl.setIcon(avatar.toIcon(avatarLen));
             loginOrUserCenterBtn.setText("我的");
             registerOrLogoutBtn.setText("登出");
-            loginOrUserCenterBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/个人中心.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+            loginOrUserCenterBtn.setIcon(ImageLoader.load("images/个人中心.png", 16, 16));
         }
 
         public void setLogout() {
-            Icon avatarIcon = new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                    .getImage().getScaledInstance(avatarLen, avatarLen, Image.SCALE_SMOOTH));
+            Icon avatarIcon = ImageLoader.load("images/default_avatar.jpg", avatarLen, avatarLen);
             avatarLbl.setIcon(avatarIcon);
             loginOrUserCenterBtn.setText("登录");
             registerOrLogoutBtn.setText("注册");
-            loginOrUserCenterBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/登录.png")
-                    .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+            loginOrUserCenterBtn.setIcon(ImageLoader.load("images/登录.png", 16, 16));
         }
     }
 

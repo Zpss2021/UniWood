@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.view.window;
 
 import info.zpss.uniwood.client.item.FloorItem;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.util.interfaces.Renderable;
 import info.zpss.uniwood.client.view.PostView;
 import info.zpss.uniwood.client.view.render.FloorItemRender;
@@ -48,24 +49,18 @@ public class PostWindow extends JFrame implements PostView {
         prevBtn.setPreferredSize(new Dimension(96, 32));
         nextBtn.setPreferredSize(new Dimension(96, 32));
 
-        shareBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/分享.png")
-                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
-        favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png")
-                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
-        replyBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发送.png")
-                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
-        refreshBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/刷新.png")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-        prevBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/上一页.png")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-        nextBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/下一页.png")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        shareBtn.setIcon(ImageLoader.load("images/分享.png", 24, 24));
+        favorBtn.setIcon(ImageLoader.load("images/收藏-空心.png", 24, 24));
+        replyBtn.setIcon(ImageLoader.load("images/发送.png", 24, 24));
+        refreshBtn.setIcon(ImageLoader.load("images/刷新.png", 16, 16));
+        prevBtn.setIcon(ImageLoader.load("images/上一页.png", 16, 16));
+        nextBtn.setIcon(ImageLoader.load("images/下一页.png", 16, 16));
 
         this.initWindow();
 
         this.favor = false;
         this.setTitle("贴子标题_贴子分区_UniWood");
-        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
+        this.setIconImage(ImageLoader.load("images/icon.png").getImage());
         this.setContentPane(outerPane);
         this.setPreferredSize(new Dimension(720, 560));
         this.setMinimumSize(new Dimension(720, 560));
@@ -174,12 +169,10 @@ public class PostWindow extends JFrame implements PostView {
     @Override
     public boolean toggleFavor() {
         if (favor) {
-            favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png")
-                    .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+            favorBtn.setIcon(ImageLoader.load("images/收藏-空心.png", 24, 24));
             favor = false;
         } else {
-            favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-实心.png")
-                    .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+            favorBtn.setIcon(ImageLoader.load("images/收藏-实心.png", 24, 24));
             favor = true;
         }
         return favor;

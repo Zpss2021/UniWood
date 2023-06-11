@@ -2,12 +2,11 @@ package info.zpss.uniwood.client.controller;
 
 import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.client.model.UserCenterModel;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.UserCenterView;
 import info.zpss.uniwood.client.view.dialog.UserCenterDialog;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -64,13 +63,11 @@ public class UserCenterController implements Controller<UserCenterModel, UserCen
         for (ActionListener l : view.getFollowOrEditButton().getActionListeners())
             view.getFollowOrEditButton().removeActionListener(l);
         if (MainController.getInstance().getModel().getLoginUser().getId().equals(model.getId())) {
-            view.getFollowOrEditButton().setIcon(new ImageIcon(new ImageIcon("src/main/resources/自定义.png")
-                    .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+            view.getFollowOrEditButton().setIcon(ImageLoader.load("images/自定义.png", 24, 24));
             view.getFollowOrEditButton().setText("编辑");
             view.getFollowOrEditButton().addActionListener(e -> toEdit());
         } else {
-            view.getFollowOrEditButton().setIcon(new ImageIcon(new ImageIcon("src/main/resources/加.png")
-                    .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+            view.getFollowOrEditButton().setIcon(ImageLoader.load("images/加.png", 24, 24));
             view.getFollowOrEditButton().setText("关注");
             view.getFollowOrEditButton().addActionListener(e -> toFollow());
         }

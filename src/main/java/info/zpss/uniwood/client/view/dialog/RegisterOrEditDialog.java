@@ -2,6 +2,7 @@ package info.zpss.uniwood.client.view.dialog;
 
 import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.client.util.Avatar;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.view.EditView;
 import info.zpss.uniwood.client.view.RegisterView;
 
@@ -41,17 +42,14 @@ public class RegisterOrEditDialog extends JDialog implements RegisterView, EditV
         this.setAvatarBtn = new JButton("上传头像");
         this.registerOrEditBtn = new JButton("立即注册");
 
-        avatarLbl.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(96, 96, Image.SCALE_SMOOTH)));
-        setAvatarBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/打开.png")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-        registerOrEditBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/注册.png")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        avatarLbl.setIcon(ImageLoader.load("images/default_avatar.jpg", 96, 96));
+        setAvatarBtn.setIcon(ImageLoader.load("images/打开.png", 16, 16));
+        registerOrEditBtn.setIcon(ImageLoader.load("images/注册.png", 16, 16));
 
         this.initWindow();
 
         this.setTitle("UniWood 注册");
-        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
+        this.setIconImage(ImageLoader.load("images/icon.png", 16, 16).getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(480, 320));
         this.setAlwaysOnTop(true);
@@ -143,8 +141,7 @@ public class RegisterOrEditDialog extends JDialog implements RegisterView, EditV
         passwordLbl.setText("新密码：");
         cfmPwdLbl.setText("确认新密码：");
         registerOrEditBtn.setText("立即修改");
-        registerOrEditBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/自定义.png")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        registerOrEditBtn.setIcon(ImageLoader.load("images/自定义.png", 16, 16));
         usernameText.setText(user.getUsername());
         passwordText.setText(null);
         pwdConfirmText.setText(null);

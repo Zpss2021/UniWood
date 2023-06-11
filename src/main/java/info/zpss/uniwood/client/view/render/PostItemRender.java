@@ -4,6 +4,7 @@ import info.zpss.uniwood.client.controller.MainController;
 import info.zpss.uniwood.client.item.PostItem;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.FontMaker;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.util.interfaces.Render;
 
 import javax.swing.*;
@@ -110,8 +111,7 @@ public class PostItemRender extends JPanel implements Render {
         favorBtn.setContentAreaFilled(false);
         favorBtn.setFocusPainted(false);
         favorBtn.setPreferredSize(new Dimension(35, 35));
-        favorBtn.setIcon(new ImageIcon(new ImageIcon("收藏-空心.png").getImage()
-                .getScaledInstance(28, 28, Image.SCALE_SMOOTH)));
+        favorBtn.setIcon(ImageLoader.load("images/收藏-空心.png", 28, 28));
     }
 
     private void initContentText() {
@@ -163,12 +163,10 @@ public class PostItemRender extends JPanel implements Render {
     // 返回操作后收藏状态
     public boolean toggleFavor() {
         if (favor) {
-            favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png").getImage()
-                    .getScaledInstance(28, 28, Image.SCALE_SMOOTH)));
+            favorBtn.setIcon(ImageLoader.load("images/收藏-空心.png", 28, 28));
             favor = false;
         } else {
-            favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-实心.png").getImage()
-                    .getScaledInstance(28, 28, Image.SCALE_SMOOTH)));
+            favorBtn.setIcon(ImageLoader.load("images/收藏-实心.png", 28, 28));
             favor = true;
         }
         return favor;

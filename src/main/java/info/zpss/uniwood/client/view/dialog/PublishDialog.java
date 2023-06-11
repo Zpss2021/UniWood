@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.view.dialog;
 
 import info.zpss.uniwood.client.util.FontMaker;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.view.PublishView;
 
 import javax.swing.*;
@@ -29,15 +30,14 @@ public class PublishDialog extends JDialog implements PublishView {
         this.contentText = new JTextArea();
         this.publishBtn = new JButton("发表");
 
-        publishBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发布.png")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        publishBtn.setIcon(ImageLoader.load("images/发布.png", 16, 16));
         zoneText.setFont(new FontMaker().bold().build());
         contentText.setFont(new FontMaker().large().build());
 
         this.initWindow();
 
         this.setTitle("UniWood 发表新贴子");
-        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
+        this.setIconImage(ImageLoader.load("images/icon.png").getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(480, 320));
         this.setAlwaysOnTop(true);

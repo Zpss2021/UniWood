@@ -5,6 +5,7 @@ import info.zpss.uniwood.client.controller.UserCenterController;
 import info.zpss.uniwood.client.model.UserCenterModel;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.FontMaker;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.view.UserCenterView;
 
 import javax.swing.*;
@@ -45,19 +46,15 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
         this.postBtn = new JButton();
         this.followOrEditBtn = new JButton("编辑");
 
-        avatarLbl.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
-                .getImage().getScaledInstance(96, 96, Image.SCALE_SMOOTH)));
-        favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-实心.png")
-                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
-        postBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发送.png")
-                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
-        followOrEditBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/自定义.png")
-                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+        avatarLbl.setIcon(ImageLoader.load("images/default_avatar.jpg", 96, 96));
+        favorBtn.setIcon(ImageLoader.load("images/收藏-实心.png", 24, 24));
+        postBtn.setIcon(ImageLoader.load("images/发送.png", 24, 24));
+        followOrEditBtn.setIcon(ImageLoader.load("images/自定义.png", 24, 24));
 
         this.initWindow();
 
         this.setTitle("用户中心");
-        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
+        this.setIconImage(ImageLoader.load("images/icon.png").getImage());
         this.setContentPane(contentPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setPreferredSize(new Dimension(270, 360));

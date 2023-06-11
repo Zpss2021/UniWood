@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.view.dialog;
 
 import info.zpss.uniwood.client.util.FontMaker;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.view.ReplyView;
 
 import javax.swing.*;
@@ -29,14 +30,13 @@ public class ReplyDialog extends JDialog implements ReplyView {
         this.contentText = new JTextArea();
         this.replyBtn = new JButton("回复");
 
-        replyBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发送.png")
-                .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+        replyBtn.setIcon(ImageLoader.load("images/发送.png", 16, 16));
         contentText.setFont(new FontMaker().large().build());
 
         this.initWindow();
 
         this.setTitle("UniWood 回复贴子");
-        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
+        this.setIconImage(ImageLoader.load("images/icon.png").getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(480, 320));
         this.setAlwaysOnTop(true);

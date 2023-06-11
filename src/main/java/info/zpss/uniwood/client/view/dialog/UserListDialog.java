@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.view.dialog;
 
 import info.zpss.uniwood.client.entity.Post;
+import info.zpss.uniwood.client.util.ImageLoader;
 import info.zpss.uniwood.client.view.UserFavorListView;
 import info.zpss.uniwood.client.view.UserPostListView;
 
@@ -31,7 +32,7 @@ public class UserListDialog extends JDialog implements UserFavorListView, UserPo
         this.initWindow();
 
         this.setTitle("Uniwood-贴子管理");
-        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
+        this.setIconImage(ImageLoader.load("images/icon.png").getImage());
         this.setContentPane(contentPanel);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setPreferredSize(new Dimension(270, 360));
@@ -40,10 +41,8 @@ public class UserListDialog extends JDialog implements UserFavorListView, UserPo
     }
 
     private void initWindow() {
-        delBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/垃圾桶.png")
-                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
-        openBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/发布.png")
-                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+        delBtn.setIcon(ImageLoader.load("images/垃圾桶.png", 24, 24));
+        openBtn.setIcon(ImageLoader.load("images/发布.png", 24, 24));
 
         btnPane.add(delBtn);
         btnPane.add(openBtn);

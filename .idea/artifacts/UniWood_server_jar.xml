@@ -1,9 +1,9 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="UniWood_client:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/UniWood_client_jar</output-path>
+  <artifact type="jar" build-on-make="true" name="UniWood_server:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/UniWood_server_jar</output-path>
     <root id="archive" name="UniWood.jar">
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/client/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/server/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="UniWood" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/mysql-connector-java-8.0.28.jar" path-in-jar="/" />
