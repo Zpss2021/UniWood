@@ -4,6 +4,8 @@
 
 以下是桌面服务端支持的命令行参数：
 
+- `-h 或 --help` 显示帮助信息
+- `-v 或 --version` 显示版本信息
 - `-D 或 --DEBUG`  开启调试模式
 - `-l 或 --log <log directory>` 设置存放日志的文件夹路径
 - `-u 或 --url <url>`设置数据库连接地址，未设定则默认为`jdbc:mysql://localhost:3306/uniwood?<...args>`
