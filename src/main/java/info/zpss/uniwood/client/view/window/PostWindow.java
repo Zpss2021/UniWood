@@ -1,8 +1,8 @@
 package info.zpss.uniwood.client.view.window;
 
 import info.zpss.uniwood.client.item.FloorItem;
-import info.zpss.uniwood.client.view.PostView;
 import info.zpss.uniwood.client.util.interfaces.Renderable;
+import info.zpss.uniwood.client.view.PostView;
 import info.zpss.uniwood.client.view.render.FloorItemRender;
 
 import javax.swing.*;

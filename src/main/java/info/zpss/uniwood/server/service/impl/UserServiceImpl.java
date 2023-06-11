@@ -1,7 +1,7 @@
 package info.zpss.uniwood.server.service.impl;
 
-import info.zpss.uniwood.server.dao.impl.UserDaoImpl;
 import info.zpss.uniwood.server.dao.UserDao;
+import info.zpss.uniwood.server.dao.impl.UserDaoImpl;
 import info.zpss.uniwood.server.entity.User;
 import info.zpss.uniwood.server.entity.UserPost;
 import info.zpss.uniwood.server.entity.UserZone;

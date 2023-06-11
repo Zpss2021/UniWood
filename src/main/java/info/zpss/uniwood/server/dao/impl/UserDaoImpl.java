@@ -2,11 +2,10 @@ package info.zpss.uniwood.server.dao.impl;
 
 import info.zpss.uniwood.server.Main;
 import info.zpss.uniwood.server.dao.UserDao;
-import info.zpss.uniwood.server.entity.User;
-import info.zpss.uniwood.server.entity.UserZone;
-import info.zpss.uniwood.server.entity.UserPost;
 import info.zpss.uniwood.server.entity.Follow;
-
+import info.zpss.uniwood.server.entity.User;
+import info.zpss.uniwood.server.entity.UserPost;
+import info.zpss.uniwood.server.entity.UserZone;
 
 import java.sql.*;
 import java.util.ArrayList;

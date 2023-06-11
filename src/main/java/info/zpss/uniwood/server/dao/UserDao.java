@@ -1,6 +1,9 @@
 package info.zpss.uniwood.server.dao;
 
-import info.zpss.uniwood.server.entity.*;
+import info.zpss.uniwood.server.entity.Follow;
+import info.zpss.uniwood.server.entity.User;
+import info.zpss.uniwood.server.entity.UserPost;
+import info.zpss.uniwood.server.entity.UserZone;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -1,7 +1,7 @@
 package info.zpss.uniwood.client.view.render;
 
-import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.item.ZoneItem;
+import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.FontMaker;
 import info.zpss.uniwood.client.util.interfaces.Render;
 

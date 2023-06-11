@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="UniWood_client:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/UniWood_client_jar</output-path>
+    <root id="archive" name="UniWood.jar">
+      <element id="module-output" name="UniWood" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/lib/mysql-connector-java-8.0.28.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources/src/main/resources" />
+    </root>
+  </artifact>
+</component>

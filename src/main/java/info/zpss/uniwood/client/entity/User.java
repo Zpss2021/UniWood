@@ -4,8 +4,8 @@ import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.client.builder.PostBuilder;
 import info.zpss.uniwood.client.builder.UserBuilder;
 import info.zpss.uniwood.client.builder.ZoneBuilder;
-import info.zpss.uniwood.common.MsgProto;
 import info.zpss.uniwood.client.util.interfaces.Entity;
+import info.zpss.uniwood.common.MsgProto;
 
 import java.util.ArrayList;
 import java.util.List;

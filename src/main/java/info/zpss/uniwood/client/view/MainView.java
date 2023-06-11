@@ -1,7 +1,7 @@
 package info.zpss.uniwood.client.view;
 
-import info.zpss.uniwood.client.view.window.MainWindow.*;
 import info.zpss.uniwood.client.util.interfaces.View;
+import info.zpss.uniwood.client.view.window.MainWindow.*;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package info.zpss.uniwood.server.util;
 
-import info.zpss.uniwood.common.Logger;
 import info.zpss.uniwood.common.Arguable;
+import info.zpss.uniwood.common.Logger;
 import info.zpss.uniwood.server.Main;
 
 public class ServerLogger extends Logger {

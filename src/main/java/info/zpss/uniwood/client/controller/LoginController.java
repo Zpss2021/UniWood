@@ -1,13 +1,13 @@
 package info.zpss.uniwood.client.controller;
 
 import info.zpss.uniwood.client.Main;
-import info.zpss.uniwood.common.Command;
-import info.zpss.uniwood.common.MsgProto;
 import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.client.model.LoginModel;
 import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.LoginView;
 import info.zpss.uniwood.client.view.dialog.LoginDialog;
+import info.zpss.uniwood.common.Command;
+import info.zpss.uniwood.common.MsgProto;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

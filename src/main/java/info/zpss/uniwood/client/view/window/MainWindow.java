@@ -2,13 +2,13 @@ package info.zpss.uniwood.client.view.window;
 
 import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.client.controller.MainController;
+import info.zpss.uniwood.client.item.PostItem;
+import info.zpss.uniwood.client.item.ZoneItem;
 import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.ClientLogger;
 import info.zpss.uniwood.client.util.FontMaker;
 import info.zpss.uniwood.client.util.interfaces.Renderable;
 import info.zpss.uniwood.client.view.MainView;
-import info.zpss.uniwood.client.item.PostItem;
-import info.zpss.uniwood.client.item.ZoneItem;
 import info.zpss.uniwood.client.view.render.PostItemRender;
 import info.zpss.uniwood.client.view.render.ZoneItemRender;
 

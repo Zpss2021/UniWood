@@ -1,9 +1,11 @@
 package info.zpss.uniwood.server.util;
 
-import info.zpss.uniwood.server.Main;
 import info.zpss.uniwood.common.Arguable;
+import info.zpss.uniwood.server.Main;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Database implements Arguable {
     private String dbUrl;

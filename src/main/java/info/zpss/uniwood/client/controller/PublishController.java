@@ -11,7 +11,10 @@ import info.zpss.uniwood.common.MsgProto;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.concurrent.TimeoutException;
 
 public class PublishController implements Controller<PublishModel, PublishView> {

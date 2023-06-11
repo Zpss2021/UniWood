@@ -1,9 +1,9 @@
 package info.zpss.uniwood.client.view.dialog;
 
 import info.zpss.uniwood.client.entity.User;
+import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.view.EditView;
 import info.zpss.uniwood.client.view.RegisterView;
-import info.zpss.uniwood.client.util.Avatar;
 
 import javax.swing.*;
 import java.awt.*;

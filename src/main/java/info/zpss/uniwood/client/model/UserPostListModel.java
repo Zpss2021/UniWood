@@ -1,8 +1,8 @@
 package info.zpss.uniwood.client.model;
 
 import info.zpss.uniwood.client.controller.UserCenterController;
-import info.zpss.uniwood.client.util.interfaces.Model;
 import info.zpss.uniwood.client.entity.Post;
+import info.zpss.uniwood.client.util.interfaces.Model;
 
 import java.util.List;
 import java.util.concurrent.TimeoutException;

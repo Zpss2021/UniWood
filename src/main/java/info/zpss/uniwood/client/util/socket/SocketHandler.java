@@ -2,9 +2,9 @@ package info.zpss.uniwood.client.util.socket;
 
 import info.zpss.uniwood.client.Main;
 import info.zpss.uniwood.client.controller.*;
+import info.zpss.uniwood.client.util.ClientLogger;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.common.MsgProto;
-import info.zpss.uniwood.client.util.ClientLogger;
 
 import javax.swing.*;
 import java.io.*;

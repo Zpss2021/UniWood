@@ -1,8 +1,8 @@
 package info.zpss.uniwood.client.view.render;
 
 import info.zpss.uniwood.client.controller.MainController;
-import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.item.PostItem;
+import info.zpss.uniwood.client.util.Avatar;
 import info.zpss.uniwood.client.util.FontMaker;
 import info.zpss.uniwood.client.util.interfaces.Render;
 
