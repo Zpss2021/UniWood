@@ -31,7 +31,7 @@ public class UserListDialog extends JDialog implements UserFavorListView, UserPo
         this.initWindow();
 
         this.setTitle("Uniwood-贴子管理");
-        this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
+        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
         this.setContentPane(contentPanel);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setPreferredSize(new Dimension(270, 360));

@@ -39,13 +39,13 @@ public class LoginDialog extends JDialog implements LoginView {
 
         this.loginBtn = new JButton("登录");
 
-        bgLbl.setIcon(new ImageIcon(new ImageIcon("src/main/resources/default_avatar.jpg")
+        bgLbl.setIcon(new ImageIcon(new ImageIcon("src/main/resources/bg.jpg")
                 .getImage().getScaledInstance(480, 105, Image.SCALE_SMOOTH)));  // TODO: 头图
 
         this.initWindow();
 
         this.setTitle("UniWood 登录");
-        this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
+        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(480, 320));
         this.setAlwaysOnTop(true);

@@ -29,7 +29,8 @@ public class UserBuilder implements Builder<User> {
             while (true) {
                 hold();
                 users.clear();
-                Main.logger().add("UserBuilder：缓存已清空", Thread.currentThread());
+                if (Main.debug())
+                    Main.logger().add("UserBuilder：缓存已清空", Thread.currentThread());
             }
         });
         holder.setDaemon(true);

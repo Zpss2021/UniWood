@@ -65,7 +65,7 @@ public class PostWindow extends JFrame implements PostView {
 
         this.favor = false;
         this.setTitle("贴子标题_贴子分区_UniWood");
-        this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
+        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
         this.setContentPane(outerPane);
         this.setPreferredSize(new Dimension(720, 560));
         this.setMinimumSize(new Dimension(720, 560));

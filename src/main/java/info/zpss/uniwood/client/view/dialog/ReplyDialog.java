@@ -36,7 +36,7 @@ public class ReplyDialog extends JDialog implements ReplyView {
         this.initWindow();
 
         this.setTitle("UniWood 回复贴子");
-        this.setIconImage(new ImageIcon("src/main/resources/default_avatar.jpg").getImage());
+        this.setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(480, 320));
         this.setAlwaysOnTop(true);

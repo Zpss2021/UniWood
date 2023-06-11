@@ -25,7 +25,8 @@ public class FloorBuilder implements Builder<Floor> {
             while (true) {
                 hold();
                 floors.clear();
-                Main.logger().add("FloorBuilder：缓存已清空", Thread.currentThread());
+                if (Main.debug())
+                    Main.logger().add("FloorBuilder：缓存已清空", Thread.currentThread());
             }
         });
         holder.setDaemon(true);

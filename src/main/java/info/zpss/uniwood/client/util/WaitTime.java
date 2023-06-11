@@ -17,7 +17,7 @@ public class WaitTime implements Arguable {
     private final ScheduledExecutorService executor;
 
     public WaitTime() {
-        this.baseCycleMillis = 20;
+        this.baseCycleMillis = 10;
         this.maxWaitCycle = 100;
         this.baseWaitCycle = 1;
         this.averageWaitCycle = 1;

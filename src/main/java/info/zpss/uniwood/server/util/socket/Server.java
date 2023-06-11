@@ -42,7 +42,7 @@ public class Server implements Arguable {
         String port = Arguable.stringInArgs(args, "-P", "--port");
         String maxConn = Arguable.stringInArgs(args, "-M", "--max-conn");
         if (port == null) {
-            port = "60196";
+            port = "10475";
             Main.logger().add(String.format("未指定服务器端口，使用默认端口%s", port),
                     ServerLogger.Type.INFO, Thread.currentThread());
         }

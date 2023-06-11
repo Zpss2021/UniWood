@@ -36,7 +36,7 @@ public class Database implements Arguable {
             Main.logger().add("未指定数据库URL，使用默认URL", ServerLogger.Type.INFO, Thread.currentThread());
         }
         if (dbUsername == null) {
-            dbUsername = "zpss";
+            dbUsername = "uniwood_user";
             Main.logger().add("未指定数据库用户名，使用默认用户名", ServerLogger.Type.INFO, Thread.currentThread());
         }
         if (dbPassword == null) {

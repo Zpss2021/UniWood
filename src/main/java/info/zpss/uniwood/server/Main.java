@@ -58,9 +58,9 @@ public class Main {
             System.out.println("  -D, --DEBUG\t\t\t\t开启调试模式");
             System.out.println("  -l, --log <log directory>\t\t设置存放日志的文件夹路径");
             System.out.println("  -u, --url <url>\t\t\t\t设置数据库连接地址，默认为`jdbc:mysql:///uniwood?<...args>`");
-            System.out.println("  -n, --username <name>\t\t\t设置数据库用户名，默认为`zpss`");
+            System.out.println("  -n, --username <name>\t\t\t设置数据库用户名，默认为`uniwood_user`");
             System.out.println("  -p, --password <password>\t\t设置数据库密码，默认为`henu`");
-            System.out.println("  -P, --port <port>\t\t\t\t设置供客户端连接到的服务器端口，默认为`60196`");
+            System.out.println("  -P, --port <port>\t\t\t\t设置供客户端连接到的服务器端口，默认为`10475`");
             System.out.println("  -M, --max-conn <max connection>\t设置最大连接数，默认为`16`");
             System.exit(0);
         }

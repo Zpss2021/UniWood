@@ -110,7 +110,7 @@ public class PostItemRender extends JPanel implements Render {
         favorBtn.setContentAreaFilled(false);
         favorBtn.setFocusPainted(false);
         favorBtn.setPreferredSize(new Dimension(35, 35));
-        favorBtn.setIcon(new ImageIcon(new ImageIcon("src/main/resources/收藏-空心.png").getImage()
+        favorBtn.setIcon(new ImageIcon(new ImageIcon("收藏-空心.png").getImage()
                 .getScaledInstance(28, 28, Image.SCALE_SMOOTH)));
     }
 

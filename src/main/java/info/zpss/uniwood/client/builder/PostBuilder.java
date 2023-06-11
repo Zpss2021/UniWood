@@ -29,7 +29,8 @@ public class PostBuilder implements Builder<Post> {
             while (true) {
                 hold();
                 posts.clear();
-                Main.logger().add("PostBuilder：缓存已清空", Thread.currentThread());
+                if (Main.debug())
+                    Main.logger().add("PostBuilder：缓存已清空", Thread.currentThread());
             }
         });
         holder.setDaemon(true);
