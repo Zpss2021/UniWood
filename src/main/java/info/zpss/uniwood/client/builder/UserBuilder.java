@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 public class UserBuilder implements Builder<User> {
     private static final UserBuilder INSTANCE;
-    private static final int expireSecond = 180;
+    private static final int expireSecond = 60;
     private static final Map<Integer, User> users;
 
     static {
@@ -29,6 +29,7 @@ public class UserBuilder implements Builder<User> {
             while (true) {
                 hold();
                 users.clear();
+                Main.logger().add("UserBuilder：缓存已清空", Thread.currentThread());
             }
         });
         holder.setDaemon(true);
@@ -64,5 +65,9 @@ public class UserBuilder implements Builder<User> {
             throw new TimeoutException();
         Thread.sleep(Main.waitCycleMills(count));
         return build(userId, count + 1);
+    }
+
+    public void remove(Integer userId) {
+        users.remove(userId);
     }
 }

@@ -1,6 +1,7 @@
 package info.zpss.uniwood.client.controller;
 
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.client.builder.UserBuilder;
 import info.zpss.uniwood.client.entity.User;
 import info.zpss.uniwood.client.model.EditModel;
 import info.zpss.uniwood.client.util.Avatar;
@@ -48,17 +49,19 @@ public class EditController implements Controller<EditModel, EditView> {
 
     @Override
     public void register() {
+        model.init();
+        view.setUser(MainController.getInstance().getModel().getLoginUser());
+        try {
+            String[] universities = RegisterController.getInstance().getModel().getUniversities(0);
+            view.getUniversityCombo().setModel(new DefaultComboBoxModel<>(universities));
+            view.getUniversityCombo().setSelectedItem(model.getUniversity());
+        } catch (InterruptedException | TimeoutException e) {
+            Main.logger().add(e, Thread.currentThread());
+        }
         if (!registered) {
             registered = true;
-            view.setUser(MainController.getInstance().getModel().getLoginUser());
             view.getEditBtn().addActionListener(e -> userEdit());
             view.getSetAvatarBtn().addActionListener(e -> setAvatar());
-            try {
-                String[] universities = RegisterController.getInstance().getModel().getUniversities(0);
-                view.getUniversityCombo().setModel(new DefaultComboBoxModel<>(universities));
-            } catch (InterruptedException | TimeoutException e) {
-                Main.logger().add(e, Thread.currentThread());
-            }
         }
     }
 
@@ -67,6 +70,7 @@ public class EditController implements Controller<EditModel, EditView> {
                 "修改信息", JOptionPane.INFORMATION_MESSAGE);
         MainController.getInstance().loginSuccess(new User(model.getId(), model.getUsername(),
                 model.getUniversity(), model.getAvatarBase64()));
+        UserBuilder.getInstance().remove(model.getId());
         view.hideWindow();
         model.init();
         UserCenterController.getInstance().getModel().init();

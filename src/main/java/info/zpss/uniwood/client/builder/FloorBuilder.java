@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 public class FloorBuilder implements Builder<Floor> {
     private static final FloorBuilder INSTANCE;
-    private static final int expireSecond = 60;
+    private static final int expireSecond = 10;
     private static final Map<Integer, Map<Integer, Floor>> floors;
 
     static {
@@ -25,6 +25,7 @@ public class FloorBuilder implements Builder<Floor> {
             while (true) {
                 hold();
                 floors.clear();
+                Main.logger().add("FloorBuilder：缓存已清空", Thread.currentThread());
             }
         });
         holder.setDaemon(true);

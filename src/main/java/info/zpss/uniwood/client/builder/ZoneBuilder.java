@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException;
 
 public class ZoneBuilder implements Builder<Zone> {
     private static final ZoneBuilder INSTANCE;
-    private static final int expireSecond = 900;
+    private static final int expireSecond = 90;
     private static final Map<Integer, Zone> zones;
 
     static {
@@ -30,6 +30,7 @@ public class ZoneBuilder implements Builder<Zone> {
             while (true) {
                 hold();
                 zones.clear();
+                Main.logger().add("ZoneBuilder：缓存已清空", Thread.currentThread());
                 try {
                     MainController.getInstance().getModel().getZones(0);
                 } catch (InterruptedException | TimeoutException e) {

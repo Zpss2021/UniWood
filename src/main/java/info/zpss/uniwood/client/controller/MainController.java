@@ -13,6 +13,7 @@ import info.zpss.uniwood.client.view.render.PostItemRender;
 import info.zpss.uniwood.client.view.window.MainWindow;
 import info.zpss.uniwood.common.Command;
 import info.zpss.uniwood.client.Main;
+import info.zpss.uniwood.common.Logger;
 import info.zpss.uniwood.common.MsgProto;
 
 import javax.swing.*;
@@ -120,8 +121,15 @@ public class MainController implements Controller<MainModel, MainView> {
         model.setFromPostCount(0);
         List<Post> posts = model.getPosts(0);
         Vector<PostItem> postItems = new Vector<>();
-        for (Post post : posts)
-            postItems.add(new PostItem(post));
+        try {
+            for (Post post : posts)
+                postItems.add(new PostItem(post));
+        } catch (NullPointerException e) {
+            Main.logger().add(e, Thread.currentThread());
+            Main.logger().add(String.format("空分区：%s", view.getZonePanel().zoneList.getSelectedValue().name),
+                    Logger.Type.INFO, Thread.currentThread());
+            return;
+        }
         view.getPostPanel().setListData(postItems);
         view.getPostPanel().setTitle(view.getZonePanel().zoneList.getSelectedValue().name);
         view.getPostPanel().rollToTop();

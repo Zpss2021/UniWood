@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 public class PostBuilder implements Builder<Post> {
     private static final PostBuilder INSTANCE;
-    private static final int expireSecond = 60;
+    private static final int expireSecond = 30;
     private static final Map<Integer, Post> posts;
 
     static {
@@ -29,6 +29,7 @@ public class PostBuilder implements Builder<Post> {
             while (true) {
                 hold();
                 posts.clear();
+                Main.logger().add("PostBuilder：缓存已清空", Thread.currentThread());
             }
         });
         holder.setDaemon(true);
