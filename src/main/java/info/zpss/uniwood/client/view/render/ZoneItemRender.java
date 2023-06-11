@@ -17,6 +17,7 @@ public class ZoneItemRender extends JPanel implements ListCellRenderer<ZoneItem>
         this.iconLabel = new JLabel();
         this.nameLabel = new JLabel();
         nameLabel.setFont(new FontMaker().bold().large().large().large().build());
+        nameLabel.setPreferredSize(new Dimension(200, 50));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
         this.add(iconLabel);
         this.add(nameLabel);

@@ -447,6 +447,7 @@ public class MainWindow extends JFrame implements MainView {
             this.zoneList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             zoneListPane = new JScrollPane(this.zoneList);
             zoneListPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            zoneListPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             this.setLayout(new BorderLayout());
             this.add(zoneListPane, BorderLayout.CENTER);
             this.setBorder(BorderFactory.createTitledBorder("分区"));
