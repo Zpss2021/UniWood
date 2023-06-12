@@ -4,7 +4,7 @@
 
 - 本项目是一个基于Java Swing+JDBC的C/S结构网络应用，旨在充分运用课程教授知识，搭建一个树洞模式的大学生交流平台；
 - 本项目作为大学生课程设计，仅供学习交流使用，不得用于商业用途，不鼓励任何与本项目相关的学术不端行为。
-- 官网：[UniWood](https://uniwood.zpss.info)
+- 官网：[UniWood](http://uniwood.zpss.info)
 
 ## 成员分工
 
