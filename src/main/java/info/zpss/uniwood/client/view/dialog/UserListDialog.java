@@ -17,7 +17,7 @@ public class UserListDialog extends JDialog implements UserFavorListView, UserPo
     private final JButton delBtn, openBtn;
 
     public UserListDialog(Component owner) {
-        super((Frame) owner, true);
+        super((Frame) owner, false);
 
         this.setLocation(owner.getX() + owner.getWidth() / 2 - 135,
                 owner.getY() + owner.getHeight() / 2 - 180);
@@ -36,7 +36,6 @@ public class UserListDialog extends JDialog implements UserFavorListView, UserPo
         this.setContentPane(contentPanel);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setPreferredSize(new Dimension(270, 360));
-        this.setAlwaysOnTop(true);
         this.setResizable(false);
     }
 
@@ -53,6 +52,8 @@ public class UserListDialog extends JDialog implements UserFavorListView, UserPo
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(btnPane, BorderLayout.NORTH);
         contentPanel.add(scrollPane, BorderLayout.CENTER);
+
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
 
 
@@ -115,6 +116,6 @@ public class UserListDialog extends JDialog implements UserFavorListView, UserPo
             content = (content.length() > 20) ? content.substring(0, 17) + "..." : content;
             listData.add(String.format("#%d %s", post.getId(), content));
         }
-        SwingUtilities.invokeLater(() -> list.setListData(listData));
+        list.setListData(listData);
     }
 }

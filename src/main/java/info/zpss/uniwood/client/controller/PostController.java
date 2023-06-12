@@ -15,6 +15,8 @@ import info.zpss.uniwood.common.MsgProto;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -71,7 +73,11 @@ public class PostController implements Controller<PostModel, PostView> {
     }
 
     private void sharePost() {
-        // TODO
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(new StringSelection(String.format("#%d", model.getPost().getId())), null);
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
+                String.format("贴子 #%d 已复制到剪贴板！", model.getPost().getId()), "分享",
+                JOptionPane.INFORMATION_MESSAGE));
     }
 
     private void favorPost() {

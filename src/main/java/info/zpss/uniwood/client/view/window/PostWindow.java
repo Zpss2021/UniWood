@@ -64,7 +64,6 @@ public class PostWindow extends JFrame implements PostView {
         this.setContentPane(outerPane);
         this.setPreferredSize(new Dimension(720, 560));
         this.setMinimumSize(new Dimension(720, 560));
-        this.setAlwaysOnTop(true);
         this.setResizable(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -292,4 +292,19 @@ public class MainController implements Controller<MainModel, MainView> {
                     String.format("贴子#%d取消收藏成功！", item.getItem().id), "收藏贴子", JOptionPane.INFORMATION_MESSAGE));
         }
     }
+
+    public void searchPost(String keyword) {
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
+                "功能尚未实现，敬请期待！", "搜索", JOptionPane.INFORMATION_MESSAGE));
+    }
+
+    public void searchZone(String keyword) {
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
+                "功能尚未实现，敬请期待！", "搜索", JOptionPane.INFORMATION_MESSAGE));
+    }
+
+    public void searchUser(String keyword) {
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(view.getComponent(),
+                "功能尚未实现，敬请期待！", "搜索", JOptionPane.INFORMATION_MESSAGE));
+    }
 }

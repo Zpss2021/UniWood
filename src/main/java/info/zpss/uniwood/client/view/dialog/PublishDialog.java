@@ -40,7 +40,6 @@ public class PublishDialog extends JDialog implements PublishView {
         this.setIconImage(ImageLoader.load("images/icon.png").getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(480, 320));
-        this.setAlwaysOnTop(true);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }

@@ -215,6 +215,7 @@ public class MainWindow extends JFrame implements MainView {
         public final JTextField searchField;
         public final JButton searchBtn;
         public final JPanel radioPane;
+        public final ButtonGroup group;
         public final JRadioButton postRadio;
         public final JRadioButton zoneRadio;
         public final JRadioButton userRadio;
@@ -227,6 +228,7 @@ public class MainWindow extends JFrame implements MainView {
             this.searchField = new JTextField();
             this.searchBtn = new JButton("搜索");
             this.radioPane = new JPanel(new GridLayout(3, 1));
+            this.group = new ButtonGroup();
             this.postRadio = new JRadioButton("贴子");
             this.zoneRadio = new JRadioButton("分区");
             this.userRadio = new JRadioButton("用户");
@@ -237,9 +239,12 @@ public class MainWindow extends JFrame implements MainView {
             radioPane.add(zoneRadio);
             radioPane.add(userRadio);
 
-//            ButtonGroup group = new ButtonGroup(); TODO
+            group.add(postRadio);
+            group.add(zoneRadio);
+            group.add(userRadio);
+            group.setSelected(postRadio.getModel(), true);
             searchField.setFont(new FontMaker().bold().large().build());
-            searchField.setText(" 输入关键词搜索贴子/分区/用户"); // TODO：根据不同的搜索类型，显示不同的提示
+            searchField.setText(" 输入关键词搜索贴子/分区/用户");
             searchField.setForeground(Color.GRAY);
             searchField.addFocusListener(new FocusAdapter() {
                 @Override
@@ -253,10 +258,45 @@ public class MainWindow extends JFrame implements MainView {
                 @Override
                 public void focusLost(FocusEvent evt) {
                     if (searchField.getText().isEmpty()) {
-                        searchField.setText("输入关键词搜索贴子/分区/用户");
+                        searchField.setText(" 输入关键词搜索贴子/分区/用户");
                         searchField.setForeground(Color.GRAY);
                     }
                 }
+            });
+
+            searchBtn.addActionListener(e -> {
+                String keyword = searchField.getText();
+                if (keyword.isEmpty() || searchField.getForeground().equals(Color.GRAY)) {
+                    JOptionPane.showMessageDialog(this, "关键词不能为空", "搜索", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (postRadio.isSelected())
+                    MainController.getInstance().searchPost(keyword);
+                else if (zoneRadio.isSelected())
+                    MainController.getInstance().searchZone(keyword);
+                else if (userRadio.isSelected())
+                    MainController.getInstance().searchUser(keyword);
+            });
+
+            postRadio.addActionListener(e -> {
+                if (!searchField.getForeground().equals(Color.GRAY))
+                    return;
+                searchField.setText(" 输入关键词搜索贴子");
+                searchField.setForeground(Color.GRAY);
+            });
+
+            zoneRadio.addActionListener(e -> {
+                if (!searchField.getForeground().equals(Color.GRAY))
+                    return;
+                searchField.setText(" 输入关键词搜索分区");
+                searchField.setForeground(Color.GRAY);
+            });
+
+            userRadio.addActionListener(e -> {
+                if (!searchField.getForeground().equals(Color.GRAY))
+                    return;
+                searchField.setText(" 输入关键词搜索用户");
+                searchField.setForeground(Color.GRAY);
             });
 
             searchField.setPreferredSize(new Dimension(250, 60));

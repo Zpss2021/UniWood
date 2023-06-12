@@ -7,6 +7,7 @@ import info.zpss.uniwood.client.util.interfaces.Controller;
 import info.zpss.uniwood.client.view.UserCenterView;
 import info.zpss.uniwood.client.view.dialog.UserCenterDialog;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -79,22 +80,28 @@ public class UserCenterController implements Controller<UserCenterModel, UserCen
     }
 
     private void toFollowing() {
-//        FollowingController.getInstance().show(); TODO:关注列表
+        JOptionPane.showMessageDialog(view.getComponent(), "功能尚未实现，敬请期待",
+                "关注列表", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void toFollower() {
-//        FollowerController.getInstance().show(); TODO:粉丝列表
+        JOptionPane.showMessageDialog(view.getComponent(), "功能尚未实现，敬请期待",
+                "粉丝列表", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void toFavor() {
-        UserFavorListController.getInstance().register();
-        UserFavorListController.getInstance().setFavors();
+        SwingUtilities.invokeLater(() -> {
+            UserFavorListController.getInstance().register();
+            UserFavorListController.getInstance().setFavors();
+        });
         UserFavorListController.getInstance().getView().showWindow(view.getComponent());
     }
 
     private void toPost() {
-        UserPostListController.getInstance().register();
-        UserPostListController.getInstance().setPosts();
+        SwingUtilities.invokeLater(() -> {
+            UserPostListController.getInstance().register();
+            UserPostListController.getInstance().setPosts();
+        });
         UserPostListController.getInstance().getView().showWindow(view.getComponent());
     }
 
@@ -104,6 +111,7 @@ public class UserCenterController implements Controller<UserCenterModel, UserCen
     }
 
     private void toFollow() {
-//        FollowController.getInstance().show(); TODO:关注
+        JOptionPane.showMessageDialog(view.getComponent(), "功能尚未实现，敬请期待",
+                "关注", JOptionPane.INFORMATION_MESSAGE);
     }
 }

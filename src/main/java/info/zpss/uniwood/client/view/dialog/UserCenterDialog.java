@@ -26,7 +26,7 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
     private final JButton followOrEditBtn;
 
     public UserCenterDialog(Component owner) {
-        super((Frame) owner, true);
+        super((Frame) owner, false);
 
         this.setLocation(owner.getX() + owner.getWidth() / 2 - 135,
                 owner.getY() + owner.getHeight() / 2 - 180);
@@ -58,7 +58,6 @@ public class UserCenterDialog extends JDialog implements UserCenterView {
         this.setContentPane(contentPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setPreferredSize(new Dimension(270, 360));
-        this.setAlwaysOnTop(true);
         this.setResizable(false);
     }
 

@@ -52,7 +52,6 @@ public class RegisterOrEditDialog extends JDialog implements RegisterView, EditV
         this.setIconImage(ImageLoader.load("images/icon.png", 16, 16).getImage());
         this.setContentPane(contentPanel);
         this.setPreferredSize(new Dimension(480, 320));
-        this.setAlwaysOnTop(true);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
