@@ -14,10 +14,12 @@ public class PostBuilder implements Builder<Post> {
     private static final PostBuilder INSTANCE;
     private static final int expireSecond = 30;
     private static final Map<Integer, Post> posts;
+    private static boolean isWaiting;
 
     static {
         INSTANCE = new PostBuilder();
         posts = new HashMap<>();
+        isWaiting = false;
     }
 
     public static PostBuilder getInstance() {
@@ -28,9 +30,11 @@ public class PostBuilder implements Builder<Post> {
         Thread holder = new Thread(() -> {
             while (true) {
                 hold();
-                posts.clear();
-                if (Main.debug())
-                    Main.logger().add("PostBuilder：缓存已清空", Thread.currentThread());
+                if (!isWaiting) {
+                    posts.clear();
+                    if (Main.debug())
+                        Main.logger().add("PostBuilder：缓存已清空", Thread.currentThread());
+                }
             }
         });
         holder.setDaemon(true);
@@ -52,14 +56,20 @@ public class PostBuilder implements Builder<Post> {
     }
 
     public Post get(Integer postId) throws InterruptedException, TimeoutException {
-        if (posts.containsKey(postId))
+        isWaiting = true;
+        if (posts.containsKey(postId)) {
+            isWaiting = false;
             return posts.get(postId);
+        }
         return build(postId, 0);
     }
 
     public Post build(Integer postId, int count) throws InterruptedException, TimeoutException {
-        if (posts.containsKey(postId))
+        isWaiting = true;
+        if (posts.containsKey(postId)) {
+            isWaiting = false;
             return posts.get(postId);
+        }
         if (count == 0)
             new Thread(() -> Main.connection().send(MsgProto.build(Command.POST_INFO, postId.toString()))).start();
         if (count > Main.maxWaitCycle())

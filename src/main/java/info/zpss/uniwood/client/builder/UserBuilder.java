@@ -14,10 +14,12 @@ public class UserBuilder implements Builder<User> {
     private static final UserBuilder INSTANCE;
     private static final int expireSecond = 60;
     private static final Map<Integer, User> users;
+    private static boolean isWaiting;
 
     static {
         INSTANCE = new UserBuilder();
         users = new HashMap<>();
+        isWaiting = false;
     }
 
     public static UserBuilder getInstance() {
@@ -28,9 +30,11 @@ public class UserBuilder implements Builder<User> {
         Thread holder = new Thread(() -> {
             while (true) {
                 hold();
-                users.clear();
-                if (Main.debug())
-                    Main.logger().add("UserBuilder：缓存已清空", Thread.currentThread());
+                if (!isWaiting) {
+                    users.clear();
+                    if (Main.debug())
+                        Main.logger().add("UserBuilder：缓存已清空", Thread.currentThread());
+                }
             }
         });
         holder.setDaemon(true);
@@ -52,14 +56,20 @@ public class UserBuilder implements Builder<User> {
     }
 
     public User get(Integer userId) throws InterruptedException, TimeoutException {
-        if (users.containsKey(userId))
+        isWaiting = true;
+        if (users.containsKey(userId)) {
+            isWaiting = false;
             return users.get(userId);
+        }
         return build(userId, 0);
     }
 
     public User build(Integer userId, int count) throws InterruptedException, TimeoutException {
-        if (users.containsKey(userId))
+        isWaiting = true;
+        if (users.containsKey(userId)) {
+            isWaiting = false;
             return users.get(userId);
+        }
         if (count == 0)
             new Thread(() -> Main.connection().send(MsgProto.build(Command.USER_INFO, userId.toString()))).start();
         if (count > Main.maxWaitCycle())

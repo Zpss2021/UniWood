@@ -51,7 +51,7 @@ public class MainWindow extends JFrame implements MainView {
 
         Dimension windowSize = new Dimension(960, 640);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setTitle("UniWood - 桌面端");
+        this.setTitle(String.format("UniWood - 桌面端v%s", Main.VERSION));
         this.setIconImage(ImageLoader.load("images/icon.png").getImage());
         this.setContentPane(outerPane);
         this.setBounds((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2,

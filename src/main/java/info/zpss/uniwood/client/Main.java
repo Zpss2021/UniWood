@@ -22,7 +22,7 @@ public class Main {
         debugMode = false;
         arguments = null;
         PLATFORM = "DESKTOP-CLIENT";
-        VERSION = "1.0.0";
+        VERSION = "1.0.2";
     }
 
     public static boolean debug() {

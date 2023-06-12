@@ -14,19 +14,23 @@ public class FloorBuilder implements Builder<Floor> {
     private static final FloorBuilder INSTANCE;
     private static final int expireSecond = 10;
     private static final Map<Integer, Map<Integer, Floor>> floors;
+    private static boolean isWaiting;
 
     static {
         INSTANCE = new FloorBuilder();
         floors = new HashMap<>();
+        isWaiting = false;
     }
 
     private FloorBuilder() {
         Thread holder = new Thread(() -> {
             while (true) {
                 hold();
-                floors.clear();
-                if (Main.debug())
-                    Main.logger().add("FloorBuilder：缓存已清空", Thread.currentThread());
+                if (!isWaiting) {
+                    floors.clear();
+                    if (Main.debug())
+                        Main.logger().add("FloorBuilder：缓存已清空", Thread.currentThread());
+                }
             }
         });
         holder.setDaemon(true);
@@ -58,14 +62,20 @@ public class FloorBuilder implements Builder<Floor> {
     }
 
     public Floor get(Integer floorId, Integer postId) throws InterruptedException, TimeoutException {
-        if (floors.containsKey(postId) && floors.get(postId).containsKey(floorId))
+        isWaiting = true;
+        if (floors.containsKey(postId) && floors.get(postId).containsKey(floorId)) {
+            isWaiting = false;
             return floors.get(postId).get(floorId);
+        }
         return build(floorId, postId, 0);
     }
 
     public Floor build(Integer floorId, Integer postId, int count) throws InterruptedException, TimeoutException {
-        if (floors.containsKey(postId) && floors.get(postId).containsKey(floorId))
+        isWaiting = true;
+        if (floors.containsKey(postId) && floors.get(postId).containsKey(floorId)) {
+            isWaiting = false;
             return floors.get(postId).get(floorId);
+        }
         if (count == 0)
             new Thread(() -> Main.connection().send(
                     MsgProto.build(

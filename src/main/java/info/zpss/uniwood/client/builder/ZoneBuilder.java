@@ -15,10 +15,12 @@ public class ZoneBuilder implements Builder<Zone> {
     private static final ZoneBuilder INSTANCE;
     private static final int expireSecond = 90;
     private static final Map<Integer, Zone> zones;
+    private static boolean isWaiting;
 
     static {
         INSTANCE = new ZoneBuilder();
         zones = new HashMap<>();
+        isWaiting = false;
     }
 
     public static ZoneBuilder getInstance() {
@@ -29,9 +31,11 @@ public class ZoneBuilder implements Builder<Zone> {
         Thread holder = new Thread(() -> {
             while (true) {
                 hold();
-                zones.clear();
-                if (Main.debug())
-                    Main.logger().add("ZoneBuilder：缓存已清空", Thread.currentThread());
+                if (!isWaiting) {
+                    zones.clear();
+                    if (Main.debug())
+                        Main.logger().add("ZoneBuilder：缓存已清空", Thread.currentThread());
+                }
                 try {
                     MainController.getInstance().getModel().getZones(0);
                 } catch (InterruptedException | TimeoutException e) {
@@ -58,15 +62,21 @@ public class ZoneBuilder implements Builder<Zone> {
     }
 
     public Zone get(Integer zoneId) throws InterruptedException, TimeoutException {
-        if (zones.containsKey(zoneId))
+        isWaiting = true;
+        if (zones.containsKey(zoneId)) {
+            isWaiting = false;
             return zones.get(zoneId);
+        }
         return build(zoneId, 0);
     }
 
     public Zone build(Integer zoneId, int count) throws InterruptedException, TimeoutException {
-        if (zones.containsKey(zoneId))
+        isWaiting = true;
+        if (zones.containsKey(zoneId)) {
+            isWaiting = false;
             return zones.get(zoneId);
-        if(count == 0)
+        }
+        if (count == 0)
             new Thread(() -> Main.connection().send(MsgProto.build(Command.ZONE_INFO, zoneId.toString()))).start();
         if (count > Main.maxWaitCycle())
             throw new TimeoutException();

@@ -5,6 +5,7 @@ import info.zpss.uniwood.client.Main;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -109,7 +110,9 @@ public class Avatar {
         // TODO: test
         Avatar avatar = new Avatar();
         avatar.fromFile("C:\\Users\\13937\\Desktop\\avatar.png");
-        System.out.println(avatar.toBase64());
-        avatar.toFile("C:\\Users\\13937\\Desktop\\avatar2.png");
+//        System.out.println(avatar.toBase64());
+        // 复制到剪贴板
+        StringSelection selection = new StringSelection(avatar.toBase64());
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
     }
 }
