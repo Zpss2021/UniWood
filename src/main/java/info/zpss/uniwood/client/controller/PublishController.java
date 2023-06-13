@@ -98,7 +98,7 @@ public class PublishController implements Controller<PublishModel, PublishView> 
 
     private void publish() {
         String content = view.getContentArea().getText();
-        if (content.isEmpty()) {
+        if (content.isEmpty() || view.getContentArea().getForeground().equals(Color.GRAY)) {
             JOptionPane.showMessageDialog(view.getComponent(), "发贴内容不能为空",
                     "发表", JOptionPane.WARNING_MESSAGE);
             return;
